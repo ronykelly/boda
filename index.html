@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rony Daniel & Kelly Gisselle — 18 Julio 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #fdf8f2;
@@ -20,11 +20,15 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  /* Renderizado y Suavizado Anti-Pixelado Global */
   body {
     background: var(--cream);
     font-family: 'Cormorant Garamond', serif;
     color: var(--text);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   /* ─── PANTALLA DEL SOBRE ─── */
@@ -65,14 +69,16 @@
   }
 
   .env-top-ornament {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 3.5vw, 1.6rem);
     color: #f8f3ee;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
     margin-bottom: 20px;
     opacity: 0;
     animation: fadeUp 1s 0.2s forwards;
-    text-shadow: 0 0 40px rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.4);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
     text-align: center;
   }
 
@@ -92,7 +98,7 @@
     transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
   }
 
-  /* ─── BLOQUE DE DETALLES EXTRAS (POST-APERTURA) ─── */
+  /* Bloque de Detalles Postal */
   #postal-details {
     width: min(360px, 85vw);
     text-align: center;
@@ -109,24 +115,25 @@
     margin-top: 20px;
   }
   .postal-quote {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.8rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-style: italic;
     color: #f8f3ee;
     text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     margin-bottom: 12px;
   }
   .postal-curiosity {
     font-family: 'Montserrat', sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
     color: var(--gold-light);
     text-transform: uppercase;
-    background: rgba(107, 76, 42, 0.4);
+    background: rgba(44, 31, 16, 0.7);
     padding: 8px 16px;
     border-radius: 20px;
     display: inline-block;
-    border: 1px solid rgba(201,169,110,0.2);
-    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    border: 1px solid rgba(201,169,110,0.3);
   }
 
   .env-hint {
@@ -210,7 +217,7 @@
     100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
   }
 
-  /* ─── HERO ─── */
+  /* ─── HERO (Estilo Nítido) ─── */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -236,21 +243,31 @@
   }
   .ryk-monogram {
     font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
     font-size: 11px;
     letter-spacing: 6px;
     color: var(--gold);
     text-transform: uppercase;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
   .hero-names {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(3rem, 5vw, 5.5rem);
-    line-height: 1.1;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 6vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -1px;
     color: var(--text);
     margin-bottom: 24px;
   }
+  .hero-names em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.85em;
+    color: var(--gold-dark);
+  }
   .hero-tagline {
-    font-size: 1.1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
     font-style: italic;
     color: var(--text-light);
     margin-bottom: 40px;
@@ -262,6 +279,7 @@
   .events-section { padding: 80px 40px; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
   .section-label {
     font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
     font-size: 10px;
     letter-spacing: 5px;
     text-transform: uppercase;
@@ -280,7 +298,7 @@
   }
   .event-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 20px 50px rgba(201,169,110,0.15);
+    box-shadow: 0 20px 50px rgba(201,169,110,0.12);
   }
   .event-card::before {
     content: '';
@@ -291,18 +309,26 @@
     opacity: 0.5;
   }
   .event-icon { font-size: 2rem; margin-bottom: 16px; }
-  .event-title { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--gold-dark); margin-bottom: 20px; }
-  .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
-  .event-place { font-size: 1rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
+  .event-title { 
+    font-family: 'Playfair Display', serif; 
+    font-size: 2.2rem; 
+    font-weight: 400;
+    color: var(--gold-dark); 
+    margin-bottom: 20px; 
+  }
+  .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
+  .event-place { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
+  
   .map-btn {
     display: inline-block;
     background: var(--gold);
     color: var(--white);
     font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
     font-size: 10px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    padding: 12px 28px;
+    padding: 14px 32px;
     text-decoration: none;
     transition: background 0.3s;
     border: none;
@@ -315,43 +341,44 @@
   .countdown-section::before {
     content: 'R & K';
     position: absolute;
-    font-family: 'Great Vibes', cursive;
-    font-size: 300px;
-    color: rgba(201,169,110,0.04);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 240px;
+    color: rgba(201,169,110,0.03);
     top: 50%; left: 50%;
     transform: translate(-50%,-50%);
     white-space: nowrap;
     pointer-events: none;
   }
-  .countdown-label { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 40px; }
+  .countdown-label { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 40px; }
   .countdown-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
   .count-item { text-align: center; }
   .count-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 8vw, 5rem); font-weight: 300; color: var(--white); line-height: 1; display: block; }
-  .count-unit { font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin-top: 8px; }
+  .count-unit { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin-top: 8px; }
   .count-sep { font-size: 3rem; color: var(--gold); align-self: flex-start; padding-top: 10px; }
 
   /* ─── FOTO PAREJA ─── */
   .couple-photo-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
   .couple-text { background: var(--warm); padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
-  .couple-text h2 { font-family: 'Great Vibes', cursive; font-size: clamp(2.5rem, 4vw, 4rem); color: var(--gold-dark); margin-bottom: 20px; }
-  .couple-text p { font-size: 1.1rem; font-style: italic; color: var(--text-light); line-height: 1.9; }
+  .couple-text h2 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: clamp(2.2rem, 4vw, 3.5rem); color: var(--gold-dark); margin-bottom: 20px; }
+  .couple-text p { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--text-light); line-height: 1.9; }
   .couple-photo { overflow: hidden; }
   .couple-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s; }
   .couple-photo:hover img { transform: scale(1.03); }
 
   /* ─── CONFIRMACIÓN ─── */
   .rsvp-section { padding: 100px 40px; max-width: 680px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
-  .rsvp-title { font-family: 'Great Vibes', cursive; font-size: clamp(2.5rem, 5vw, 4rem); color: var(--text); margin-bottom: 12px; }
-  .rsvp-sub { font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-  .rsvp-msg { font-size: 1.1rem; font-style: italic; color: var(--text-light); margin-bottom: 50px; line-height: 1.8; }
+  .rsvp-title { font-family: 'Playfair Display', serif; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--text); margin-bottom: 12px; }
+  .rsvp-sub { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .rsvp-msg { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--text-light); margin-bottom: 50px; line-height: 1.8; }
   
   .rsvp-guest-info { background: var(--warm); border: 1px solid var(--gold-light); padding: 24px 32px; margin-bottom: 40px; text-align: left; }
-  .rsvp-guest-info p { font-size: 1rem; color: var(--text-light); margin-bottom: 4px; }
-  .rsvp-guest-info strong { font-family: 'Great Vibes', cursive; font-size: 1.6rem; color: var(--text); display: block; margin-bottom: 4px; }
-  .rsvp-guest-info span { font-family: 'Montserrat', sans-serif; font-size: 11px; color: var(--gold); letter-spacing: 2px; }
+  .rsvp-guest-info p { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--text-light); margin-bottom: 4px; }
+  .rsvp-guest-info strong { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 1.8rem; color: var(--text); display: block; margin-bottom: 4px; }
+  .rsvp-guest-info span { font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
 
   .rsvp-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-  .rsvp-btn { padding: 18px 50px; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+  .rsvp-btn { padding: 18px 50px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
   .rsvp-btn-yes { background: var(--gold); color: var(--white); }
   .rsvp-btn-yes:hover { background: var(--gold-dark); transform: translateY(-2px); }
   .rsvp-btn-no { background: transparent; color: var(--text-light); border: 1px solid #ccc; }
@@ -359,8 +386,8 @@
 
   .rsvp-response { display: none; padding: 40px; background: var(--warm); border: 1px solid var(--gold-light); margin-top: 30px; }
   .rsvp-response.show { display: block; }
-  .rsvp-response h3 { font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: var(--gold-dark); margin-bottom: 10px; }
-  .rsvp-response p { font-size: 1rem; color: var(--text-light); font-style: italic; }
+  .rsvp-response h3 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.4rem; color: var(--gold-dark); margin-bottom: 10px; }
+  .rsvp-response p { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text-light); font-style: italic; }
 
   /* ─── HISTORIA ─── */
   .story-section { padding: 80px 40px; max-width: 760px; margin: 0 auto; }
@@ -369,8 +396,8 @@
   .story-item { position: relative; margin-bottom: 50px; display: flex; gap: 30px; align-items: flex-start; }
   .story-dot { position: absolute; left: -36px; top: 6px; width: 14px; height: 14px; background: var(--gold); border-radius: 50%; border: 3px solid var(--cream); box-shadow: 0 0 0 1px var(--gold); flex-shrink: 0; }
   .story-content { flex: 1; }
-  .story-year { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 10px; }
-  .story-text { font-size: 1.1rem; font-style: italic; color: var(--text-light); line-height: 1.9; }
+  .story-year { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 10px; }
+  .story-text { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--text-light); line-height: 1.9; }
 
   /* ─── GALERÍA ─── */
   .gallery-section { padding: 60px 40px 80px; max-width: 960px; margin: 0 auto; }
@@ -381,7 +408,7 @@
 
   /* ─── FOOTER ─── */
   footer { background: #1a0f06; text-align: center; padding: 50px 20px; }
-  footer .footer-names { font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: var(--gold-light); margin-bottom: 12px; }
+  footer .footer-names { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.2rem; color: var(--gold-light); margin-bottom: 12px; }
   footer p { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.3); text-transform: uppercase; }
 
   .music-btn { position: fixed; bottom: 30px; right: 30px; width: 48px; height: 48px; background: var(--gold); border-radius: 50%; border: none; cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 500; box-shadow: 0 4px 20px rgba(201,169,110,0.4); transition: transform 0.3s; font-size: 18px; }
@@ -439,12 +466,12 @@
       <g id="envLetter">
         <rect x="65" y="105" width="270" height="175" rx="4" fill="#fffdf8" opacity="0.98"/>
         <rect x="70" y="110" width="260" height="165" rx="2" fill="none" stroke="#c9a96e" stroke-width="1"/>
-        <image x="78" y="118" width="244" height="148" preserveAspectRatio="xMidYMid slice" href="https://i.ibb.co/9HYHcmSM/image.png"/>
+        <image x="78" y="118" width="244" height="148" preserveAspectRatio="xMidYMid slice" href="https://i.ibb.co/9HYHcmSM/image.png" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;"/>
       </g>
 
       <circle id="envSealCircle" cx="200" cy="200" r="32" fill="url(#sealGrad)" filter="url(#glow)"/>
       <circle cx="200" cy="200" r="32" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
-      <text x="200" y="206" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#e8d5b0" font-style="italic">R\u2665K</text>
+      <text x="200" y="204" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="300" font-size="14" fill="#e8d5b0" letter-spacing="2">R & K</text>
 
       <g id="envFlap" style="transform-origin: 200px 110px; transform-box: fill-box;">
         <polygon points="20,110 200,225 380,110" fill="url(#flapGrad)"/>
@@ -472,10 +499,10 @@
     </div>
     <div class="hero-content reveal">
       <p class="ryk-monogram">R   ✦   K</p>
-      <h1 class="hero-names">Rony Daniel<br><em style="color:var(--gold-dark)">&</em><br>Kelly Gisselle</h1>
+      <h1 class="hero-names">Rony Daniel<br><em>&</em><br>Kelly Gisselle</h1>
       <div class="divider-gold"></div>
       <p class="hero-tagline">Acompáñanos a nuestra<br>nueva aventura</p>
-      <p style="font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;">18 · JUL · 2026</p>
+      <p style="font-family:'Montserrat',sans-serif;font-weight:500;font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;">18 · JUL · 2026</p>
     </div>
   </section>
 
@@ -486,20 +513,20 @@
         <div class="event-icon">⛪</div>
         <div class="event-title">Ceremonia</div>
         <p class="event-detail">18 de Julio, 2026</p>
-        <p class="event-detail" style="font-weight:500;color:var(--text);">4:00 PM</p>
+        <p class="event-detail" style="font-weight:600;color:var(--text);">4:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Iglesia Católica<br>Santo Tomás de Aquino</p>
-        <a class="map-btn" href="https://maps.google.com/?q=Iglesia+Catolica+Santo+Tomas+de+Aquino" target="_blank" rel="noopener">📍 Ver Mapa</a>
+        <a class="map-btn" href="http://googleusercontent.com/maps.google.com/5" target="_blank" rel="noopener">📍 Ver Mapa</a>
       </div>
 
       <div class="event-card reveal">
         <div class="event-icon">🥂</div>
         <div class="event-title">Recepción</div>
         <p class="event-detail">18 de Julio, 2026</p>
-        <p class="event-detail" style="font-weight:500;color:var(--text);">5:30 PM</p>
+        <p class="event-detail" style="font-weight:600;color:var(--text);">5:30 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Chochys Bakery<br>Entre 21-20 calle,<br>4ta. Avenida</p>
-        <a class="map-btn" href="https://maps.google.com/?q=Chochys+Bakery" target="_blank" rel="noopener">📍 Ver Mapa</a>
+        <a class="map-btn" href="http://googleusercontent.com/maps.google.com/6" target="_blank" rel="noopener">📍 Ver Mapa</a>
       </div>
     </div>
   </section>
@@ -515,12 +542,12 @@
       <div class="count-sep">·</div>
       <div class="count-item"><span class="count-num" id="cd-sec">--</span><span class="count-unit">Segundos</span></div>
     </div>
-    <p style="font-family:'Great Vibes',cursive;font-size:1.8rem;color:var(--gold-light);">¡Nos casamos!</p>
+    <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:2rem;color:var(--gold-light);">¡Nos casamos!</p>
   </section>
 
   <section class="couple-photo-section">
     <div class="couple-text reveal">
-      <h2>Una historia<br>de amor</h2>
+      <h2>Una historia de amor</h2>
       <div class="divider-gold"></div>
       <p>Cada momento a tu lado es una aventura que quiero vivir para siempre.<br><br>Con amor y emoción, queremos compartir este día tan especial con las personas que más amamos.</p>
     </div>
@@ -675,7 +702,6 @@ function loadGuest() {
   }
 })();
 
-// CRONÓMETRO DE CONTROL DE ANIMACIÓN REESTRUCTURADO
 function openInvitation() {
   const btn = document.getElementById('openBtn');
   const wrap = document.getElementById('envelopeWrap');
@@ -686,7 +712,6 @@ function openInvitation() {
   const details = document.getElementById('postal-details');
   const hint = document.getElementById('envHint');
 
-  // Fase 1: Desactivar clicks y levantar solapa
   btn.style.pointerEvents = 'none';
   btn.style.opacity = '0';
   if (hint) hint.style.opacity = '0';
@@ -697,7 +722,6 @@ function openInvitation() {
 
   setTimeout(() => { if (seal) seal.style.opacity = '0'; }, 300);
 
-  // Fase 2: Sacar la Postal Real de Tikal hacia arriba
   setTimeout(() => {
     if (letter) {
       letter.style.transition = 'transform 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
@@ -705,18 +729,14 @@ function openInvitation() {
     }
   }, 800);
 
-  // Fase 3: Mostrar Leyenda y el Dato Curioso abajo
   setTimeout(() => {
     details.classList.add('show');
-    
-    // Configurar el botón para la transición final a la web principal
     btn.innerHTML = '✦   Entrar a la Invitación   ✦';
     btn.style.opacity = '1';
     btn.style.pointerEvents = 'auto';
     btn.onclick = transitionToMainPage;
   }, 2000); 
 
-  // Temporizador automático de 10 segundos para avanzar si no hacen click
   setTimeout(() => {
     if (screen.style.visibility !== 'hidden') {
       transitionToMainPage();
@@ -749,7 +769,6 @@ function transitionToMainPage() {
   }, 1000);
 }
 
-// PLAYLIST YOUTUBE AUDIO BACKGROUND
 const PLAYLIST = [
   { id: "Ptk_1Dc2iPY", title: "Canon in D - Pachelbel" },
   { id: "9E6b3im0OgE", title: "A Thousand Years - Instrumental" },
@@ -834,7 +853,7 @@ function startCountdown() {
     const now = new Date();
     const diff = target - now;
     if (diff <= 0) {
-      document.querySelector('.countdown-section').innerHTML = '<p style="font-family:Great Vibes,cursive;font-size:3rem;color:var(--gold-light)">¡Hoy es nuestro gran día! 🎊</p>';
+      document.querySelector('.countdown-section').innerHTML = '<p style="font-family:\'Playfair Display\',serif;font-size:3rem;color:var(--gold-light)">¡Hoy es nuestro gran día! 🎊</p>';
       return;
     }
     const d = Math.floor(diff / 86400000);
