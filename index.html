@@ -20,7 +20,7 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  /* Renderizado y Suavizado Anti-Pixelado Global */
+  /* Renderizado Anti-Pixelado Global */
   body {
     background: var(--cream);
     font-family: 'Cormorant Garamond', serif;
@@ -96,6 +96,7 @@
   }
   #envFlap {
     transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
+    z-index: 5;
   }
 
   /* Bloque de Detalles Postal */
@@ -217,7 +218,7 @@
     100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
   }
 
-  /* ─── HERO (Estilo Nítido) ─── */
+  /* ─── HERO ─── */
   .hero {
     position: relative;
     min-height: 100vh;
@@ -454,27 +455,37 @@
         </linearGradient>
         <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(0,0,0,0.5)"/></filter>
         <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        
+        <clipPath id="envelopeClip">
+          <rect x="25" y="112" width="350" height="176"/>
+        </clipPath>
       </defs>
 
-      <rect id="envBody" x="20" y="110" width="360" height="180" rx="6" fill="url(#bodyGrad)" filter="url(#shadow)"/>
-      <polygon points="20,110 200,220 380,110" fill="rgba(160,100,40,0.15)"/>
-      <polygon points="20,290 200,190 20,110" fill="rgba(120,70,20,0.2)"/>
-      <polygon points="380,290 200,190 380,110" fill="rgba(120,70,20,0.2)"/>
-      <polygon points="20,290 200,190 380,290" fill="rgba(100,60,15,0.25)"/>
-      <rect x="20" y="110" width="360" height="180" rx="6" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <rect x="20" y="110" width="360" height="180" rx="6" fill="#784614" opacity="0.4"/>
 
-      <g id="envLetter">
-        <rect x="65" y="105" width="270" height="175" rx="4" fill="#fffdf8" opacity="0.98"/>
-        <rect x="70" y="110" width="260" height="165" rx="2" fill="none" stroke="#c9a96e" stroke-width="1"/>
-        <image x="78" y="118" width="244" height="148" preserveAspectRatio="xMidYMid slice" href="declaracion.jpeg" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;"/>
+      <g id="envLetter" clip-path="url(#envelopeClip)">
+        <rect x="75" y="115" width="250" height="165" rx="4" fill="#fffdf8"/>
+        <rect x="80" y="120" width="240" height="155" rx="2" fill="none" stroke="#c9a96e" stroke-width="1"/>
+        <image x="88" y="128" width="224" height="138" preserveAspectRatio="xMidYMid slice" href="declaracion.jpeg" style="image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges;"/>
       </g>
 
-      <circle id="envSealCircle" cx="200" cy="200" r="32" fill="url(#sealGrad)" filter="url(#glow)"/>
-      <circle cx="200" cy="200" r="32" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
-      <text x="200" y="204" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="300" font-size="14" fill="#e8d5b0" letter-spacing="2">R & K</text>
+      <g id="envFrontBody">
+        <path d="M20,110 L200,220 L380,110 L380,290 L20,290 Z" fill="url(#bodyGrad)" filter="url(#shadow)"/>
+        <polygon points="20,110 200,220 380,110" fill="rgba(160,100,40,0.15)"/>
+        <polygon points="20,290 200,190 20,110" fill="rgba(120,70,20,0.2)"/>
+        <polygon points="380,290 200,190 380,110" fill="rgba(120,70,20,0.2)"/>
+        <polygon points="20,290 200,190 380,290" fill="rgba(100,60,15,0.25)"/>
+        <rect x="20" y="110" width="360" height="180" rx="6" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      </g>
 
       <g id="envFlap" style="transform-origin: 200px 110px; transform-box: fill-box;">
         <polygon points="20,110 200,225 380,110" fill="url(#flapGrad)"/>
+      </g>
+
+      <g id="envSealGroup">
+        <circle id="envSealCircle" cx="200" cy="200" r="32" fill="url(#sealGrad)" filter="url(#glow)"/>
+        <circle cx="200" cy="200" r="32" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+        <text id="envSealText" x="200" y="204" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="300" font-size="14" fill="#e8d5b0" letter-spacing="2">R & K</text>
       </g>
     </svg>
   </div>
@@ -651,7 +662,6 @@ function loadGuest() {
         document.body.removeChild(script);
         
         if (data) {
-          // Alineado con los nombres de columnas de tu hoja de cálculo
           guestName = data.nombre || 'Estimado Invitado';
           guestCount = data.personas || 1;
           actualizarUI();
@@ -710,6 +720,7 @@ function openInvitation() {
   const flap = document.getElementById('envFlap');
   const letter = document.getElementById('envLetter');
   const seal = document.getElementById('envSealCircle');
+  const sealText = document.getElementById('envSealText');
   const details = document.getElementById('postal-details');
   const hint = document.getElementById('envHint');
 
@@ -721,12 +732,15 @@ function openInvitation() {
   flap.style.transformOrigin = 'center top';
   flap.style.transform = 'rotateX(180deg)';
 
-  setTimeout(() => { if (seal) seal.style.opacity = '0'; }, 300);
+  setTimeout(() => { 
+    if (seal) seal.style.opacity = '0'; 
+    if (sealText) sealText.style.opacity = '0';
+  }, 300);
 
   setTimeout(() => {
     if (letter) {
       letter.style.transition = 'transform 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
-      letter.style.transform = 'translateY(-110px)';
+      letter.style.transform = 'translateY(-125px)';
     }
   }, 800);
 
