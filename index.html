@@ -1270,13 +1270,12 @@
 
 <script>
 // ══════════════════════════════════════
-// CONFIGURACIÓN - EDITA AQUÍ
+// CONFIGURACIÓN - URL CONFIGURADA
 // ══════════════════════════════════════
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDmMdCUo5l55WX8xe4FDSBxZmZFyE6OvCdYZaybKQGG8vWTPA-CzYY40_VdgBobGP-/exec';
-// Este URL lo obtendrás en el Paso 4 (Google Apps Script)
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQr8ef7YcnC8b4HGhuPVDQb59ICwMytUT8x-5MAiTAgGphs3oKVz6lyPoegaPARYCh/exec';
 
 // ══════════════════════════════════════
-// LEER INVITADO DESDE URL (?inv=familia-garcia)
+// LEER INVITADO DESDE URL
 // ══════════════════════════════════════
 const params = new URLSearchParams(window.location.search);
 const guestSlug = params.get('inv') || '';
@@ -1285,26 +1284,18 @@ let guestId = guestSlug;
 let guestName = 'Estimado Invitado';
 let guestCount = 1;
 
-// Cargar datos del invitado desde Apps Script
-// ══════════════════════════════════════
-// LEER NOMBRE DIRECTO DESDE LA URL
-// Ejemplo: ?inv=FamiliaGarcia&nombre=Familia+García&p=4
-// ══════════════════════════════════════
 function loadGuest() {
   return new Promise((resolve) => {
-    // Leer nombre y personas directo de la URL
     const nombreParam = params.get('nombre');
     const personasParam = params.get('p');
 
     if (nombreParam) {
-      // Nombre viene en la URL - no necesita Apps Script
       guestName = decodeURIComponent(nombreParam);
       guestCount = personasParam ? parseInt(personasParam) : 1;
       guestId = guestSlug;
       actualizarUI();
       resolve({nombre: guestName, personas: guestCount, respondio: false});
     } else {
-      // Si no hay nombre en URL, usar el slug formateado
       guestName = guestSlug
         ? guestSlug.replace(/([A-Z])/g, ' $1').trim()
         : 'Estimado Invitado';
@@ -1323,9 +1314,6 @@ function loadGuest() {
     }
   });
 }
-
-// Esperar que el DOM este listo antes de cargar
-
 
 // ══════════════════════════════════════
 // ESTRELLAS DE FONDO EN EL SOBRE
@@ -1360,29 +1348,24 @@ function openInvitation() {
   const letter = document.getElementById('envLetter');
   const seal = document.getElementById('envSealCircle');
 
-  // Deshabilitar botón
   btn.style.pointerEvents = 'none';
-  btn.innerHTML = '✦ &nbsp; Abriendo... &nbsp; ✦';
+  btn.innerHTML = '✦   Abriendo...   ✦';
 
-  // Paso 1: Solapa se abre hacia atrás
   flap.style.transition = 'transform 0.9s cubic-bezier(0.4,0,0.2,1)';
   flap.style.transformOrigin = 'center top';
   flap.style.transform = 'rotateX(180deg)';
 
-  // Paso 2: Sello desaparece
   setTimeout(() => {
     seal.style.transition = 'opacity 0.4s';
     seal.style.opacity = '0';
   }, 300);
 
-  // Paso 3: Carta sube
   setTimeout(() => {
     letter.style.transition = 'transform 0.7s cubic-bezier(0.4,0,0.2,1), opacity 0.7s';
     letter.style.transform = 'translateY(-80px)';
     letter.style.opacity = '0.9';
   }, 700);
 
-  // Paso 4: Todo el sobre se desvanece
   setTimeout(() => {
     wrap.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
     wrap.style.opacity = '0';
@@ -1391,7 +1374,6 @@ function openInvitation() {
     screen.style.opacity = '0';
   }, 1200);
 
-  // Paso 5: Mostrar la invitación
   setTimeout(() => {
     screen.style.visibility = 'hidden';
     document.getElementById('main-page').classList.add('visible');
@@ -1404,14 +1386,7 @@ function openInvitation() {
 }
 
 // ══════════════════════════════════════
-// MÚSICA
-// ══════════════════════════════════════
-const audio = document.getElementById('bgMusic');
-let musicOn = false;
-
-// ══════════════════════════════════════
-// PLAYLIST ROMÁNTICA ALEATORIA
-// Canciones instrumentales/románticas sin copyright
+// PLAYLIST Y AUTOPLAY MÚSICA (CORREGIDO)
 // ══════════════════════════════════════
 const PLAYLIST = [
   { id: "Ptk_1Dc2iPY", title: "Canon in D - Pachelbel" },
@@ -1447,7 +1422,7 @@ function tryAutoplay() {
   iframe.allow = 'autoplay';
   iframe.id = 'ytFrame';
   iframe.title = song.title;
-  // Cuando termina la canción, pasa a la siguiente automáticamente
+  
   iframe.addEventListener('load', () => {
     setTimeout(() => setupNextSong(), 1000);
   });
@@ -1457,11 +1432,9 @@ function tryAutoplay() {
 }
 
 function setupNextSong() {
-  // Escucha el fin de la canción via postMessage de YouTube
   window.addEventListener('message', function onMsg(e) {
     try {
       const data = JSON.parse(e.data);
-      // Estado 0 = canción terminada
       if (data.event === 'onStateChange' && data.info === 0) {
         window.removeEventListener('message', onMsg);
         playNextSong();
@@ -1476,7 +1449,6 @@ function playNextSong() {
   const song = getRandomSong();
   fr.src = buildYTSrc(song.id);
   updateMusicBtn(song.title);
-  // Reactivar listener para la siguiente
   setTimeout(() => setupNextSong(), 1500);
 }
 
@@ -1528,35 +1500,34 @@ function startCountdown() {
 }
 
 // ══════════════════════════════════════
-// RSVP - ENVIAR RESPUESTA
+// RSVP - ENVIAR RESPUESTA CORREGIDO
 // ══════════════════════════════════════
 async function sendRSVP(resp) {
   document.getElementById('rsvpButtons').style.opacity = '0.5';
   document.getElementById('rsvpButtons').style.pointerEvents = 'none';
 
   try {
-    const r = await fetch(APPS_SCRIPT_URL, {
+    await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
-      mode: 'no-cors',
+      mode: 'no-cors', // Evita bloqueos de seguridad desde GitHub Pages
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         action: 'rsvp',
         id: guestId,
         nombre: guestName,
         personas: guestCount,
-        respuesta: resp,
-        fecha: new Date().toISOString()
+        respuesta: resp
       })
     });
   } catch(e) {
-    console.log('RSVP enviado');
+    console.log('Petición realizada');
   }
 
+  // Ocultamos los botones y procesamos el mensaje de forma optimista
   document.getElementById('rsvpButtons').style.display = 'none';
   mostrarRespuesta(resp);
 }
 
-// Mostrar mensaje si ya había respondido antes
 function mostrarYaRespondio(respuestaAnterior) {
   document.getElementById('rsvpButtons').style.display = 'none';
   const respEl = document.getElementById('rsvpResponse');
@@ -1575,7 +1546,6 @@ function mostrarYaRespondio(respuestaAnterior) {
   }
 }
 
-// Mostrar mensaje despues de responder
 function mostrarRespuesta(resp) {
   const respEl = document.getElementById('rsvpResponse');
   respEl.classList.add('show');
@@ -1592,7 +1562,7 @@ function mostrarRespuesta(resp) {
 }
 
 // ══════════════════════════════════════
-// PÉTALOS ANIMADOS
+// PÉTALOS ANIMADOS Y REVEAL
 // ══════════════════════════════════════
 function initPetals() {
   const container = document.getElementById('petals');
@@ -1611,9 +1581,6 @@ function initPetals() {
   }
 }
 
-// ══════════════════════════════════════
-// REVEAL ON SCROLL
-// ══════════════════════════════════════
 function initReveal() {
   const els = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver(entries => {
@@ -1623,13 +1590,12 @@ function initReveal() {
   }, { threshold: 0.1 });
   els.forEach(el => obs.observe(el));
 }
-// Iniciar todo cuando el DOM este listo
+
+// Inicializador general
 document.addEventListener('DOMContentLoaded', function() {
-  // Asignar botón
   const btn = document.getElementById('openBtn');
   if (btn) btn.addEventListener('click', openInvitation);
 
-  // Cargar nombre del invitado desde URL
   loadGuest().then((data) => {
     if (data && data.respondio) {
       mostrarYaRespondio(data.respuesta);
@@ -1637,5 +1603,4 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
-</body>
 </html>
