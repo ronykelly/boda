@@ -39,6 +39,7 @@
     z-index: 1000;
     transition: opacity 1s ease, visibility 1s ease;
     overflow: hidden;
+    padding: 20px;
   }
   #envelope-screen::before {
     content: '';
@@ -51,7 +52,6 @@
   }
   #envelope-screen.hidden { opacity: 0; visibility: hidden; }
 
-  /* Estrellas de fondo */
   .env-stars {
     position: absolute;
     inset: 0;
@@ -69,48 +69,18 @@
     font-size: clamp(2rem, 5vw, 3.2rem);
     color: #f8f3ee;
     letter-spacing: 4px;
-    margin-bottom: 4px;
+    margin-bottom: 20px;
     opacity: 0;
     animation: fadeUp 1s 0.2s forwards;
-    text-shadow: 
-      0 0 40px rgba(255,255,255,0.3),
-      0 0 80px rgba(201,169,110,0.2),
-      0 2px 4px rgba(0,0,0,0.4);
-    line-height: 1.2;
-  }
-
-  .env-subtitle {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 9px;
-    letter-spacing: 6px;
-    color: rgba(232,213,176,0.6);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-    opacity: 0;
-    animation: fadeUp 1s 0.4s forwards;
-  }
-
-  #guest-name-display {
-    font-family: 'Great Vibes', cursive;
-    font-size: clamp(3.5rem, 9vw, 6rem);
-    color: #f8f3ee;
+    text-shadow: 0 0 40px rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.4);
     text-align: center;
-    margin-bottom: 4px;
-    opacity: 0;
-    animation: fadeUp 1s 0.6s forwards;
-    padding: 0 30px;
-    text-shadow: 
-      0 0 80px rgba(255,255,255,0.25),
-      0 0 40px rgba(201,169,110,0.3),
-      0 3px 6px rgba(0,0,0,0.5);
-    line-height: 1.1;
   }
 
   .envelope-wrap {
     width: min(380px, 90vw);
     position: relative;
     opacity: 0;
-    animation: fadeUp 1s 1s forwards;
+    animation: fadeUp 1s 0.6s forwards;
     transition: transform 0.5s ease, opacity 0.8s ease;
   }
   .env-svg {
@@ -122,6 +92,43 @@
     transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
   }
 
+  /* ─── BLOQUE DE DETALLES EXTRAS (POST-APERTURA) ─── */
+  #postal-details {
+    width: min(360px, 85vw);
+    text-align: center;
+    margin-top: -30px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 1s ease, max-height 1s ease, margin 1s ease;
+    z-index: 1010;
+  }
+  #postal-details.show {
+    opacity: 1;
+    max-height: 200px;
+    margin-top: 20px;
+  }
+  .postal-quote {
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.8rem;
+    color: #f8f3ee;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    margin-bottom: 12px;
+  }
+  .postal-curiosity {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    background: rgba(107, 76, 42, 0.4);
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    border: 1px solid rgba(201,169,110,0.2);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+
   .env-hint {
     font-family: 'Montserrat', sans-serif;
     font-size: 9px;
@@ -130,7 +137,7 @@
     text-transform: uppercase;
     margin-top: 24px;
     opacity: 0;
-    animation: fadeUp 1s 1.4s forwards, pulse 3s 2.5s infinite;
+    animation: fadeUp 1s 1s forwards, pulse 3s 2.5s infinite;
   }
 
   .open-btn {
@@ -146,8 +153,8 @@
     cursor: pointer;
     transition: all 0.4s;
     opacity: 0;
-    animation: fadeUp 1s 1.6s forwards;
-    pointer-events: none; /* Se activa automáticamente al validar los datos */
+    animation: fadeUp 1s 1.2s forwards;
+    pointer-events: none;
     position: relative;
     overflow: hidden;
   }
@@ -286,7 +293,6 @@
   .event-icon { font-size: 2rem; margin-bottom: 16px; }
   .event-title { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--gold-dark); margin-bottom: 20px; }
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
-  .event-detail style { font-weight: 500; color: var(--text); }
   .event-place { font-size: 1rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
   .map-btn {
     display: inline-block;
@@ -405,13 +411,10 @@
 
 <div id="envelope-screen">
   <div class="env-stars" id="envStars"></div>
-  <div class="env-top-ornament">Rony Daniel ♥ Kelly Gisselle</div>
-  <p class="env-subtitle">Una invitación especial para</p>
+  <div class="env-top-ornament">Rony Daniel & Kelly Gisselle</div>
   
-  <div id="guest-name-display">Cargando invitación...</div>
-
   <div class="envelope-wrap" id="envelopeWrap">
-    <svg class="env-svg" id="envSVG" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+    <svg class="env-svg" id="envSVG" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style="stop-color:#f0ddb8"/><stop offset="50%" style="stop-color:#d4a85a"/><stop offset="100%" style="stop-color:#b8863a"/>
@@ -426,33 +429,36 @@
         <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
 
-      <rect id="envBody" x="20" y="80" width="360" height="180" rx="6" fill="url(#bodyGrad)" filter="url(#shadow)"/>
-      <polygon points="20,80 200,190 380,80" fill="rgba(160,100,40,0.15)"/>
-      <polygon points="20,260 200,160 20,80" fill="rgba(120,70,20,0.2)"/>
-      <polygon points="380,260 200,160 380,80" fill="rgba(120,70,20,0.2)"/>
-      <polygon points="20,260 200,160 380,260" fill="rgba(100,60,15,0.25)"/>
-      <rect x="20" y="80" width="360" height="180" rx="6" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+      <rect id="envBody" x="20" y="110" width="360" height="180" rx="6" fill="url(#bodyGrad)" filter="url(#shadow)"/>
+      <polygon points="20,110 200,220 380,110" fill="rgba(160,100,40,0.15)"/>
+      <polygon points="20,290 200,190 20,110" fill="rgba(120,70,20,0.2)"/>
+      <polygon points="380,290 200,190 380,110" fill="rgba(120,70,20,0.2)"/>
+      <polygon points="20,290 200,190 380,290" fill="rgba(100,60,15,0.25)"/>
+      <rect x="20" y="110" width="360" height="180" rx="6" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
 
       <g id="envLetter">
-        <rect x="70" y="90" width="260" height="160" rx="3" fill="#fffdf8" opacity="0.95"/>
-        <line x1="120" y1="135" x2="280" y2="135" stroke="#c9a96e" stroke-width="0.8" opacity="0.6"/>
-        <line x1="120" y1="155" x2="280" y2="155" stroke="#c9a96e" stroke-width="0.8" opacity="0.4"/>
-        <line x1="120" y1="175" x2="240" y2="175" stroke="#c9a96e" stroke-width="0.8" opacity="0.4"/>
-        <text x="200" y="120" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#c9a96e" font-style="italic">Rony & Kelly</text>
+        <rect x="65" y="105" width="270" height="175" rx="4" fill="#fffdf8" opacity="0.98"/>
+        <rect x="70" y="110" width="260" height="165" rx="2" fill="none" stroke="#c9a96e" stroke-width="1"/>
+        <image x="78" y="118" width="244" height="148" preserveAspectRatio="xMidYMid slice" href="https://i.ibb.co/9HYHcmSM/image.png"/>
       </g>
 
-      <circle id="envSealCircle" cx="200" cy="170" r="32" fill="url(#sealGrad)" filter="url(#glow)"/>
-      <circle cx="200" cy="170" r="32" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
-      <text x="200" y="175" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#e8d5b0" font-style="italic">R&K</text>
+      <circle id="envSealCircle" cx="200" cy="200" r="32" fill="url(#sealGrad)" filter="url(#glow)"/>
+      <circle cx="200" cy="200" r="32" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+      <text x="200" y="206" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#e8d5b0" font-style="italic">R\u2665K</text>
 
-      <g id="envFlap" style="transform-origin: 200px 80px; transform-box: fill-box;">
-        <polygon points="20,80 200,195 380,80" fill="url(#flapGrad)"/>
+      <g id="envFlap" style="transform-origin: 200px 110px; transform-box: fill-box;">
+        <polygon points="20,110 200,225 380,110" fill="url(#flapGrad)"/>
       </g>
     </svg>
   </div>
 
-  <p class="env-hint">✦   Tu invitación te espera   ✦</p>
-  <button class="open-btn" id="openBtn">✦   Abrir mi invitación   ✦</button>
+  <div id="postal-details">
+    <p class="postal-quote">"Nuestra mayor aventura comienza aquí..."</p>
+    <p class="postal-curiosity">💡 Dato curioso: ¡Rony le propuso matrimonio a Kelly exactamente en ese punto de Tikal!</p>
+  </div>
+
+  <p class="env-hint" id="envHint">✦   Tu invitación te espera   ✦</p>
+  <button class="open-btn" id="openBtn">✦   Abrir Invitación   ✦</button>
 </div>
 
 <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Música">♪</button>
@@ -483,7 +489,7 @@
         <p class="event-detail" style="font-weight:500;color:var(--text);">4:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Iglesia Católica<br>Santo Tomás de Aquino</p>
-        <a class="map-btn" href="https://maps.google.com/?q=Iglesia+Catolica+Santo+Tomas+de+Aquino+Puerto+Barrios" target="_blank" rel="noopener">📍 Ver Mapa</a>
+        <a class="map-btn" href="https://maps.google.com/?q=Iglesia+Catolica+Santo+Tomas+de+Aquino" target="_blank" rel="noopener">📍 Ver Mapa</a>
       </div>
 
       <div class="event-card reveal">
@@ -493,7 +499,7 @@
         <p class="event-detail" style="font-weight:500;color:var(--text);">5:30 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Chochys Bakery<br>Entre 21-20 calle,<br>4ta. Avenida</p>
-        <a class="map-btn" href="https://maps.google.com/?q=Chochys+Bakery+Puerto+Barrios" target="_blank" rel="noopener">📍 Ver Mapa</a>
+        <a class="map-btn" href="https://maps.google.com/?q=Chochys+Bakery" target="_blank" rel="noopener">📍 Ver Mapa</a>
       </div>
     </div>
   </section>
@@ -589,10 +595,8 @@
 </div>
 
 <script>
-// URL DE LA NUEVA IMPLEMENTACIÓN ACTUALIZADA Y COMPROBADA
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbw1K5gASNIKTz-ShKdufw72POiGyxdpUWJEKiLpLc_quM-iIRGXgEGHyRtLUCMuVb/exec';
 
-// CAPTURA DE PARÁMETROS URL
 const params = new URLSearchParams(window.location.search);
 const guestSlug = params.get('inv') || '';
 let guestId = guestSlug;
@@ -600,13 +604,11 @@ let guestId = guestSlug;
 let guestName = 'Estimado Invitado';
 let guestCount = 1;
 
-// SISTEMA INTELIGENTE DE CARGA DESDE GOOGLE SHEETS
 function loadGuest() {
   return new Promise((resolve) => {
     const nombreParam = params.get('nombre');
     const personasParam = params.get('p');
 
-    // Método antiguo / Respaldo directo en URL
     if (nombreParam) {
       guestName = decodeURIComponent(nombreParam);
       guestCount = personasParam ? parseInt(personasParam) : 1;
@@ -615,7 +617,6 @@ function loadGuest() {
       return;
     }
 
-    // Método limpio: Consulta en segundo plano usando JSONP
     if (guestSlug) {
       const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
       window[callbackName] = function(data) {
@@ -626,10 +627,7 @@ function loadGuest() {
           guestName = data.nombre || 'Estimado Invitado';
           guestCount = data.personas || 1;
           actualizarUI();
-          
-          if (data.respondio) {
-            mostrarYaRespondio(data.respuesta);
-          }
+          if (data.respondio) { mostrarYaRespondio(data.respuesta); }
           resolve(data);
         } else {
           resolve(null);
@@ -645,7 +643,6 @@ function loadGuest() {
     }
 
     function actualizarUI() {
-      document.getElementById('guest-name-display').textContent = guestName;
       document.getElementById('rsvpGuestName').textContent = guestName;
       document.getElementById('rsvpGuestCount').textContent =
         guestCount > 1 ? `${guestCount} personas` : '1 persona';
@@ -659,7 +656,6 @@ function loadGuest() {
   });
 }
 
-// ESTRELLAS DE FONDO EN EL SOBRE
 (function createStars() {
   const container = document.getElementById('envStars');
   if (!container) return;
@@ -679,7 +675,7 @@ function loadGuest() {
   }
 })();
 
-// ANIMACIÓN DE APERTURA DEL SOBRE
+// CRONÓMETRO DE CONTROL DE ANIMACIÓN REESTRUCTURADO
 function openInvitation() {
   const btn = document.getElementById('openBtn');
   const wrap = document.getElementById('envelopeWrap');
@@ -687,30 +683,60 @@ function openInvitation() {
   const flap = document.getElementById('envFlap');
   const letter = document.getElementById('envLetter');
   const seal = document.getElementById('envSealCircle');
+  const details = document.getElementById('postal-details');
+  const hint = document.getElementById('envHint');
 
+  // Fase 1: Desactivar clicks y levantar solapa
   btn.style.pointerEvents = 'none';
-  btn.innerHTML = '✦   Abriendo...   ✦';
+  btn.style.opacity = '0';
+  if (hint) hint.style.opacity = '0';
 
   flap.style.transition = 'transform 0.9s cubic-bezier(0.4,0,0.2,1)';
   flap.style.transformOrigin = 'center top';
   flap.style.transform = 'rotateX(180deg)';
 
   setTimeout(() => { if (seal) seal.style.opacity = '0'; }, 300);
+
+  // Fase 2: Sacar la Postal Real de Tikal hacia arriba
   setTimeout(() => {
     if (letter) {
-      letter.style.transition = 'transform 0.7s cubic-bezier(0.4,0,0.2,1), opacity 0.7s';
-      letter.style.transform = 'translateY(-80px)';
-      letter.style.opacity = '0.9';
+      letter.style.transition = 'transform 1.2s cubic-bezier(0.25, 1, 0.5, 1)';
+      letter.style.transform = 'translateY(-110px)';
     }
-  }, 700);
+  }, 800);
 
+  // Fase 3: Mostrar Leyenda y el Dato Curioso abajo
   setTimeout(() => {
-    wrap.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-    wrap.style.opacity = '0';
-    wrap.style.transform = 'scale(0.95) translateY(10px)';
-    screen.style.transition = 'opacity 0.9s ease';
-    screen.style.opacity = '0';
-  }, 1200);
+    details.classList.add('show');
+    
+    // Configurar el botón para la transición final a la web principal
+    btn.innerHTML = '✦   Entrar a la Invitación   ✦';
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+    btn.onclick = transitionToMainPage;
+  }, 2000); 
+
+  // Temporizador automático de 10 segundos para avanzar si no hacen click
+  setTimeout(() => {
+    if (screen.style.visibility !== 'hidden') {
+      transitionToMainPage();
+    }
+  }, 12000);
+}
+
+function transitionToMainPage() {
+  const screen = document.getElementById('envelope-screen');
+  const wrap = document.getElementById('envelopeWrap');
+  const details = document.getElementById('postal-details');
+  const btn = document.getElementById('openBtn');
+
+  btn.style.pointerEvents = 'none';
+  wrap.style.transition = 'opacity 0.8s, transform 0.8s';
+  wrap.style.opacity = '0';
+  wrap.style.transform = 'scale(0.95)';
+  details.style.opacity = '0';
+  screen.style.transition = 'opacity 1s ease';
+  screen.style.opacity = '0';
 
   setTimeout(() => {
     screen.style.visibility = 'hidden';
@@ -720,19 +746,14 @@ function openInvitation() {
     startCountdown();
     initReveal();
     tryAutoplay();
-  }, 2100);
+  }, 1000);
 }
 
-// PLAYLIST ROMÁNTICA DE YOUTUBE
+// PLAYLIST YOUTUBE AUDIO BACKGROUND
 const PLAYLIST = [
   { id: "Ptk_1Dc2iPY", title: "Canon in D - Pachelbel" },
   { id: "9E6b3im0OgE", title: "A Thousand Years - Instrumental" },
-  { id: "h7UZhorAki4", title: "Perfect - Ed Sheeran Instrumental" },
-  { id: "OPljV4WNDsQ", title: "All of Me - Instrumental" },
-  { id: "gdVMfCMJDkc", title: "Marry You - Instrumental" },
-  { id: "nky4me4NP70", title: "Cant Help Falling in Love - Instrumental" },
-  { id: "450p7goxZqg", title: "Thinking Out Loud - Instrumental" },
-  { id: "RBumgq5yVrA", title: "Comptine dun autre ete - Yann Tiersen" }
+  { id: "h7UZhorAki4", title: "Perfect - Ed Sheeran Instrumental" }
 ];
 
 let currentSongIndex = -1;
@@ -791,7 +812,6 @@ function playNextSong() {
 function updateMusicBtn(title) {
   const btn = document.getElementById('musicBtn');
   btn.textContent = '♪';
-  btn.title = `Sonando: ${title} - clic para pausar`;
 }
 
 function toggleMusic() {
@@ -805,19 +825,16 @@ function toggleMusic() {
   } else {
     fr.src = '';
     document.getElementById('musicBtn').textContent = '♩';
-    document.getElementById('musicBtn').title = 'Clic para reproducir música';
   }
 }
 
-// CUENTA REGRESIVA RELOJ
 function startCountdown() {
   const target = new Date('2026-07-18T16:00:00');
   function update() {
     const now = new Date();
     const diff = target - now;
     if (diff <= 0) {
-      document.querySelector('.countdown-section').innerHTML =
-        '<p style="font-family:Great Vibes,cursive;font-size:3rem;color:var(--gold-light)">¡Hoy es nuestro gran día! 🎊</p>';
+      document.querySelector('.countdown-section').innerHTML = '<p style="font-family:Great Vibes,cursive;font-size:3rem;color:var(--gold-light)">¡Hoy es nuestro gran día! 🎊</p>';
       return;
     }
     const d = Math.floor(diff / 86400000);
@@ -833,11 +850,9 @@ function startCountdown() {
   setInterval(update, 1000);
 }
 
-// ENVÍO DE RESPUESTA RSVP OPTIMISTA (NO-CORS)
 async function sendRSVP(resp) {
   document.getElementById('rsvpButtons').style.opacity = '0.5';
   document.getElementById('rsvpButtons').style.pointerEvents = 'none';
-
   try {
     await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
@@ -851,10 +866,7 @@ async function sendRSVP(resp) {
         respuesta: resp
       })
     });
-  } catch(e) {
-    console.log('Procesado en servidor');
-  }
-
+  } catch(e) {}
   document.getElementById('rsvpButtons').style.display = 'none';
   mostrarRespuesta(resp);
 }
@@ -863,36 +875,27 @@ function mostrarYaRespondio(respuestaAnterior) {
   document.getElementById('rsvpButtons').style.display = 'none';
   const respEl = document.getElementById('rsvpResponse');
   respEl.classList.add('show');
-  respEl.style.background = '#f5ede0';
-  respEl.style.borderColor = '#c9a96e';
-
   if (respuestaAnterior === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
-    document.getElementById('rsvpResponseMsg').textContent =
-      `${guestName}, ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!`;
+    document.getElementById('rsvpResponseMsg').textContent = `${guestName}, ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!`;
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
-    document.getElementById('rsvpResponseMsg').textContent =
-      `${guestName}, ya tenemos tu respuesta registrada. Gracias por avisarnos.`;
+    document.getElementById('rsvpResponseMsg').textContent = `${guestName}, ya tenemos tu respuesta registrada. Gracias por avisarnos.`;
   }
 }
 
 function mostrarRespuesta(resp) {
   const respEl = document.getElementById('rsvpResponse');
   respEl.classList.add('show');
-
   if (resp === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
-    document.getElementById('rsvpResponseMsg').textContent =
-      `¡Nos emociona contar con ${guestName}! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!`;
+    document.getElementById('rsvpResponseMsg').textContent = `¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!`;
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
-    document.getElementById('rsvpResponseMsg').textContent =
-      'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
+    document.getElementById('rsvpResponseMsg').textContent = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
   }
 }
 
-// EFECTOS VISUALES ANIMADOS
 function initPetals() {
   const container = document.getElementById('petals');
   for (let i = 0; i < 18; i++) {
@@ -910,7 +913,6 @@ function initPetals() {
   }
 }
 
-// DETECTOR ON SCROLL
 function initReveal() {
   const els = document.querySelectorAll('.reveal');
   const obs = new IntersectionObserver(entries => {
@@ -921,16 +923,10 @@ function initReveal() {
   els.forEach(el => obs.observe(el));
 }
 
-// DETECTOR E INICIADOR INICIAL
 document.addEventListener('DOMContentLoaded', function() {
   const btn = document.getElementById('openBtn');
   if (btn) btn.addEventListener('click', openInvitation);
-
-  loadGuest().then((data) => {
-    if (data && data.respondio) {
-      mostrarYaRespondio(data.respuesta);
-    }
-  });
+  loadGuest();
 });
 </script>
 </body>
