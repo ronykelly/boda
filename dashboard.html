@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard de Invitados — Rony & Kelly</title>
-<!-- Fuentes Elegantes Nítidas -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -33,11 +32,10 @@
   }
 
   .container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
-  /* HEADER REGAL */
   header {
     text-align: center;
     padding: 30px 0 40px;
@@ -60,7 +58,6 @@
     font-weight: 500;
   }
 
-  /* BOTÓN REFRESH */
   .sync-bar {
     display: flex;
     justify-content: flex-end;
@@ -79,17 +76,12 @@
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   }
   .btn-refresh:hover {
     background: var(--gold-dark);
     color: var(--dark-brown);
   }
 
-  /* METRICS GRID */
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -112,8 +104,8 @@
     background: var(--gold);
   }
   .metric-card.confirmed::before { background: var(--success); }
-  .metric-card.declined::before { background: var(--danger); }
   .metric-card.pending::before { background: var(--pending); }
+  .metric-card.declined::before { background: var(--danger); }
 
   .metric-val {
     font-family: 'Playfair Display', serif;
@@ -131,7 +123,6 @@
     font-weight: 600;
   }
 
-  /* VISUALS SECTION (CHART & SUMMARY) */
   .visuals-layout {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -159,7 +150,6 @@
     padding-bottom: 10px;
   }
 
-  /* DIAGRAMA DONA DINÁMICO (SVG) */
   .chart-wrapper {
     display: flex;
     flex-direction: column;
@@ -168,90 +158,37 @@
     height: 100%;
     min-height: 240px;
   }
-  .donut-chart {
-    transform: rotate(-90deg);
-  }
-  .donut-bg {
-    fill: none;
-    stroke: #f3e9dc;
-    stroke-width: 22;
-  }
-  .donut-segment-confirmed {
-    fill: none;
-    stroke: var(--success);
-    stroke-width: 22;
-    stroke-dasharray: 0 100;
-    transition: stroke-dasharray 0.8s ease;
-  }
-  .donut-segment-pending {
-    fill: none;
-    stroke: var(--pending);
-    stroke-width: 22;
-    stroke-dasharray: 0 100;
-    transition: stroke-dasharray 0.8s ease;
-  }
-  .donut-segment-declined {
-    fill: none;
-    stroke: var(--danger);
-    stroke-width: 22;
-    stroke-dasharray: 0 100;
-    transition: stroke-dasharray 0.8s ease;
-  }
-  .chart-center-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 700;
-    fill: var(--dark-brown);
-    text-anchor: middle;
-  }
-  .chart-center-sub {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 8px;
-    font-weight: 600;
-    fill: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-anchor: middle;
-  }
+  .donut-chart { transform: rotate(-90deg); }
+  .donut-bg { fill: none; stroke: #f3e9dc; stroke-width: 22; }
+  
+  .donut-segment-confirmed { fill: none; stroke: var(--success); stroke-width: 22; stroke-dasharray: 0 100; transition: stroke-dasharray 0.8s ease; }
+  .donut-segment-pending { fill: none; stroke: var(--pending); stroke-width: 22; stroke-dasharray: 0 100; transition: stroke-dasharray 0.8s ease; }
+  .donut-segment-declined { fill: none; stroke: var(--danger); stroke-width: 22; stroke-dasharray: 0 100; transition: stroke-dasharray 0.8s ease; }
 
-  /* LEGEND */
-  .chart-legend {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 500;
-  }
-  .legend-color {
-    width: 12px;
-    height: 12px;
-    border-radius: 3px;
-  }
+  .chart-center-text { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; fill: var(--dark-brown); text-anchor: middle; }
+  .chart-center-sub { font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 600; fill: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; text-anchor: middle; }
 
-  /* LISTAS DE INVITADOS */
-  .tables-layout {
+  .chart-legend { display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; }
+  .legend-color { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* ESTRUCTURA DE 3 COLUMNAS MODIFICADA */
+  .tables-layout-three {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
-  @media (max-width: 768px) {
-    .tables-layout { grid-template-columns: 1fr; }
+  @media (max-width: 950px) {
+    .tables-layout-three { grid-template-columns: 1fr; }
   }
 
   .guest-list-scroll {
-    max-height: 400px;
+    max-height: 420px;
     overflow-y: auto;
     padding-right: 5px;
+    margin-top: 15px;
   }
   
-  /* Custom Scrollbar */
   .guest-list-scroll::-webkit-scrollbar { width: 5px; }
   .guest-list-scroll::-webkit-scrollbar-track { background: transparent; }
   .guest-list-scroll::-webkit-scrollbar-thumb { background: rgba(201,169,110,0.3); border-radius: 10px; }
@@ -269,22 +206,12 @@
   }
   .guest-row:hover { background: #f7f1e8; }
   
-  .g-name {
-    font-weight: 500;
-    font-size: 13px;
-    color: var(--dark-brown);
-  }
-  .g-slug {
-    font-size: 10px;
-    color: var(--text-muted);
-    display: block;
-    margin-top: 2px;
-  }
+  .g-name { font-weight: 500; font-size: 13px; color: var(--dark-brown); display: block; }
+  .g-slug { font-size: 10px; color: var(--text-muted); display: block; margin-top: 2px; }
+  
   .g-count {
     font-size: 11px;
     font-weight: 700;
-    background: var(--gold-light);
-    color: var(--gold-dark);
     padding: 4px 10px;
     border-radius: 12px;
     white-space: nowrap;
@@ -304,16 +231,10 @@
     margin-top: 4px;
   }
   .status-badge.si { background: #eaf5ec; color: var(--success); }
-  .status-badge.no { background: #fbeaea; color: var(--danger); }
   .status-badge.f { background: #fbf1e0; color: var(--pending); }
+  .status-badge.no { background: #fbeaea; color: var(--danger); }
 
-  .loading-overlay {
-    text-align: center;
-    padding: 40px 0;
-    color: var(--text-muted);
-    font-style: italic;
-    font-size: 13px;
-  }
+  .loading-overlay { text-align: center; padding: 40px 0; color: var(--text-muted); font-style: italic; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -325,13 +246,9 @@
   </header>
 
   <div class="sync-bar">
-    <button class="btn-refresh" onclick="fetchRealtimeData()">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-      Actualizar Datos
-    </button>
+    <button class="btn-refresh" onclick="fetchRealtimeData()">⚙ Actualizar Datos</button>
   </div>
 
-  <!-- TARJETAS DE MÉTRICAS -->
   <div class="metrics-grid">
     <div class="metric-card">
       <div class="metric-val" id="total-invitados">0</div>
@@ -351,14 +268,13 @@
     </div>
   </div>
 
-  <!-- GRAFICO Y RESUMEN -->
   <div class="visuals-layout">
     <div class="dashboard-box">
       <h2 class="box-title">Estado del RSVP</h2>
       <div class="chart-wrapper">
         <svg class="donut-chart" width="160" height="160" viewBox="0 0 42 42">
           <circle class="donut-bg" cx="21" cy="21" r="15.91549430918954"></circle>
-          <circle class="donut-segment-confirmed" id="seg-confirmed" cx="21" cy="21" r="15.91549430918954" transform="rotate(0 21 21)"></circle>
+          <circle class="donut-segment-confirmed" id="seg-confirmed" cx="21" cy="21" r="15.91549430918954"></circle>
           <circle class="donut-segment-pending" id="seg-pending" cx="21" cy="21" r="15.91549430918954"></circle>
           <circle class="donut-segment-declined" id="seg-declined" cx="21" cy="21" r="15.91549430918954"></circle>
           <g class="chart-text">
@@ -400,34 +316,39 @@
     </div>
   </div>
 
-  <!-- SECCIONES DE LISTADOS COMPLETOS -->
-  <div class="tables-layout">
+  <div class="tables-layout-three">
     <div class="dashboard-box">
-      <h2 class="box-title" style="color:var(--success)">✓ Confirmados o Pendientes</h2>
-      <div class="guest-list-scroll" id="lista-activos">
-        <div class="loading-overlay">Cargando base de datos en tiempo real...</div>
+      <h2 class="box-title" style="color:var(--success)">✓ Confirmados</h2>
+      <div class="guest-list-scroll" id="lista-confirmados">
+        <div class="loading-overlay">Sincronizando...</div>
       </div>
     </div>
 
     <div class="dashboard-box">
-      <h2 class="box-title" style="color:var(--danger)">✕ No Asistirán</h2>
+      <h2 class="box-title" style="color:var(--pending)">⏳ No han confirmado</h2>
+      <div class="guest-list-scroll" id="lista-pendientes">
+        <div class="loading-overlay">Sincronizando...</div>
+      </div>
+    </div>
+
+    <div class="dashboard-box">
+      <h2 class="box-title" style="color:var(--danger)">✕ No irán</h2>
       <div class="guest-list-scroll" id="lista-cancelados">
-        <div class="loading-overlay">Cargando base de datos en tiempo real...</div>
+        <div class="loading-overlay">Sincronizando...</div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// ÚNICA URL DE CONEXIÓN ACTUALIZADA Y ACTIVA
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzot-oP3ZlxnjS_xyBokD1fc6a3Dv-_CIf5fINSY-xDspGVBBy5Lr77Gueh4WA9yusy/exec';
 
 function fetchRealtimeData() {
   const callbackName = 'dashboard_callback_' + Math.round(100000 * Math.random());
   
-  // Placeholders de carga
-  document.getElementById('lista-activos').innerHTML = '<div class="loading-overlay">Sincronizando con Google Sheets...</div>';
-  document.getElementById('lista-cancelados').innerHTML = '<div class="loading-overlay">Sincronizando con Google Sheets...</div>';
+  document.getElementById('lista-confirmados').innerHTML = '<div class="loading-overlay">Sincronizando con Google...</div>';
+  document.getElementById('lista-pendientes').innerHTML = '<div class="loading-overlay">Sincronizando con Google...</div>';
+  document.getElementById('lista-cancelados').innerHTML = '<div class="loading-overlay">Sincronizando con Google...</div>';
 
   window[callbackName] = function(response) {
     delete window[callbackName];
@@ -443,8 +364,7 @@ function fetchRealtimeData() {
 
   const script = document.createElement('script');
   script.id = 'jsonp-dashboard-script';
-  // Forzamos la concatenación limpia de parámetros para evitar bloqueos del navegador
-  script.src = APPS_SCRIPT_URL + '?action=getAllGuests&callback=' + callbackName;
+  script.src = APPS_SCRIPT_URL + "?action=getAllGuests&callback=" + callbackName;
   document.body.appendChild(script);
 }
 
@@ -457,7 +377,8 @@ function processAndRender(invitados) {
   let pasesTotales = invitados.length;
   let pasesRespondidos = 0;
 
-  const htmlActivos = [];
+  const htmlConfirmados = [];
+  const htmlPendientes = [];
   const htmlCancelados = [];
 
   invitados.forEach(g => {
@@ -467,6 +388,7 @@ function processAndRender(invitados) {
     let statusClass = 'pending';
     let statusLabel = 'Pendiente';
     let badgeClass = 'f';
+    let asignadoA = 'pendiente';
 
     if (g.respondio === true || String(g.respondio).toLowerCase() === 'true') {
       pasesRespondidos++;
@@ -475,17 +397,18 @@ function processAndRender(invitados) {
         statusClass = 'confirmed';
         statusLabel = 'Asistirá ✓';
         badgeClass = 'si';
+        asignadoA = 'si';
       } else {
         totalCancelados += numPersonas;
         statusClass = 'declined';
         statusLabel = 'No Asistirá ✕';
         badgeClass = 'no';
+        asignadoA = 'no';
       }
     } else {
       totalPendientes += numPersonas;
     }
 
-    // Fila HTML adaptada
     const rowHtml = `
       <div class="guest-row">
         <div>
@@ -497,24 +420,26 @@ function processAndRender(invitados) {
       </div>
     `;
 
-    if (g.respuesta === 'no' && (g.respondio === true || String(g.respondio).toLowerCase() === 'true')) {
+    // Distribución en las 3 nuevas columnas
+    if (asignadoA === 'si') {
+      htmlConfirmados.push(rowHtml);
+    } else if (asignadoA === 'no') {
       htmlCancelados.push(rowHtml);
     } else {
-      htmlActivos.push(rowHtml);
+      htmlPendientes.push(rowHtml);
     }
   });
 
-  // Pintar Contadores Numéricos Globales
   document.getElementById('total-invitados').textContent = totalPersonasEnLista;
   document.getElementById('total-asistiran').textContent = totalAsistiran;
   document.getElementById('total-pendientes').textContent = totalPendientes;
   document.getElementById('total-cancelados').textContent = totalCancelados;
 
-  // Pintar Listas de Invitados
-  document.getElementById('lista-activos').innerHTML = htmlActivos.length ? htmlActivos.join('') : '<div class="loading-overlay">No hay invitados en esta sección.</div>';
-  document.getElementById('lista-cancelados').innerHTML = htmlCancelados.length ? htmlCancelados.join('') : '<div class="loading-overlay">Nadie ha cancelado aún.</div>';
+  // Renderizado en los contenedores correspondientes
+  document.getElementById('lista-confirmados').innerHTML = htmlConfirmados.length ? htmlConfirmados.join('') : '<div class="loading-overlay">Nadie ha confirmado aún.</div>';
+  document.getElementById('lista-pendientes').innerHTML = htmlPendientes.length ? htmlPendientes.join('') : '<div class="loading-overlay">¡Todos han respondido! 🙌</div>';
+  document.getElementById('lista-cancelados').innerHTML = htmlCancelados.length ? htmlCancelados.join('') : '<div class="loading-overlay">Nadie ha rechazado aún.</div>';
 
-  // Lógica Avanzada del Gráfico de Dona Dinámico SVG
   const totalRespuestasCalculadas = totalAsistiran + totalPendientes + totalCancelados;
   
   if (totalRespuestasCalculadas > 0) {
@@ -524,7 +449,6 @@ function processAndRender(invitados) {
 
     document.getElementById('chart-percentage').textContent = `${Math.round(pctConfirmed)}%`;
 
-    // Calcular compensaciones de Dasharray perimetral (Total perimetro = 100)
     const segConfirmed = document.getElementById('seg-confirmed');
     const segPending = document.getElementById('seg-pending');
     const segDeclined = document.getElementById('seg-declined');
@@ -532,14 +456,12 @@ function processAndRender(invitados) {
     segConfirmed.style.strokeDasharray = `${pctConfirmed} 100`;
     
     segPending.style.strokeDasharray = `${pctPending} 100`;
-    segPending.style.strokeTransform = `rotate(${pctConfirmed} 21 21)`;
     segPending.setAttribute('transform', `rotate(${pctConfirmed} 21 21)`);
 
     segDeclined.style.strokeDasharray = `${pctDeclined} 100`;
     segDeclined.setAttribute('transform', `rotate(${pctConfirmed + pctPending} 21 21)`);
   }
 
-  // Eficiencia de barras de progreso
   document.getElementById('txt-pases-respondieron').textContent = `${pasesRespondidos} de ${pasesTotales} Familias`;
   const pctPases = pasesTotales > 0 ? (pasesRespondidos / pasesTotales) * 100 : 0;
   document.getElementById('bar-pases').style.width = `${pctPases}%`;
@@ -551,13 +473,12 @@ function processAndRender(invitados) {
 
 function showError() {
   const errHtml = '<div class="loading-overlay" style="color:var(--danger)">⚠️ Error al conectar en tiempo real. Verifica la conexión o la URL de la API.</div>';
-  document.getElementById('lista-activos').innerHTML = errHtml;
+  document.getElementById('lista-confirmados').innerHTML = errHtml;
+  document.getElementById('lista-pendientes').innerHTML = errHtml;
   document.getElementById('lista-cancelados').innerHTML = errHtml;
 }
 
-// Inicialización automática al arrancar la pantalla
 document.addEventListener('DOMContentLoaded', fetchRealtimeData);
 </script>
-
 </body>
 </html>
