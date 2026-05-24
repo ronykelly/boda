@@ -1272,7 +1272,7 @@
 // ══════════════════════════════════════
 // CONFIGURACIÓN — EDITA AQUÍ
 // ══════════════════════════════════════
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxvhHXr_GZTyRVZTCzUNu3EqM6UurskebZ60uHQumqAe2x3alcJp7cgFCmz-db-dMqL/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDmMdCUo5l55WX8xe4FDSBxZmZFyE6OvCdYZaybKQGG8vWTPA-CzYY40_VdgBobGP-/exec';
 // Este URL lo obtendrás en el Paso 4 (Google Apps Script)
 
 // ══════════════════════════════════════
@@ -1286,43 +1286,50 @@ let guestName = 'Estimado Invitado';
 let guestCount = 1;
 
 // Cargar datos del invitado desde Apps Script
-async function loadGuest() {
-  try {
-    const r = await fetch(`${APPS_SCRIPT_URL}?action=getGuest&inv=${encodeURIComponent(guestSlug)}`);
-    const d = await r.json();
-    if (d && d.nombre) {
-      guestName = d.nombre;
-      guestCount = d.personas || 1;
-      guestId = d.slug || guestSlug;
+// ══════════════════════════════════════
+// LEER NOMBRE DIRECTO DESDE LA URL
+// Ejemplo: ?inv=FamiliaGarcia&nombre=Familia+García&p=4
+// ══════════════════════════════════════
+function loadGuest() {
+  return new Promise((resolve) => {
+    // Leer nombre y personas directo de la URL
+    const nombreParam = params.get('nombre');
+    const personasParam = params.get('p');
+
+    if (nombreParam) {
+      // Nombre viene en la URL — no necesita Apps Script
+      guestName = decodeURIComponent(nombreParam);
+      guestCount = personasParam ? parseInt(personasParam) : 1;
+      guestId = guestSlug;
+      actualizarUI();
+      resolve({nombre: guestName, personas: guestCount, respondio: false});
+    } else {
+      // Si no hay nombre en URL, usar el slug formateado
+      guestName = guestSlug
+        ? guestSlug.replace(/([A-Z])/g, ' $1').trim()
+        : 'Estimado Invitado';
+      guestCount = personasParam ? parseInt(personasParam) : 1;
+      actualizarUI();
+      resolve(null);
     }
-  } catch(e) {
-    // Si no hay conexión, usa valores de demostración
-    guestName = guestSlug ? guestSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : 'Estimado Invitado';
-    guestCount = 1;
-  }
-  document.getElementById('guest-name-display').textContent = guestName;
-  document.getElementById('rsvpGuestName').textContent = guestName;
-  document.getElementById('rsvpGuestCount').textContent =
-    guestCount > 1 ? `${guestCount} personas` : '1 persona';
-  // Mostrar botón una vez cargado
-  document.getElementById('openBtn').style.opacity = '1';
-  document.getElementById('openBtn').style.pointerEvents = 'auto';
+
+    function actualizarUI() {
+      document.getElementById('guest-name-display').textContent = guestName;
+      document.getElementById('rsvpGuestName').textContent = guestName;
+      document.getElementById('rsvpGuestCount').textContent =
+        guestCount > 1 ? `${guestCount} personas` : '1 persona';
+      document.getElementById('openBtn').style.opacity = '1';
+      document.getElementById('openBtn').style.pointerEvents = 'auto';
+    }
+  });
 }
 
-// Cargar con timeout — si tarda más de 4 segundos, usa el slug directamente
-const guestTimer = setTimeout(() => {
-  if (guestName === 'Estimado Invitado' && guestSlug) {
-    guestName = guestSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-  } else if (!guestSlug) {
-    guestName = 'Estimado Invitado';
+// Llamar directamente — el nombre viene en la URL, no necesita esperar
+loadGuest().then((data) => {
+  if (data && data.respondio) {
+    mostrarYaRespondio(data.respuesta);
   }
-  document.getElementById('guest-name-display').textContent = guestName;
-  document.getElementById('rsvpGuestName').textContent = guestName;
-  document.getElementById('openBtn').style.opacity = '1';
-  document.getElementById('openBtn').style.pointerEvents = 'auto';
-}, 4000);
-
-loadGuest().then(() => clearTimeout(guestTimer));
+});
 
 // ══════════════════════════════════════
 // ESTRELLAS DE FONDO EN EL SOBRE
@@ -1532,7 +1539,7 @@ async function sendRSVP(resp) {
   document.getElementById('rsvpButtons').style.pointerEvents = 'none';
 
   try {
-    await fetch(APPS_SCRIPT_URL, {
+    const r = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
@@ -1546,9 +1553,34 @@ async function sendRSVP(resp) {
       })
     });
   } catch(e) {
-    console.log('RSVP enviado (offline mode)');
+    console.log('RSVP enviado');
   }
 
+  document.getElementById('rsvpButtons').style.display = 'none';
+  mostrarRespuesta(resp);
+}
+
+// Mostrar mensaje si ya había respondido antes
+function mostrarYaRespondio(respuestaAnterior) {
+  document.getElementById('rsvpButtons').style.display = 'none';
+  const respEl = document.getElementById('rsvpResponse');
+  respEl.classList.add('show');
+  respEl.style.background = '#f5ede0';
+  respEl.style.borderColor = '#c9a96e';
+
+  if (respuestaAnterior === 'si') {
+    document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
+    document.getElementById('rsvpResponseMsg').textContent =
+      `${guestName}, ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!`;
+  } else {
+    document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
+    document.getElementById('rsvpResponseMsg').textContent =
+      `${guestName}, ya tenemos tu respuesta registrada. Gracias por avisarnos.`;
+  }
+}
+
+// Mostrar mensaje después de responder
+function mostrarRespuesta(resp) {
   const respEl = document.getElementById('rsvpResponse');
   respEl.classList.add('show');
 
@@ -1561,7 +1593,6 @@ async function sendRSVP(resp) {
     document.getElementById('rsvpResponseMsg').textContent =
       'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
   }
-  document.getElementById('rsvpButtons').style.display = 'none';
 }
 
 // ══════════════════════════════════════
