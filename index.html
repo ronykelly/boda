@@ -66,7 +66,6 @@
     animation: twinkle linear infinite;
   }
 
-  /* El título de los novios nunca se moverá ni tapará */
   .env-top-ornament {
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
@@ -117,7 +116,6 @@
     display: inline-block;
   }
 
-  /* Área central de animación */
   .envelope-wrap {
     width: min(380px, 90vw);
     position: relative;
@@ -133,7 +131,7 @@
     transition: opacity 0.5s ease;
   }
 
-  /* ─── CONTENEDOR NUEVO: POSTAL REESTRUCTURADA FLUDA ─── */
+  /* ─── CONTENEDOR POSTAL REESTRUCTURADA ─── */
   #postal-container {
     display: flex;
     flex-direction: column;
@@ -149,7 +147,7 @@
   #postal-container.show {
     opacity: 1;
     visibility: visible;
-    position: relative; /* Cambia a relativo para empujar el botón y el texto abajo ordenadamente */
+    position: relative;
     transform: translateY(0) scale(1);
   }
   .postal-frame {
@@ -181,7 +179,6 @@
     text-align: center;
   }
 
-  /* Detalles abajo de la postal organizados */
   #postal-details {
     width: 100%;
     text-align: center;
@@ -249,11 +246,47 @@
   .open-btn:hover { color: #1a0c04; border-color: var(--gold); }
   .open-btn:hover::before { transform: scaleX(1); }
 
-  /* MÚSICA ELEMENTO */
-  .music-btn {
+  /* ─── CONTROLES DE MÚSICA ACTUALIZADOS CON NOMBRE DE CANCIÓN ─── */
+  .music-container {
     position: fixed;
     bottom: 25px;
     right: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    z-index: 2000;
+    pointer-events: none;
+  }
+  
+  /* Banner elegante con el título de la canción */
+  .music-track-banner {
+    background: rgba(26, 15, 6, 0.85);
+    border: 1px solid var(--gold);
+    padding: 6px 14px;
+    border-radius: 20px;
+    color: var(--gold-light);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.5s, visibility 0.5s, transform 0.5s;
+    white-space: nowrap;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .music-container.visible .music-track-banner {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .music-btn {
     width: 45px;
     height: 45px;
     background: var(--white);
@@ -265,13 +298,14 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 2000;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s, visibility 0.5s;
+    transition: opacity 0.5s, visibility 0.5s, transform 0.3s;
+    pointer-events: auto;
   }
-  .music-btn.visible { opacity: 1; visibility: visible; }
+  .music-container.visible .music-btn { opacity: 1; visibility: visible; }
+  .music-btn:hover { transform: scale(1.08); background: var(--warm); }
 
   @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
   @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
@@ -301,7 +335,7 @@
   .hero-tagline { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-style: italic; color: var(--text-light); margin-bottom: 40px; line-height: 1.7; }
   .divider-gold { width: 60px; height: 1px; background: var(--gold); margin: 24px 0; }
 
-  /* TARJETAS DE EVENTO CON DIRECCIONES REALES */
+  /* TARJETAS DE EVENTO */
   .events-section { padding: 80px 40px; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
   .section-label { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 40px; text-align: center; }
   .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
@@ -452,7 +486,10 @@
   <button class="open-btn" id="openBtn">✦   Abrir Invitación   ✦</button>
 </div>
 
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button>
+<div class="music-container" id="musicContainer">
+  <div class="music-track-banner" id="musicTrackBanner">Cargando melodía...</div>
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button>
+</div>
 
 <div id="main-page">
   <div class="petals-bg" id="petals"></div>
@@ -678,8 +715,6 @@ function openInvitation() {
   btn.style.pointerEvents = 'none';
   btn.style.opacity = '0';
   if (hint) hint.style.opacity = '0';
-  
-  // Mantenemos el nombre de los novios fijo arriba y solo atenuamos el bloque del invitado
   if (guestBlock) guestBlock.style.opacity = '0.3'; 
 
   flap.style.transformOrigin = 'center top';
@@ -689,7 +724,6 @@ function openInvitation() {
     if (sealText) sealText.style.opacity = '0';
   }, 200);
 
-  // Desvanecimiento del sobre físico
   setTimeout(() => {
     wrap.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
     wrap.style.opacity = '0';
@@ -699,11 +733,9 @@ function openInvitation() {
       wrap.style.display = 'none'; 
     }, 400);
 
-    // Muestra la postal en su nuevo flujo ordenado (debajo de los nombres)
     postal.classList.add('show');
   }, 500);
 
-  // Muestra el dato curioso e intercambia el botón ordenadamente ABAJO
   setTimeout(() => {
     details.classList.add('show');
     btn.innerHTML = '✦   Entrar a la Invitación   ✦';
@@ -726,7 +758,7 @@ function transitionToMainPage() {
   setTimeout(() => {
     screen.style.visibility = 'hidden';
     document.getElementById('main-page').classList.add('visible');
-    document.querySelector('.music-btn').classList.add('visible');
+    document.getElementById('musicContainer').classList.add('visible'); // Muestra la caja de música unificada
     initPetals();
     startCountdown();
     initReveal();
@@ -734,10 +766,11 @@ function transitionToMainPage() {
   }, 1000);
 }
 
+// PLAYLIST DIGITAL CON NOMBRE DE CANCIONES
 const PLAYLIST = [
-  { id: "Ptk_1Dc2iPY", title: "Canon in D" },
-  { id: "9E6b3im0OgE", title: "A Thousand Years" },
-  { id: "h7UZhorAki4", title: "Perfect" }
+  { id: "Ptk_1Dc2iPY", title: "Sonando: Canon in D - Pachelbel" },
+  { id: "9E6b3im0OgE", title: "Sonando: A Thousand Years" },
+  { id: "h7UZhorAki4", title: "Sonando: Perfect - Ed Sheeran" }
 ];
 
 let currentSongIndex = -1;
@@ -769,6 +802,7 @@ function tryAutoplay() {
   });
   document.body.appendChild(iframe);
   musicOn = true;
+  updateMusicUI(song.title);
 }
 
 function setupNextSong() {
@@ -788,7 +822,14 @@ function playNextSong() {
   if (!fr || !musicOn) return;
   const song = getRandomSong();
   fr.src = buildYTSrc(song.id);
+  updateMusicUI(song.title);
   setTimeout(() => setupNextSong(), 1500);
+}
+
+// FUNCIÓN ACTUALIZADA: Pinta el nombre de la canción en la burbuja flotante
+function updateMusicUI(title) {
+  document.getElementById('musicTrackBanner').textContent = title;
+  document.getElementById('musicBtn').textContent = '♪';
 }
 
 function toggleMusic() {
@@ -798,9 +839,10 @@ function toggleMusic() {
   if (musicOn) {
     const song = getRandomSong();
     fr.src = buildYTSrc(song.id);
-    document.getElementById('musicBtn').textContent = '♪';
+    updateMusicUI(song.title);
   } else {
     fr.src = '';
+    document.getElementById('musicTrackBanner').textContent = "Música Pausada";
     document.getElementById('musicBtn').textContent = '♩';
   }
 }
