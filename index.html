@@ -111,4 +111,75 @@
     position: relative;
     opacity: 0;
     animation: fadeUp 1s 1s forwards;
-    transition: transform 0.5s ease, opacity 0.8
+    transition: transform 0.5s ease, opacity 0.8s ease;
+  }
+  .env-svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  #envFlap {
+    transition: transform 0.9s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .env-hint {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: rgba(232,213,176,0.5);
+    text-transform: uppercase;
+    margin-top: 24px;
+    opacity: 0;
+    animation: fadeUp 1s 1.4s forwards, pulse 3s 2.5s infinite;
+  }
+
+  .open-btn {
+    margin-top: 20px;
+    background: transparent;
+    border: 1px solid rgba(201,169,110,0.5);
+    color: var(--gold-light);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    padding: 16px 48px;
+    cursor: pointer;
+    transition: all 0.4s;
+    opacity: 0;
+    animation: fadeUp 1s 1.6s forwards;
+    pointer-events: none; /* Se activa cuando carguen los datos */
+    position: relative;
+    overflow: hidden;
+  }
+  .open-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    z-index: -1;
+  }
+  .open-btn:hover { color: #1a0c04; border-color: var(--gold); }
+  .open-btn:hover::before { transform: scaleX(1); }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.3); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 0.5; }
+    50%      { opacity: 1; }
+  }
+
+  /* ─── PÁGINA PRINCIPAL ─── */
+  #main-page { display: none; }
+  #main-page.visible { display: block; }
+
+  .petals-bg {
+    position
