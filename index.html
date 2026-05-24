@@ -1270,7 +1270,7 @@
 
 <script>
 // ══════════════════════════════════════
-// CONFIGURACIÓN — EDITA AQUÍ
+// CONFIGURACIÓN - EDITA AQUÍ
 // ══════════════════════════════════════
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDmMdCUo5l55WX8xe4FDSBxZmZFyE6OvCdYZaybKQGG8vWTPA-CzYY40_VdgBobGP-/exec';
 // Este URL lo obtendrás en el Paso 4 (Google Apps Script)
@@ -1297,7 +1297,7 @@ function loadGuest() {
     const personasParam = params.get('p');
 
     if (nombreParam) {
-      // Nombre viene en la URL — no necesita Apps Script
+      // Nombre viene en la URL - no necesita Apps Script
       guestName = decodeURIComponent(nombreParam);
       guestCount = personasParam ? parseInt(personasParam) : 1;
       guestId = guestSlug;
@@ -1324,12 +1324,8 @@ function loadGuest() {
   });
 }
 
-// Llamar directamente — el nombre viene en la URL, no necesita esperar
-loadGuest().then((data) => {
-  if (data && data.respondio) {
-    mostrarYaRespondio(data.respuesta);
-  }
-});
+// Esperar que el DOM este listo antes de cargar
+
 
 // ══════════════════════════════════════
 // ESTRELLAS DE FONDO EN EL SOBRE
@@ -1418,14 +1414,14 @@ let musicOn = false;
 // Canciones instrumentales/románticas sin copyright
 // ══════════════════════════════════════
 const PLAYLIST = [
-  { id: 'Ptk_1Dc2iPY', title: 'Canon in D — Pachelbel' },
-  { id: '9E6b3im0OgE', title: 'A Thousand Years — Instrumental' },
-  { id: 'h7UZhorAki4', title: 'Perfect — Ed Sheeran Instrumental' },
-  { id: 'OPljV4WNDsQ', title: 'All of Me — Instrumental' },
-  { id: 'gdVMfCMJDkc', title: 'Marry You — Instrumental' },
-  { id: 'nky4me4NP70', title: 'Can't Help Falling in Love — Instrumental' },
-  { id: '450p7goxZqg', title: 'Thinking Out Loud — Instrumental' },
-  { id: 'RBumgq5yVrA', title: 'Comptine d'un autre été — Yann Tiersen' },
+  { id: "Ptk_1Dc2iPY", title: "Canon in D - Pachelbel" },
+  { id: "9E6b3im0OgE", title: "A Thousand Years - Instrumental" },
+  { id: "h7UZhorAki4", title: "Perfect - Ed Sheeran Instrumental" },
+  { id: "OPljV4WNDsQ", title: "All of Me - Instrumental" },
+  { id: "gdVMfCMJDkc", title: "Marry You - Instrumental" },
+  { id: "nky4me4NP70", title: "Cant Help Falling in Love - Instrumental" },
+  { id: "450p7goxZqg", title: "Thinking Out Loud - Instrumental" },
+  { id: "RBumgq5yVrA", title: "Comptine dun autre ete - Yann Tiersen" }
 ];
 
 let currentSongIndex = -1;
@@ -1487,7 +1483,7 @@ function playNextSong() {
 function updateMusicBtn(title) {
   const btn = document.getElementById('musicBtn');
   btn.textContent = '♪';
-  btn.title = `Sonando: ${title} — clic para pausar`;
+  btn.title = `Sonando: ${title} - clic para pausar`;
 }
 
 function toggleMusic() {
@@ -1532,7 +1528,7 @@ function startCountdown() {
 }
 
 // ══════════════════════════════════════
-// RSVP — ENVIAR RESPUESTA
+// RSVP - ENVIAR RESPUESTA
 // ══════════════════════════════════════
 async function sendRSVP(resp) {
   document.getElementById('rsvpButtons').style.opacity = '0.5';
@@ -1579,13 +1575,13 @@ function mostrarYaRespondio(respuestaAnterior) {
   }
 }
 
-// Mostrar mensaje después de responder
+// Mostrar mensaje despues de responder
 function mostrarRespuesta(resp) {
   const respEl = document.getElementById('rsvpResponse');
   respEl.classList.add('show');
 
   if (resp === 'si') {
-    document.getElementById('rsvpResponseTitle').textContent = '¡Qué alegría! 🎉';
+    document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
     document.getElementById('rsvpResponseMsg').textContent =
       `¡Nos emociona contar con ${guestName}! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!`;
   } else {
@@ -1627,10 +1623,18 @@ function initReveal() {
   }, { threshold: 0.1 });
   els.forEach(el => obs.observe(el));
 }
-// Asignar evento al botón cuando el DOM esté listo
+// Iniciar todo cuando el DOM este listo
 document.addEventListener('DOMContentLoaded', function() {
+  // Asignar botón
   const btn = document.getElementById('openBtn');
   if (btn) btn.addEventListener('click', openInvitation);
+
+  // Cargar nombre del invitado desde URL
+  loadGuest().then((data) => {
+    if (data && data.respondio) {
+      mostrarYaRespondio(data.respuesta);
+    }
+  });
 });
 </script>
 </body>
