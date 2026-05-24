@@ -422,10 +422,13 @@
 // URL de tu base de datos central en Google Apps Script
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbw1K5gASNIKTz-ShKdufw72POiGyxdpUWJEKiLpLc_quM-iIRGXgEGHyRtLUCMuVb/exec';
 
+// URL ACTUALIZADA Y CONFIGURADA CON TU FILTRO REAL
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcOkHTD8Oj5KL1YeVGLvQ3UmjWqrDvwOnvhQW3sMMCQ68VmnqtuKIb86KEvmqjNcVN/exec';
+
 function fetchRealtimeData() {
   const callbackName = 'dashboard_callback_' + Math.round(100000 * Math.random());
   
-  // Ponemos placeholders de carga
+  // Placeholders de carga
   document.getElementById('lista-activos').innerHTML = '<div class="loading-overlay">Sincronizando con Google Sheets...</div>';
   document.getElementById('lista-cancelados').innerHTML = '<div class="loading-overlay">Sincronizando con Google Sheets...</div>';
 
@@ -443,7 +446,8 @@ function fetchRealtimeData() {
 
   const script = document.createElement('script');
   script.id = 'jsonp-dashboard-script';
-  script.src = `${APPS_SCRIPT_URL}?action=getAllGuests&callback=${callbackName}`;
+  // Forzamos la concatenación limpia de parámetros para evitar bloqueos del navegador
+  script.src = APPS_SCRIPT_URL + '?action=getAllGuests&callback=' + callbackName;
   document.body.appendChild(script);
 }
 
