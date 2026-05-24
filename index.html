@@ -147,7 +147,7 @@
     transition: all 0.4s;
     opacity: 0;
     animation: fadeUp 1s 1.6s forwards;
-    pointer-events: none; /* Bloqueado hasta recibir confirmación de los datos */
+    pointer-events: none; /* Se activa automáticamente al validar los datos */
     position: relative;
     overflow: hidden;
   }
@@ -286,6 +286,7 @@
   .event-icon { font-size: 2rem; margin-bottom: 16px; }
   .event-title { font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--gold-dark); margin-bottom: 20px; }
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
+  .event-detail style { font-weight: 500; color: var(--text); }
   .event-place { font-size: 1rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
   .map-btn {
     display: inline-block;
@@ -588,8 +589,8 @@
 </div>
 
 <script>
-// URL DE LA NUEVA IMPLEMENTACIÓN LIMPIA
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTv8hPOHNRKzMRKvuhhpr26ri9cGhNtG_hqx43QK7kXrvA7D7j1CTIAIqH9QhQxgT_/exec';
+// URL DE LA NUEVA IMPLEMENTACIÓN ACTUALIZADA Y COMPROBADA
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbw1K5gASNIKTz-ShKdufw72POiGyxdpUWJEKiLpLc_quM-iIRGXgEGHyRtLUCMuVb/exec';
 
 // CAPTURA DE PARÁMETROS URL
 const params = new URLSearchParams(window.location.search);
