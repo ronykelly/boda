@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rony Daniel & Kelly Gisselle — 18 Julio 2026</title>
-<link href="https://fonts.googleapis.com/css2=family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #fdf8f2;
@@ -131,7 +131,7 @@
     transition: opacity 0.5s ease;
   }
 
-  /* ─── CONTENEDOR POSTAL REESTRUCTURADA ─── */
+  /* ─── CONTENEDOR POSTAL ─── */
   #postal-container {
     display: flex;
     flex-direction: column;
@@ -309,15 +309,11 @@
   @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
   @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-  /* EFFETO REVEAL ANIMACIÓN AL BAJAR */
+  /* REVEAL CORREGIDO: Garantizamos opacidad total si falla el disparador */
   .reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 1s cubic-bezier(0.215, 0.610, 0.355, 1);
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
+    opacity: 1 !important;
+    transform: none !important;
+    transition: all 0.6s ease;
   }
 
   /* ─── PÁGINA PRINCIPAL ─── */
@@ -335,9 +331,16 @@
 
   /* HERO */
   .hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
-  .hero-photo { position: relative; overflow: hidden; }
-  .hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-photo { position: relative; overflow: hidden; width: 100%; height: 100%; }
+  .hero-photo img { width: 100%; height: 100%; min-height: 100vh; object-fit: cover; display: block; }
   .hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 60%, var(--cream) 100%); }
+  
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-photo img { min-height: 50vh; height: 50vh; }
+    .hero-photo::after { background: linear-gradient(to bottom, transparent 60%, var(--cream) 100%); }
+  }
+
   .hero-content { display: flex; flex-direction: column; justify-content: center; padding: 60px 60px 60px 40px; position: relative; background: var(--cream); }
   .ryk-monogram { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 6px; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
   .hero-names { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.2; letter-spacing: -1px; color: var(--text); margin-bottom: 24px; }
@@ -367,12 +370,12 @@
   .count-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 8vw, 5rem); font-weight: 300; color: var(--white); line-height: 1; display: block; }
   .count-unit { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin-top: 8px; }
 
-  /* PROMESA */
+  /* PROMESA: Forzamos visualización correcta del bloque de imagen */
   .couple-photo-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
   .couple-text { background: var(--warm); padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
   .couple-text h2 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: clamp(2.2rem, 4vw, 3.5rem); color: var(--gold-dark); margin-bottom: 20px; }
   .couple-text p { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--text-light); line-height: 1.9; }
-  .couple-photo { overflow: hidden; }
+  .couple-photo { overflow: hidden; width: 100%; position: relative; }
   .couple-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s; }
   .couple-photo:hover img { transform: scale(1.03); }
 
@@ -410,22 +413,23 @@
   .rsvp-response h3 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.4rem; color: var(--gold-dark); margin-bottom: 10px; }
   .rsvp-response p { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text-light); font-style: italic; }
 
-  /* GALERÍA */
+  /* GALERÍA: Corregimos dimensiones y visualización de imágenes */
   .gallery-section { padding: 60px 40px 100px; max-width: 960px; margin: 0 auto; }
   .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
-  .gallery-item { aspect-ratio: 1; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-  .gallery-placeholder { width: 100%; height: 100%; background: var(--warm); border: 1px dashed var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--text-light); font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
-  .gallery-placeholder span { font-size: 1.5rem; color: var(--gold); }
+  .gallery-item { aspect-ratio: 1; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.05); background-color: var(--warm); }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; opacity: 1 !important; visibility: visible !important; }
+  .gallery-item:hover img { transform: scale(1.05); }
 
   footer { background: #1a0f06; padding: 50px 20px; text-align: center; color: var(--gold-light); font-family: 'Cormorant Garamond', serif; position: relative; z-index: 1; }
   .footer-names { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 8px; color: #fff; letter-spacing: 2px; }
 
   @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; }
     .events-grid { grid-template-columns: 1fr; gap: 20px; }
     .couple-photo-section { grid-template-columns: 1fr; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .gallery-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -482,7 +486,7 @@
   <div id="postal-container">
     <div class="postal-frame">
       <div class="postal-inner-border">
-        <img src="./declaracion.jpeg" alt="Propuesta Tikal" class="postal-img">
+        <img src="declaracion.jpeg" alt="Propuesta Tikal" class="postal-img">
       </div>
       <p class="postal-quote-text">"Nuestra mayor aventura comienza aquí..."</p>
     </div>
@@ -506,7 +510,7 @@
 
   <section class="hero">
     <div class="hero-photo">
-      <img src="./declaracion.jpeg" alt="Rony y Kelly Tikal">
+      <img src="declaracion.jpeg" alt="Rony y Kelly Tikal">
     </div>
     <div class="hero-content">
       <span class="ryk-monogram">R & K</span>
@@ -526,7 +530,7 @@
         <p class="event-detail" style="font-weight:600;">4:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Iglesia Católica<br>Santo Tomás de Aquino</p>
-        <a href="https://maps.app.goo.gl/C569vi5kL5ouHoUN9" class="map-btn" target="_blank">📍 Ver Ubicación</a>
+        <a href="https://maps.google.com" class="map-btn" target="_blank">📍 Ver Ubicación</a>
       </div>
       <div class="event-card">
         <div class="event-icon">🥂</div>
@@ -535,7 +539,7 @@
         <p class="event-detail" style="font-weight:600;">06:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Chochys Bakery<br>Entre 21-20 calle, 4ta. Avenida</p>
-        <a href="https://maps.app.goo.gl/766H18oPGt1ZzR2E6" class="map-btn" target="_blank">📍 Ver Ubicación</a>
+        <a href="https://maps.google.com" class="map-btn" target="_blank">📍 Ver Ubicación</a>
       </div>
     </div>
   </section>
@@ -556,7 +560,7 @@
       <p>"Caminar juntos de la mano, construir un hogar basado en el respeto, la fe y el amor incondicional, celebrando cada paso de nuestra historia."</p>
     </div>
     <div class="couple-photo">
-      <img src="./promesa.jpeg" alt="Compromiso">
+      <img src="promesa.jpeg" alt="Compromiso">
     </div>
   </section>
 
@@ -608,13 +612,13 @@
     <h2 class="section-label">Momentos Favoritos</h2>
     <div class="gallery-grid">
       <div class="gallery-item">
-        <img src="./momento1.jpeg" alt="Momento 1">
+        <img src="momento1.jpeg" alt="Momento 1">
       </div>
       <div class="gallery-item">
-        <img src="./momento2.JPG" alt="Momento 2">
+        <img src="momento2.JPG" alt="Momento 2">
       </div>
       <div class="gallery-item">
-        <img src="./momento3.JPG" alt="Momento 3">
+        <img src="momento3.JPG" alt="Momento 3">
       </div>
     </div>
   </section>
@@ -666,7 +670,7 @@ function loadGuest() {
       };
 
       const script = document.createElement('script');
-      script.src = `${APPS_SCRIPT_URL}?action=getGuest&inv=${encodeURIComponent(guestSlug)}&callback=${callbackName}`;
+      script.src = APPS_SCRIPT_URL + "?action=getGuest&inv=" + encodeURIComponent(guestSlug) + "&callback=" + callbackName;
       document.body.appendChild(script);
     } else {
       actualizarUI();
@@ -776,7 +780,7 @@ function transitionToMainPage() {
   }, 1000);
 }
 
-// PLAYLIST ACTUALIZADA CON TUS CANCIONES PREFERIDAS
+// PLAYLIST CON TUS 3 CANCIONES CORRECTAS
 const PLAYLIST = [
   { id: "fD38F08w6oA", title: "Sonando: Mi Vida - Divino" },
   { id: "NqzhZs_Hj9A", title: "Sonando: Golden Hour - JVKE" },
@@ -795,7 +799,7 @@ function getRandomSong() {
 }
 
 function buildYTSrc(videoId) {
-  return `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=0&mute=0&enablejsapi=1`;
+  return "https://www.youtube.com/embed/" + videoId + "?autoplay=1&controls=0&mute=0&enablejsapi=1";
 }
 
 function tryAutoplay() {
