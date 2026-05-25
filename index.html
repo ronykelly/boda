@@ -259,7 +259,6 @@
     pointer-events: none;
   }
   
-  /* Banner elegante con el título de la canción */
   .music-track-banner {
     background: rgba(26, 15, 6, 0.85);
     border: 1px solid var(--gold);
@@ -601,10 +600,10 @@
         <img src="momento1.jpeg" alt="Momento 1">
       </div>
       <div class="gallery-item">
-        <img src="momento2.jpg" alt="Momento 2">
+        <img src="momento2.JPG" alt="Momento 2">
       </div>
       <div class="gallery-item">
-        <img src="momento3.jpg" alt="Momento 3">
+        <img src="momento3.JPG" alt="Momento 3">
       </div>
     </div>
   </section>
@@ -758,7 +757,7 @@ function transitionToMainPage() {
   setTimeout(() => {
     screen.style.visibility = 'hidden';
     document.getElementById('main-page').classList.add('visible');
-    document.getElementById('musicContainer').classList.add('visible'); // Muestra la caja de música unificada
+    document.getElementById('musicContainer').classList.add('visible'); 
     initPetals();
     startCountdown();
     initReveal();
@@ -766,7 +765,6 @@ function transitionToMainPage() {
   }, 1000);
 }
 
-// PLAYLIST DIGITAL CON NOMBRE DE CANCIONES
 const PLAYLIST = [
   { id: "Ptk_1Dc2iPY", title: "Sonando: Canon in D - Pachelbel" },
   { id: "9E6b3im0OgE", title: "Sonando: A Thousand Years" },
@@ -826,7 +824,6 @@ function playNextSong() {
   setTimeout(() => setupNextSong(), 1500);
 }
 
-// FUNCIÓN ACTUALIZADA: Pinta el nombre de la canción en la burbuja flotante
 function updateMusicUI(title) {
   document.getElementById('musicTrackBanner').textContent = title;
   document.getElementById('musicBtn').textContent = '♪';
