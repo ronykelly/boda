@@ -54,11 +54,7 @@
     pointer-events: none;
   }
 
-  .env-stars {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
+  .env-stars { position: absolute; inset: 0; pointer-events: none; }
   .env-star {
     position: absolute;
     background: var(--gold-light);
@@ -85,7 +81,6 @@
     transition: opacity 0.5s ease;
     z-index: 1025;
   }
-  
   .env-guest-label {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.2rem;
@@ -109,7 +104,7 @@
     letter-spacing: 2.5px;
     color: var(--gold-light);
     text-transform: uppercase;
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255,255,255,0.06);
     padding: 6px 14px;
     border-radius: 15px;
     border: 1px solid rgba(201,169,110,0.2);
@@ -121,15 +116,10 @@
     position: relative;
     transition: transform 0.5s ease, opacity 0.5s ease;
     z-index: 1010;
+    /* FIX: perspective para animación del sobre en móvil */
+    perspective: 800px;
   }
-  .env-svg {
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-  #envFlap, #envBody, #envFrontBody, #envSealGroup {
-    transition: opacity 0.5s ease;
-  }
+  .env-svg { width: 100%; height: auto; overflow: visible; }
 
   /* ─── CONTENEDOR POSTAL ─── */
   #postal-container {
@@ -158,17 +148,15 @@
     width: 100%;
     border: 1px solid rgba(201,169,110,0.2);
   }
-  .postal-inner-border {
-    border: 1px solid #c9a96e;
-    padding: 4px;
-  }
+  .postal-inner-border { border: 1px solid #c9a96e; padding: 4px; }
   .postal-img {
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 3;
     object-fit: cover;
     display: block;
-    image-rendering: -webkit-optimize-contrast;
+    /* FIX: fallback si imagen no carga */
+    background-color: #c9a96e;
   }
   .postal-quote-text {
     font-family: 'Cormorant Garamond', serif;
@@ -188,10 +176,7 @@
     transition: opacity 0.6s ease, max-height 0.6s ease;
     margin-top: 20px;
   }
-  #postal-details.show {
-    opacity: 1;
-    max-height: 80px;
-  }
+  #postal-details.show { opacity: 1; max-height: 80px; }
   .postal-curiosity {
     font-family: 'Montserrat', sans-serif;
     font-size: 9px;
@@ -199,7 +184,7 @@
     letter-spacing: 1.5px;
     color: var(--gold-light);
     text-transform: uppercase;
-    background: rgba(44, 31, 16, 0.7);
+    background: rgba(44,31,16,0.7);
     padding: 8px 16px;
     border-radius: 20px;
     display: inline-block;
@@ -232,6 +217,9 @@
     position: relative;
     overflow: hidden;
     z-index: 1040;
+    /* FIX: mejor área táctil en móvil */
+    min-height: 52px;
+    -webkit-tap-highlight-color: transparent;
   }
   .open-btn::before {
     content: '';
@@ -245,6 +233,7 @@
   }
   .open-btn:hover { color: #1a0c04; border-color: var(--gold); }
   .open-btn:hover::before { transform: scaleX(1); }
+  .open-btn:active { opacity: 0.85; }
 
   /* ─── CONTROLES DE MÚSICA ─── */
   .music-container {
@@ -258,9 +247,8 @@
     z-index: 2000;
     pointer-events: none;
   }
-  
   .music-track-banner {
-    background: rgba(26, 15, 6, 0.85);
+    background: rgba(26,15,6,0.85);
     border: 1px solid var(--gold);
     padding: 6px 14px;
     border-radius: 20px;
@@ -284,10 +272,9 @@
     visibility: visible;
     transform: translateY(0);
   }
-
   .music-btn {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     background: var(--white);
     border: 1px solid var(--gold-light);
     border-radius: 50%;
@@ -302,25 +289,31 @@
     visibility: hidden;
     transition: opacity 0.5s, visibility 0.5s, transform 0.3s;
     pointer-events: auto;
+    /* FIX: mejor área táctil */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .music-container.visible .music-btn { opacity: 1; visibility: visible; }
   .music-btn:hover { transform: scale(1.08); background: var(--warm); }
+  .music-btn:active { transform: scale(0.95); }
 
   @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
   @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-
-  /* REVEAL PREVENIDO: Fuerza la opacidad alta en las fotos */
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
 
   /* ─── PÁGINA PRINCIPAL ─── */
   #main-page { display: none; }
   #main-page.visible { display: block; }
 
   .petals-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-  .petal { position: absolute; width: 6px; height: 6px; background: var(--gold-light); border-radius: 50% 0 50% 0; opacity: 0; animation: fall linear infinite; }
+  .petal {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: var(--gold-light);
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
   @keyframes fall {
     0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
     10%  { opacity: 0.6; }
@@ -330,10 +323,10 @@
 
   /* HERO */
   .hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
-  .hero-photo { position: relative; overflow: hidden; width: 100%; height: 100%; }
+  .hero-photo { position: relative; overflow: hidden; width: 100%; height: 100%; background-color: var(--warm); }
   .hero-photo img { width: 100%; height: 100%; min-height: 100vh; object-fit: cover; display: block; }
   .hero-photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 60%, var(--cream) 100%); }
-  
+
   @media (max-width: 768px) {
     .hero { grid-template-columns: 1fr; min-height: auto; }
     .hero-photo img { min-height: 50vh; height: 50vh; }
@@ -358,8 +351,34 @@
   .event-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 400; color: var(--gold-dark); margin-bottom: 20px; }
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
   .event-place { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
-  .map-btn { display: inline-block; background: var(--gold); color: var(--white); font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; padding: 14px 32px; text-decoration: none; transition: background 0.3s; border: none; cursor: pointer; }
+
+  /* ─── BOTÓN MAPA MEJORADO ─── */
+  .map-btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    text-decoration: none;
+    transition: background 0.3s;
+    border: none;
+    cursor: pointer;
+    /* FIX móvil */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 48px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
   .map-btn:hover { background: var(--gold-dark); }
+  .map-btn:active { background: var(--gold-dark); opacity: 0.9; }
 
   /* COUNTDOWN */
   .countdown-section { background: linear-gradient(160deg, #2c1f10, #1a0f06); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
@@ -374,7 +393,7 @@
   .couple-text { background: var(--warm); padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
   .couple-text h2 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: clamp(2.2rem, 4vw, 3.5rem); color: var(--gold-dark); margin-bottom: 20px; }
   .couple-text p { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--text-light); line-height: 1.9; }
-  .couple-photo { overflow: hidden; width: 100%; position: relative; }
+  .couple-photo { overflow: hidden; width: 100%; position: relative; background-color: var(--warm); }
   .couple-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s; }
   .couple-photo:hover img { transform: scale(1.03); }
 
@@ -394,29 +413,30 @@
   .rsvp-title { font-family: 'Playfair Display', serif; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--text); margin-bottom: 12px; }
   .rsvp-sub { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
   .rsvp-msg { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--text-light); margin-bottom: 50px; line-height: 1.8; }
-  
   .rsvp-guest-info { background: var(--warm); border: 1px solid var(--gold-light); padding: 24px 32px; margin-bottom: 40px; text-align: left; }
   .rsvp-guest-info p { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--text-light); margin-bottom: 4px; }
   .rsvp-guest-info strong { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 1.8rem; color: var(--text); display: block; margin-bottom: 4px; }
   .rsvp-guest-info span { font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
-
   .rsvp-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-  .rsvp-btn { padding: 18px 50px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+  .rsvp-btn { padding: 18px 50px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 52px; }
   .rsvp-btn-yes { background: var(--gold); color: var(--white); }
   .rsvp-btn-yes:hover { background: var(--gold-dark); transform: translateY(-2px); }
   .rsvp-btn-no { background: transparent; color: var(--text-light); border: 1px solid #ccc; }
   .rsvp-btn-no:hover { border-color: var(--text-light); color: var(--text); transform: translateY(-2px); }
-
   .rsvp-response { display: none; padding: 40px; background: var(--warm); border: 1px solid var(--gold-light); margin-top: 30px; }
   .rsvp-response.show { display: block; }
   .rsvp-response h3 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.4rem; color: var(--gold-dark); margin-bottom: 10px; }
   .rsvp-response p { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text-light); font-style: italic; }
 
+  /* RSVP error */
+  .rsvp-error { display: none; margin-top: 16px; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: #b94a48; }
+  .rsvp-error.show { display: block; }
+
   /* GALERÍA */
   .gallery-section { padding: 60px 40px 100px; max-width: 960px; margin: 0 auto; }
   .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
   .gallery-item { aspect-ratio: 1; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.05); background-color: var(--warm); }
-  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; opacity: 1 !important; visibility: visible !important; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
   .gallery-item:hover img { transform: scale(1.05); }
 
   footer { background: #1a0f06; padding: 50px 20px; text-align: center; color: var(--gold-light); font-family: 'Cormorant Garamond', serif; position: relative; z-index: 1; }
@@ -426,24 +446,31 @@
     .events-grid { grid-template-columns: 1fr; gap: 20px; }
     .couple-photo-section { grid-template-columns: 1fr; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-content { padding: 40px 24px; }
+    .couple-text { padding: 50px 24px; }
   }
   @media (max-width: 480px) {
     .gallery-grid { grid-template-columns: 1fr; }
+    .rsvp-buttons { flex-direction: column; align-items: center; }
+    .rsvp-btn { width: 100%; max-width: 320px; }
   }
 </style>
+<!-- YouTube IFrame API -->
+<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 
+<!-- ─── PANTALLA DEL SOBRE ─── -->
 <div id="envelope-screen">
   <div class="env-stars" id="envStars"></div>
   <div class="env-top-ornament">Rony Daniel & Kelly Gisselle</div>
-  
+
   <div id="env-guest-block">
     <p class="env-guest-label">Una invitación especial para:</p>
     <h2 class="env-guest-name" id="envGuestNameHeader">Cargando...</h2>
     <div class="env-guest-counter" id="envGuestCounter">Cantidad de invitados: --</div>
   </div>
-  
+
   <div class="envelope-wrap" id="envelopeWrap">
     <svg class="env-svg" id="envSVG" viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -459,7 +486,6 @@
         <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(0,0,0,0.5)"/></filter>
         <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
       </defs>
-
       <g id="envBodyStructure">
         <rect id="envBody" x="20" y="110" width="360" height="180" rx="6" fill="url(#bodyGrad)" filter="url(#shadow)"/>
         <path id="envFrontBody" d="M20,110 L200,220 L380,110 L380,290 L20,290 Z" fill="url(#bodyGrad)"/>
@@ -469,11 +495,9 @@
         <polygon points="20,290 200,190 380,290" fill="rgba(100,60,15,0.25)"/>
         <rect x="20" y="110" width="360" height="180" rx="6" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
       </g>
-
-      <g id="envFlap" style="transform-origin: 200px 110px; transform-box: fill-box;">
+      <g id="envFlap" style="transform-origin:200px 110px; transform-box:fill-box;">
         <polygon points="20,110 200,225 380,110" fill="url(#flapGrad)"/>
       </g>
-
       <g id="envSealGroup">
         <circle id="envSealCircle" cx="200" cy="200" r="32" fill="url(#sealGrad)" filter="url(#glow)"/>
         <circle cx="200" cy="200" r="32" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
@@ -489,7 +513,6 @@
       </div>
       <p class="postal-quote-text">"Nuestra mayor aventura comienza aquí..."</p>
     </div>
-    
     <div id="postal-details">
       <p class="postal-curiosity">💡 Dato curioso: ¡Rony le propuso matrimonio a Kelly exactamente en ese punto de Tikal!</p>
     </div>
@@ -499,11 +522,16 @@
   <button class="open-btn" id="openBtn">✦   Abrir Invitación   ✦</button>
 </div>
 
+<!-- ─── CONTROLES DE MÚSICA ─── -->
 <div class="music-container" id="musicContainer">
   <div class="music-track-banner" id="musicTrackBanner">Cargando melodía...</div>
   <button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button>
 </div>
 
+<!-- Player invisible de YouTube -->
+<div id="ytPlayerInvisible" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
+
+<!-- ─── PÁGINA PRINCIPAL ─── -->
 <div id="main-page">
   <div class="petals-bg" id="petals"></div>
 
@@ -515,13 +543,15 @@
       <span class="ryk-monogram">R & K</span>
       <h1 class="hero-names">Rony Daniel<br><em>&</em> Kelly Gisselle</h1>
       <div class="divider-gold"></div>
-      <p class="hero-tagline">" El amor es sufrido, es benigno; el amor no tiene envidia, el amor no es jactancioso, no se envanece;  no hace nada indebido, no busca lo suyo, no se irrita, no guarda rencor;  no se goza de la injusticia, mas se goza de la verdad.  Todo lo sufre, todo lo cree, todo lo espera, todo lo soporta." — 1 Corintios 13:4-7</p>
+      <p class="hero-tagline">"El amor es sufrido, es benigno; el amor no tiene envidia, el amor no es jactancioso, no se envanece; no hace nada indebido, no busca lo suyo, no se irrita, no guarda rencor; no se goza de la injusticia, mas se goza de la verdad. Todo lo sufre, todo lo cree, todo lo espera, todo lo soporta." — 1 Corintios 13:4-7</p>
     </div>
   </section>
 
-  <section class="events-section reveal">
+  <section class="events-section">
     <h2 class="section-label">Detalles de la Celebración</h2>
     <div class="events-grid">
+
+      <!-- CEREMONIA -->
       <div class="event-card">
         <div class="event-icon">⛪</div>
         <h3 class="event-title">Ceremonia</h3>
@@ -529,8 +559,13 @@
         <p class="event-detail" style="font-weight:600;">4:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Iglesia Católica<br>Santo Tomás de Aquino</p>
-        <a href="https://maps.google.com" class="map-btn" target="_blank">📍 Ver Ubicación</a>
+        <!-- FIX: botón mapa con detección iOS/Android -->
+        <button class="map-btn" onclick="openMap('https://maps.app.goo.gl/Jx4qPVKGyfvEW6Bb7')">
+          📍 Ver Ubicación
+        </button>
       </div>
+
+      <!-- RECEPCIÓN -->
       <div class="event-card">
         <div class="event-icon">🥂</div>
         <h3 class="event-title">Recepción</h3>
@@ -538,12 +573,16 @@
         <p class="event-detail" style="font-weight:600;">06:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Chochys Bakery<br>Entre 21-20 calle, 4ta. Avenida</p>
-        <a href="https://maps.google.com" class="map-btn" target="_blank">📍 Ver Ubicación</a>
+        <!-- FIX: botón mapa con detección iOS/Android -->
+        <button class="map-btn" onclick="openMap('https://maps.app.goo.gl/paLwMBAyw6QSwCXAA')">
+          📍 Ver Ubicación
+        </button>
       </div>
+
     </div>
   </section>
 
-  <section class="countdown-section reveal">
+  <section class="countdown-section">
     <h2 class="countdown-label">Falta Muy Poco</h2>
     <div class="countdown-grid">
       <div class="count-item"><span class="count-num" id="cd-days">00</span><span class="count-unit">Días</span></div>
@@ -553,7 +592,7 @@
     </div>
   </section>
 
-  <section class="couple-photo-section reveal">
+  <section class="couple-photo-section">
     <div class="couple-text">
       <h2>Nuestra Promesa</h2>
       <p>"Caminar juntos de la mano, construir un hogar basado en el respeto, la fe y el amor incondicional, celebrando cada paso de nuestra historia."</p>
@@ -563,7 +602,7 @@
     </div>
   </section>
 
-  <section class="story-section reveal">
+  <section class="story-section">
     <h2 class="section-label">Nuestra Historia</h2>
     <div class="story-timeline">
       <div class="story-item">
@@ -585,40 +624,32 @@
     </div>
   </section>
 
-  <section class="rsvp-section reveal">
+  <section class="rsvp-section">
     <h2 class="rsvp-title">Confirmar Asistencia</h2>
     <p class="rsvp-sub">R&K</p>
     <p class="rsvp-msg">Agradecemos que nos confirmes tu asistencia antes del 30 de Junio, 2026 para afinar cada detalle de tu lugar.</p>
-    
     <div class="rsvp-guest-info">
       <p>Pases reservados para el 18 de Julio del 2026 a nombre de:</p>
       <strong id="rsvpGuestName">Cargando...</strong>
       <span id="rsvpGuestCount">-- personas</span>
     </div>
-
     <div class="rsvp-buttons" id="rsvpButtons">
       <button class="rsvp-btn rsvp-btn-yes" onclick="sendRSVP('si')">Confirmar Asistencia</button>
       <button class="rsvp-btn rsvp-btn-no" onclick="sendRSVP('no')">No Podré Asistir</button>
     </div>
-
+    <p class="rsvp-error" id="rsvpError">Hubo un problema al enviar tu respuesta. Por favor intenta de nuevo.</p>
     <div class="rsvp-response" id="rsvpResponse">
       <h3 id="rsvpResponseTitle">¡Gracias!</h3>
       <p id="rsvpResponseMsg">Tu respuesta ha sido registrada exitosamente.</p>
     </div>
   </section>
 
-  <section class="gallery-section reveal">
+  <section class="gallery-section">
     <h2 class="section-label">Momentos Favoritos</h2>
     <div class="gallery-grid">
-      <div class="gallery-item">
-        <img src="momento1.jpeg" alt="Momento 1">
-      </div>
-      <div class="gallery-item">
-        <img src="momento2.JPG" alt="Momento 2">
-      </div>
-      <div class="gallery-item">
-        <img src="momento3.JPG" alt="Momento 3">
-      </div>
+      <div class="gallery-item"><img src="momento1.jpeg" alt="Momento 1"></div>
+      <div class="gallery-item"><img src="momento2.JPG" alt="Momento 2"></div>
+      <div class="gallery-item"><img src="momento3.JPG" alt="Momento 3"></div>
     </div>
   </section>
 
@@ -629,73 +660,35 @@
 </div>
 
 <script>
+/* ══════════════════════════════════════════
+   CONFIGURACIÓN
+══════════════════════════════════════════ */
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzot-oP3ZlxnjS_xyBokD1fc6a3Dv-_CIf5fINSY-xDspGVBBy5Lr77Gueh4WA9yusy/exec';
 
-const params = new URLSearchParams(window.location.search);
-const guestSlug = params.get('inv') || '';
-let guestId = guestSlug;
+const PLAYLIST = [
+  { id: "fD38F08w6oA", title: "Sonando: Mi Vida - Divino" },
+  { id: "NqzhZs_Hj9A", title: "Sonando: Golden Hour - JVKE" },
+  { id: "vGZHeI_92Sg", title: "Sonando: Un Pacto con Dios - Rabito" }
+];
 
-let guestName = 'Estimado Invitado';
-let guestCount = 1;
+/* ══════════════════════════════════════════
+   ESTADO GLOBAL
+══════════════════════════════════════════ */
+const params      = new URLSearchParams(window.location.search);
+const guestSlug   = params.get('inv') || '';
+let   guestId     = guestSlug;
+let   guestName   = 'Estimado Invitado';
+let   guestCount  = 1;
 
-function loadGuest() {
-  return new Promise((resolve) => {
-    const nombreParam = params.get('nombre');
-    const personasParam = params.get('p');
+let currentSongIndex = -1;
+let musicOn          = false;
+let ytPlayerReady    = false;
+let ytPlayerInstance = null;
+let pendingPlay      = false; // FIX: guarda intención de reproducir si el player aún no está listo
 
-    if (nombreParam) {
-      guestName = decodeURIComponent(nombreParam);
-      guestCount = personasParam ? parseInt(personasParam) : 1;
-      actualizarUI();
-      resolve({ nombre: guestName, personas: guestCount, respondio: false });
-      return;
-    }
-
-    if (guestSlug) {
-      const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
-      window[callbackName] = function(data) {
-        delete window[callbackName];
-        const scriptTag = document.getElementById('jsonp-guest-script');
-        if (scriptTag) document.body.removeChild(scriptTag);
-        
-        if (data) {
-          guestName = data.nombre || 'Estimado Invitado';
-          guestCount = data.personas || 1;
-          actualizarUI();
-          if (data.respondio) { mostrarYaRespondio(data.respuesta); }
-          resolve(data);
-        } else {
-          resolve(null);
-        }
-      };
-
-      const script = document.createElement('script');
-      script.id = 'jsonp-guest-script';
-      script.src = APPS_SCRIPT_URL + "?action=getGuest&inv=" + encodeURIComponent(guestSlug) + "&callback=" + callbackName;
-      document.body.appendChild(script);
-    } else {
-      actualizarUI();
-      resolve(null);
-    }
-
-    function actualizarUI() {
-      document.getElementById('envGuestNameHeader').textContent = guestName;
-      document.getElementById('envGuestCounter').textContent = `CANTIDAD DE INVITADOS: ${guestCount}`;
-      document.getElementById('env-guest-block').classList.add('visible');
-
-      document.getElementById('rsvpGuestName').textContent = guestName;
-      document.getElementById('rsvpGuestCount').textContent =
-        guestCount > 1 ? `${guestCount} personas` : '1 persona';
-      
-      const btn = document.getElementById('openBtn');
-      if (btn) {
-        btn.style.opacity = '1';
-        btn.style.pointerEvents = 'auto';
-      }
-    }
-  });
-}
-
+/* ══════════════════════════════════════════
+   ESTRELLAS DEL SOBRE
+══════════════════════════════════════════ */
 (function createStars() {
   const container = document.getElementById('envStars');
   if (!container) return;
@@ -715,80 +708,187 @@ function loadGuest() {
   }
 })();
 
+/* ══════════════════════════════════════════
+   CARGA DEL INVITADO
+══════════════════════════════════════════ */
+function loadGuest() {
+  return new Promise((resolve) => {
+    const nombreParam  = params.get('nombre');
+    const personasParam = params.get('p');
+
+    if (nombreParam) {
+      guestName  = decodeURIComponent(nombreParam);
+      guestCount = personasParam ? parseInt(personasParam) : 1;
+      actualizarUI();
+      resolve({ nombre: guestName, personas: guestCount, respondio: false });
+      return;
+    }
+
+    if (guestSlug) {
+      const callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
+      window[callbackName] = function(data) {
+        delete window[callbackName];
+        const scriptTag = document.getElementById('jsonp-guest-script');
+        if (scriptTag) document.body.removeChild(scriptTag);
+        if (data) {
+          guestName  = data.nombre  || 'Estimado Invitado';
+          guestCount = data.personas || 1;
+          actualizarUI();
+          if (data.respondio) { mostrarYaRespondio(data.respuesta); }
+          resolve(data);
+        } else {
+          resolve(null);
+        }
+      };
+      const script = document.createElement('script');
+      script.id  = 'jsonp-guest-script';
+      script.src = APPS_SCRIPT_URL + "?action=getGuest&inv=" + encodeURIComponent(guestSlug) + "&callback=" + callbackName;
+      document.body.appendChild(script);
+    } else {
+      actualizarUI();
+      resolve(null);
+    }
+  });
+
+  function actualizarUI() {
+    document.getElementById('envGuestNameHeader').textContent = guestName;
+    document.getElementById('envGuestCounter').textContent   = `CANTIDAD DE INVITADOS: ${guestCount}`;
+    document.getElementById('rsvpGuestName').textContent     = guestName;
+    document.getElementById('rsvpGuestCount').textContent    = guestCount > 1 ? `${guestCount} personas` : '1 persona';
+    const btn = document.getElementById('openBtn');
+    if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
+  }
+}
+
+/* ══════════════════════════════════════════
+   ANIMACIÓN DEL SOBRE
+══════════════════════════════════════════ */
 function openInvitation() {
-  const btn = document.getElementById('openBtn');
-  const wrap = document.getElementById('envelopeWrap');
-  const screen = document.getElementById('envelope-screen');
-  const flap = document.getElementById('envFlap');
-  const seal = document.getElementById('envSealCircle');
-  const sealText = document.getElementById('envSealText');
-  const postal = document.getElementById('postal-container');
+  const btn     = document.getElementById('openBtn');
+  const wrap    = document.getElementById('envelopeWrap');
+  const flap    = document.getElementById('envFlap');
+  const seal    = document.getElementById('envSealCircle');
+  const sealTxt = document.getElementById('envSealText');
+  const postal  = document.getElementById('postal-container');
   const details = document.getElementById('postal-details');
-  const hint = document.getElementById('envHint');
-  const guestBlock = document.getElementById('env-guest-block');
+  const hint    = document.getElementById('envHint');
+  const gBlock  = document.getElementById('env-guest-block');
 
   btn.style.pointerEvents = 'none';
-  btn.style.opacity = '0';
-  if (hint) hint.style.opacity = '0';
-  if (guestBlock) guestBlock.style.opacity = '0.3'; 
+  btn.style.opacity       = '0';
+  if (hint)   hint.style.opacity   = '0';
+  if (gBlock) gBlock.style.opacity = '0.3';
 
   flap.style.transformOrigin = 'center top';
-  flap.style.transform = 'rotateX(180deg)';
-  setTimeout(() => { 
-    if (seal) seal.style.opacity = '0'; 
-    if (sealText) sealText.style.opacity = '0';
+  flap.style.transform       = 'rotateX(180deg)';
+
+  setTimeout(() => {
+    if (seal)    seal.style.opacity    = '0';
+    if (sealTxt) sealTxt.style.opacity = '0';
   }, 200);
 
   setTimeout(() => {
     wrap.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-    wrap.style.opacity = '0';
-    wrap.style.transform = 'scale(0.85)';
-    
-    setTimeout(() => {
-      wrap.style.display = 'none'; 
-    }, 400);
-
+    wrap.style.opacity    = '0';
+    wrap.style.transform  = 'scale(0.85)';
+    setTimeout(() => { wrap.style.display = 'none'; }, 400);
     postal.classList.add('show');
   }, 500);
 
   setTimeout(() => {
     details.classList.add('show');
-    btn.innerHTML = '✦   Entrar a la Invitación   ✦';
-    btn.style.opacity = '1';
+    btn.innerHTML         = '✦   Entrar a la Invitación   ✦';
+    btn.style.opacity     = '1';
     btn.style.pointerEvents = 'auto';
+    // FIX: cambiamos el handler al de transición, que es donde se dispara la música
     btn.onclick = transitionToMainPage;
-  }, 1300); 
+  }, 1300);
 }
 
+/* ══════════════════════════════════════════
+   TRANSICIÓN A PÁGINA PRINCIPAL
+   FIX YOUTUBE iOS: el play se llama AQUÍ,
+   dentro del handler del clic del usuario.
+══════════════════════════════════════════ */
 function transitionToMainPage() {
   const screen = document.getElementById('envelope-screen');
   const postal = document.getElementById('postal-container');
-  const btn = document.getElementById('openBtn');
+  const btn    = document.getElementById('openBtn');
 
   btn.style.pointerEvents = 'none';
-  postal.style.opacity = '0';
+  postal.style.opacity    = '0';
   screen.style.transition = 'opacity 1s ease';
-  screen.style.opacity = '0';
+  screen.style.opacity    = '0';
+
+  // FIX iOS: dispara la música AQUÍ, en el mismo call stack del clic
+  musicOn = true;
+  const song = getRandomSong();
+  if (ytPlayerReady) {
+    playTrack(song);
+  } else {
+    // El player no cargó todavía — guardamos la intención
+    pendingPlay = true;
+  }
 
   setTimeout(() => {
     screen.style.visibility = 'hidden';
     document.getElementById('main-page').classList.add('visible');
-    document.getElementById('musicContainer').classList.add('visible'); 
+    document.getElementById('musicContainer').classList.add('visible');
     initPetals();
     startCountdown();
-    tryAutoplay();
   }, 1000);
 }
 
-// PLAYLIST ACTUALIZADA CON TUS CANCIONES FAVORITAS
-const PLAYLIST = [
-  { id: "fD38F08w6oA", title: "Sonando: Mi Vida - Divino" },
-  { id: "NqzhZs_Hj9A", title: "Sonando: Golden Hour - JVKE" },
-  { id: "vGZHeI_92Sg", title: "Sonando: Un Pacto con Dios - Rabito" }
-];
+/* ══════════════════════════════════════════
+   YOUTUBE API
+══════════════════════════════════════════ */
+function onYouTubeIframeAPIReady() {
+  ytPlayerInstance = new YT.Player('ytPlayerInvisible', {
+    height: '1',
+    width:  '1',
+    videoId: PLAYLIST[0].id,
+    playerVars: {
+      autoplay:   0,
+      controls:   0,
+      disablekb:  1,
+      fs:         0,
+      rel:        0,
+      showinfo:   0,
+      enablejsapi:1,
+      // FIX iOS: playsinline evita que el video salte a pantalla completa
+      playsinline: 1,
+      origin: window.location.origin
+    },
+    events: {
+      onReady:       onPlayerReady,
+      onStateChange: onPlayerStateChange,
+      onError:       onPlayerError
+    }
+  });
+}
 
-let currentSongIndex = -1;
-let musicOn = false;
+function onPlayerReady() {
+  ytPlayerReady = true;
+  // FIX: si el usuario ya hizo clic antes de que el player estuviera listo
+  if (pendingPlay && musicOn) {
+    pendingPlay = false;
+    playTrack(getRandomSong());
+  }
+}
+
+function onPlayerStateChange(event) {
+  // Cuando la canción termina (Estado 0), pasa a la siguiente
+  if (event.data === YT.PlayerState.ENDED && musicOn) {
+    playTrack(getRandomSong());
+  }
+}
+
+function onPlayerError() {
+  // Si hay error en la canción actual, intenta con la siguiente
+  if (musicOn) {
+    setTimeout(() => playTrack(getRandomSong()), 1500);
+  }
+}
 
 function getRandomSong() {
   let idx;
@@ -798,47 +898,11 @@ function getRandomSong() {
   return PLAYLIST[idx];
 }
 
-// CORREGIDO: Uso estricto de Template Literals para evitar bloqueos del navegador
-function buildYTSrc(videoId) {
-  return `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=0&mute=0&enablejsapi=1`;
-}
-
-function tryAutoplay() {
-  const song = getRandomSong();
-  const iframe = document.createElement('iframe');
-  iframe.style.display = 'none';
-  iframe.src = buildYTSrc(song.id);
-  iframe.allow = 'autoplay';
-  iframe.id = 'ytFrame';
-  iframe.title = song.title;
-  
-  iframe.addEventListener('load', () => {
-    setTimeout(() => setupNextSong(), 1000);
-  });
-  document.body.appendChild(iframe);
-  musicOn = true;
+function playTrack(song) {
+  if (!ytPlayerInstance || !ytPlayerInstance.loadVideoById) return;
+  ytPlayerInstance.loadVideoById(song.id);
+  ytPlayerInstance.playVideo();
   updateMusicUI(song.title);
-}
-
-function setupNextSong() {
-  window.addEventListener('message', function onMsg(e) {
-    try {
-      const data = JSON.parse(e.data);
-      if (data.event === 'onStateChange' && data.info === 0) {
-        window.removeEventListener('message', onMsg);
-        playNextSong();
-      }
-    } catch(_) {}
-  });
-}
-
-function playNextSong() {
-  const fr = document.getElementById('ytFrame');
-  if (!fr || !musicOn) return;
-  const song = getRandomSong();
-  fr.src = buildYTSrc(song.id);
-  updateMusicUI(song.title);
-  setTimeout(() => setupNextSong(), 1500);
 }
 
 function updateMusicUI(title) {
@@ -847,27 +911,60 @@ function updateMusicUI(title) {
 }
 
 function toggleMusic() {
-  const fr = document.getElementById('ytFrame');
-  if (!fr) { tryAutoplay(); return; }
+  if (!ytPlayerInstance || !ytPlayerReady) return;
   musicOn = !musicOn;
   if (musicOn) {
-    const song = getRandomSong();
-    fr.src = buildYTSrc(song.id);
-    updateMusicUI(song.title);
+    playTrack(getRandomSong());
   } else {
-    fr.src = '';
-    document.getElementById('musicTrackBanner').textContent = "Música Pausada";
+    ytPlayerInstance.stopVideo();
+    document.getElementById('musicTrackBanner').textContent = 'Música Pausada';
     document.getElementById('musicBtn').textContent = '♩';
   }
 }
 
+/* ══════════════════════════════════════════
+   BOTONES DEL MAPA
+   FIX iOS / Android: detecta plataforma
+   y abre la app de mapas nativa.
+══════════════════════════════════════════ */
+function openMap(googleMapsUrl) {
+  const ua        = navigator.userAgent || navigator.vendor || window.opera;
+  const isIOS     = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  const isAndroid = /android/i.test(ua);
+
+  if (isIOS) {
+    // En iOS: intenta abrir Google Maps app, si falla usa Apple Maps
+    // El scheme comgooglemaps:// abre Google Maps si está instalado
+    const googleScheme = googleMapsUrl.replace('https://', 'comgooglemaps://');
+    // Creamos un iframe oculto para intentar el deep link sin navegar
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;';
+    iframe.src = googleScheme;
+    document.body.appendChild(iframe);
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+      // Fallback: abre en Safari (que redirigirá a Apple Maps o Google Maps web)
+      window.open(googleMapsUrl, '_blank');
+    }, 500);
+  } else if (isAndroid) {
+    // En Android abre Google Maps directamente en nueva pestaña
+    window.open(googleMapsUrl, '_blank');
+  } else {
+    // Desktop: nueva pestaña normal
+    window.open(googleMapsUrl, '_blank');
+  }
+}
+
+/* ══════════════════════════════════════════
+   COUNTDOWN
+══════════════════════════════════════════ */
 function startCountdown() {
   const target = new Date('2026-07-18T16:00:00');
   function update() {
-    const now = new Date();
-    const diff = target - now;
+    const diff = target - new Date();
     if (diff <= 0) {
-      document.querySelector('.countdown-section').innerHTML = '<p style="font-family:\'Playfair Display\',serif;font-size:3rem;color:var(--gold-light)">¡Hoy es nuestro gran día! 🎊</p>';
+      const sec = document.querySelector('.countdown-section');
+      if (sec) sec.innerHTML = '<p style="font-family:\'Playfair Display\',serif;font-size:3rem;color:var(--gold-light)">¡Hoy es nuestro gran día! 🎊</p>';
       return;
     }
     const d = Math.floor(diff / 86400000);
@@ -883,25 +980,37 @@ function startCountdown() {
   setInterval(update, 1000);
 }
 
+/* ══════════════════════════════════════════
+   RSVP
+══════════════════════════════════════════ */
 async function sendRSVP(resp) {
-  document.getElementById('rsvpButtons').style.opacity = '0.5';
-  document.getElementById('rsvpButtons').style.pointerEvents = 'none';
+  const btns  = document.getElementById('rsvpButtons');
+  const errEl = document.getElementById('rsvpError');
+  btns.style.opacity = '0.5';
+  btns.style.pointerEvents = 'none';
+  errEl.classList.remove('show');
+
   try {
     await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method:  'POST',
+      mode:    'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        action: 'rsvp',
-        id: guestId,
-        nombre: guestName,
+        action:   'rsvp',
+        id:       guestId,
+        nombre:   guestName,
         personas: guestCount,
         respuesta: resp
       })
     });
-  } catch(e) {}
-  document.getElementById('rsvpButtons').style.display = 'none';
-  mostrarRespuesta(resp);
+    btns.style.display = 'none';
+    mostrarRespuesta(resp);
+  } catch(e) {
+    // FIX: feedback de error visible para el usuario
+    btns.style.opacity = '1';
+    btns.style.pointerEvents = 'auto';
+    errEl.classList.add('show');
+  }
 }
 
 function mostrarYaRespondio(respuestaAnterior) {
@@ -910,10 +1019,10 @@ function mostrarYaRespondio(respuestaAnterior) {
   respEl.classList.add('show');
   if (respuestaAnterior === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
-    document.getElementById('rsvpResponseMsg').textContent = `${guestName}, ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!`;
+    document.getElementById('rsvpResponseMsg').textContent   = `${guestName}, ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!`;
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
-    document.getElementById('rsvpResponseMsg').textContent = `${guestName}, ya tenemos tu respuesta registrada. Gracias por avisarnos.`;
+    document.getElementById('rsvpResponseMsg').textContent   = `${guestName}, ya tenemos tu respuesta registrada. Gracias por avisarnos.`;
   }
 }
 
@@ -922,13 +1031,16 @@ function mostrarRespuesta(resp) {
   respEl.classList.add('show');
   if (resp === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
-    document.getElementById('rsvpResponseMsg').textContent = `¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!`;
+    document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
-    document.getElementById('rsvpResponseMsg').textContent = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
+    document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
   }
 }
 
+/* ══════════════════════════════════════════
+   PÉTALOS
+══════════════════════════════════════════ */
 function initPetals() {
   const container = document.getElementById('petals');
   for (let i = 0; i < 18; i++) {
@@ -946,6 +1058,9 @@ function initPetals() {
   }
 }
 
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function() {
   const btn = document.getElementById('openBtn');
   if (btn) btn.addEventListener('click', openInvitation);
