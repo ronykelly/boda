@@ -680,11 +680,11 @@ let   guestId     = guestSlug;
 let   guestName   = 'Estimado Invitado';
 let   guestCount  = 1;
 
-let currentSongIndex = -1;
-let musicOn          = false;
-let ytPlayerReady    = false;
-let ytPlayerInstance = null;
-let pendingPlay      = false; // FIX: guarda intención de reproducir si el player aún no está listo
+let currentSongIndex  = -1;
+let musicOn           = false;
+let ytPlayerReady     = false;
+let ytPlayerInstance  = null;
+let musicActivated    = false; // true después del primer toque del usuario
 
 /* ══════════════════════════════════════════
    ESTRELLAS DEL SOBRE
@@ -820,22 +820,14 @@ function transitionToMainPage() {
   screen.style.transition = 'opacity 1s ease';
   screen.style.opacity    = '0';
 
-  // FIX iOS: dispara la música AQUÍ, en el mismo call stack del clic
-  musicOn = true;
-  const song = getRandomSong();
-  if (ytPlayerReady) {
-    playTrack(song);
-  } else {
-    // El player no cargó todavía — guardamos la intención
-    pendingPlay = true;
-  }
-
   setTimeout(() => {
     screen.style.visibility = 'hidden';
     document.getElementById('main-page').classList.add('visible');
     document.getElementById('musicContainer').classList.add('visible');
     initPetals();
     startCountdown();
+    // Mostrar banner invitando a activar música
+    document.getElementById('musicTrackBanner').textContent = '🎵 Toca para activar música';
   }, 1000);
 }
 
@@ -869,11 +861,6 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady() {
   ytPlayerReady = true;
-  // FIX: si el usuario ya hizo clic antes de que el player estuviera listo
-  if (pendingPlay && musicOn) {
-    pendingPlay = false;
-    playTrack(getRandomSong());
-  }
 }
 
 function onPlayerStateChange(event) {
@@ -912,12 +899,22 @@ function updateMusicUI(title) {
 
 function toggleMusic() {
   if (!ytPlayerInstance || !ytPlayerReady) return;
+
+  if (!musicActivated) {
+    // PRIMER TOQUE: activa la música por primera vez
+    musicActivated = true;
+    musicOn = true;
+    playTrack(getRandomSong());
+    return;
+  }
+
+  // Toques siguientes: pausa / reanuda
   musicOn = !musicOn;
   if (musicOn) {
     playTrack(getRandomSong());
   } else {
     ytPlayerInstance.stopVideo();
-    document.getElementById('musicTrackBanner').textContent = 'Música Pausada';
+    document.getElementById('musicTrackBanner').textContent = '⏸ Música pausada';
     document.getElementById('musicBtn').textContent = '♩';
   }
 }
