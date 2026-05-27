@@ -818,7 +818,7 @@ function transitionToMainPage() {
 }
 
 /* ══════════════════════════════════════════
-   YOUTUBE API
+   YOUTUBE API (OPTIMIZADA PARA MÓVILES)
 ══════════════════════════════════════════ */
 function onYouTubeIframeAPIReady() {
   ytPlayerInstance = new YT.Player('ytPlayerInvisible', {
@@ -826,25 +826,26 @@ function onYouTubeIframeAPIReady() {
     width:  '1',
     videoId: PLAYLIST[0].id,
     playerVars: {
-      autoplay:   0,
-      controls:   0,
-      disablekb:  1,
-      fs:         0,
-      rel:        0,
-      showinfo:   0,
-      enablejsapi:1,
-      playsinline: 1
+      'autoplay': 0,
+      'controls': 0,
+      'disablekb': 1,
+      'fs': 0,
+      'rel': 0,
+      'showinfo': 0,
+      'enablejsapi': 1,
+      'playsinline': 1 // Evita que en iPhone el video salte a pantalla completa
     },
     events: {
-      onReady:       onPlayerReady,
-      onStateChange: onPlayerStateChange,
-      onError:       onPlayerError
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange,
+      'onError': onPlayerError
     }
   });
 }
 
 function onPlayerReady() {
   ytPlayerReady = true;
+  // Si el invitado ya abrió el sobre pero la API de YouTube no estaba lista, arranca la música de una vez
   if (pendingPlay && musicOn) {
     pendingPlay = false;
     playTrack(getRandomSong());
@@ -852,30 +853,40 @@ function onPlayerReady() {
 }
 
 function onPlayerStateChange(event) {
-  if (event.data === YT.PlayerState.ENDED && musicOn) {
+  // Corregido: Usamos el número entero 0 (que significa ENDED) para compatibilidad universal en móviles
+  if (event.data === 0 && musicOn) {
     playTrack(getRandomSong());
   }
 }
 
 function onPlayerError() {
+  // Si una canción falla o tiene bloqueo regional, salta a la siguiente de inmediato para no congelar el audio
   if (musicOn) {
-    setTimeout(() => playTrack(getRandomSong()), 1500);
+    setTimeout(function() {
+      playTrack(getRandomSong());
+    }, 1000);
   }
 }
 
 function getRandomSong() {
   let idx;
-  do { idx = Math.floor(Math.random() * PLAYLIST.length); }
-  while (idx === currentSongIndex && PLAYLIST.length > 1);
+  do { 
+    idx = Math.floor(Math.random() * PLAYLIST.length); 
+  } while (idx === currentSongIndex && PLAYLIST.length > 1);
   currentSongIndex = idx;
   return PLAYLIST[idx];
 }
 
 function playTrack(song) {
   if (!ytPlayerInstance || !ytPlayerInstance.loadVideoById) return;
-  ytPlayerInstance.loadVideoById(song.id);
-  ytPlayerInstance.playVideo();
-  updateMusicUI(song.title);
+  try {
+    ytPlayerInstance.loadVideoById(song.id);
+    ytPlayerInstance.playVideo();
+    updateMusicUI(song.title);
+  } catch (err) {
+    console.log("Error al reproducir, intentando otra...");
+    playTrack(getRandomSong());
+  }
 }
 
 function updateMusicUI(title) {
@@ -889,14 +900,14 @@ function toggleMusic() {
   if (musicOn) {
     playTrack(getRandomSong());
   } else {
-    ytPlayerInstance.stopVideo();
+    // Usamos pauseVideo en lugar de stopVideo para que no de pantallazo de carga al reanudar
+    ytPlayerInstance.pauseVideo();
     document.getElementById('musicTrackBanner').textContent = 'Música Pausada';
     document.getElementById('musicBtn').textContent = '♩';
   }
 }
-
 /* ══════════════════════════════════════════
-   RSVP (ACTUALIZADO - NO TRABAS)
+   RSVP 
 ══════════════════════════════════════════ */
 async function sendRSVP(resp) {
   const btns  = document.getElementById('rsvpButtons');
@@ -957,19 +968,19 @@ function mostrarRespuesta(resp) {
 }
 
 /* ══════════════════════════════════════════
-   SISTEMA DE MAPAS CON ENLACES REALES (ACTUALIZADO)
+   SISTEMA DE MAPAS CON ENLACES REALES 
 ══════════════════════════════════════════ */
 function openMap(tipo) {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   
-  // ENLACES CONFIGURADOS CON TUS DIRECCIONES PRECISAS
+  // Enlaces limpios sin caracteres especiales en las propiedades
   const datosMapas = {
     iglesia: {
       nombre: "Parroquia Santo Tomas de Aquino, Puerto Barrios",
       webUrl: "https://maps.app.goo.gl/bRKCeKtyLaMSgiyf9"
     },
     recepcion: {
-      nombre: "Chochy Bakery, 20 Calle, Puerto Barrios",
+      nombre: "Chochy Bakery, Puerto Barrios",
       webUrl: "https://maps.app.goo.gl/wiR3uB8y5dgAMarY7"
     }
   };
@@ -978,16 +989,16 @@ function openMap(tipo) {
   if (!destino) return;
 
   if (isIOS) {
-    // Para iPhones: Abre directo la aplicación nativa de Apple Maps buscando el lugar
-    const appleMapsScheme = `maps://?q=${encodeURIComponent(destino.nombre)}`;
+    // Abre directo la aplicación nativa de Apple Maps en iPhone
+    const appleMapsScheme = "maps://?q=" + encodeURIComponent(destino.nombre);
     window.location.href = appleMapsScheme;
     
     // Fallback por si acaso
-    setTimeout(() => {
+    setTimeout(function() {
       window.open(destino.webUrl, '_blank');
     }, 600);
   } else {
-    // Para Android y PC: Redirige directamente a tus rutas exactas de Google Maps
+    // Para Android y PC: Redirige directamente a tus rutas de Google Maps
     window.open(destino.webUrl, '_blank');
   }
 }
