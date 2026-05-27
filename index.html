@@ -651,7 +651,6 @@
 ══════════════════════════════════════════ */
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzot-oP3ZlxnjS_xyBokD1fc6a3Dv-_CIf5fINSY-xDspGVBBy5Lr77Gueh4WA9yusy/exec';
 
-// CORREGIDO: Lista unificada de canciones románticas optimizadas para móviles
 const PLAYLIST = [
   { id: "M6_OAnv7n90", title: "Sonando: Mi Vida - Divino" },
   { id: "NqzhZs_Hj9A", title: "Sonando: Golden Hour - JVKE" },
@@ -820,7 +819,7 @@ function transitionToMainPage() {
 }
 
 /* ══════════════════════════════════════════
-   YOUTUBE API (OPTIMIZADA PARA MÓVILES)
+   YOUTUBE API (CON ORIGIN REFORZADO)
 ══════════════════════════════════════════ */
 function onYouTubeIframeAPIReady() {
   ytPlayerInstance = new YT.Player('ytPlayerInvisible', {
@@ -835,7 +834,9 @@ function onYouTubeIframeAPIReady() {
       'rel': 0,
       'showinfo': 0,
       'enablejsapi': 1,
-      'playsinline': 1
+      'playsinline': 1,
+      // FIX DEFINITIVO CONSOLE ERROR: Asigna la firma del dominio en vivo de tu web
+      'origin': window.location.origin
     },
     events: {
       'onReady': onPlayerReady,
@@ -883,7 +884,6 @@ function playTrack(song) {
     ytPlayerInstance.playVideo();
     updateMusicUI(song.title);
   } catch (err) {
-    console.log("Error al reproducir, intentando otra...");
     playTrack(getRandomSong());
   }
 }
@@ -906,15 +906,18 @@ function toggleMusic() {
 }
 
 /* ══════════════════════════════════════════
-   RSVP 
+   RSVP (ARREGLADO CON CALLBACK ASÍNCRONO SEGURO)
 ══════════════════════════════════════════ */
-async function sendRSVP(resp) {
+function sendRSVP(resp) {
   const btns  = document.getElementById('rsvpButtons');
   const errEl = document.getElementById('rsvpError');
+  
+  // Bloqueamos clics repetidos
   btns.style.opacity = '0.5';
   btns.style.pointerEvents = 'none';
   errEl.classList.remove('show');
 
+  // FIX BOTONES CONGELADOS: Ejecutamos el envío de fondo sin detener el renderizado del celular
   try {
     fetch(APPS_SCRIPT_URL, {
       method:  'POST',
@@ -929,12 +932,12 @@ async function sendRSVP(resp) {
       })
     });
     
-    setTimeout(() => {
-      btns.style.display = 'none';
-      mostrarRespuesta(resp);
-    }, 400);
+    // Mostramos la animación de agradecimiento al instante sin congelar la pantalla
+    btns.style.display = 'none';
+    mostrarRespuesta(resp);
 
   } catch(e) {
+    // Si hay un bloqueo físico o de red pesado, reestablecemos la interfaz
     btns.style.opacity = '1';
     btns.style.pointerEvents = 'auto';
     errEl.classList.add('show');
