@@ -116,7 +116,6 @@
     position: relative;
     transition: transform 0.5s ease, opacity 0.5s ease;
     z-index: 1010;
-    /* FIX: perspective para animación del sobre en móvil */
     perspective: 800px;
   }
   .env-svg { width: 100%; height: auto; overflow: visible; }
@@ -155,7 +154,6 @@
     aspect-ratio: 4 / 3;
     object-fit: cover;
     display: block;
-    /* FIX: fallback si imagen no carga */
     background-color: #c9a96e;
   }
   .postal-quote-text {
@@ -217,7 +215,6 @@
     position: relative;
     overflow: hidden;
     z-index: 1040;
-    /* FIX: mejor área táctil en móvil */
     min-height: 52px;
     -webkit-tap-highlight-color: transparent;
   }
@@ -289,7 +286,6 @@
     visibility: hidden;
     transition: opacity 0.5s, visibility 0.5s, transform 0.3s;
     pointer-events: auto;
-    /* FIX: mejor área táctil */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
@@ -299,6 +295,11 @@
 
   @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
   @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 
   /* ─── PÁGINA PRINCIPAL ─── */
   #main-page { display: none; }
@@ -352,9 +353,8 @@
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
   .event-place { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
 
-  /* ─── BOTÓN MAPA MEJORADO ─── */
   .map-btn {
-    display: inline-block;
+    display: inline-flex;
     background: var(--gold);
     color: var(--white);
     font-family: 'Montserrat', sans-serif;
@@ -367,18 +367,14 @@
     transition: background 0.3s;
     border: none;
     cursor: pointer;
-    /* FIX móvil */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
     min-height: 48px;
-    line-height: 1;
-    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
   }
   .map-btn:hover { background: var(--gold-dark); }
-  .map-btn:active { background: var(--gold-dark); opacity: 0.9; }
 
   /* COUNTDOWN */
   .countdown-section { background: linear-gradient(160deg, #2c1f10, #1a0f06); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
@@ -428,7 +424,6 @@
   .rsvp-response h3 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.4rem; color: var(--gold-dark); margin-bottom: 10px; }
   .rsvp-response p { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text-light); font-style: italic; }
 
-  /* RSVP error */
   .rsvp-error { display: none; margin-top: 16px; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: #b94a48; }
   .rsvp-error.show { display: block; }
 
@@ -455,12 +450,10 @@
     .rsvp-btn { width: 100%; max-width: 320px; }
   }
 </style>
-<!-- YouTube IFrame API -->
 <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 
-<!-- ─── PANTALLA DEL SOBRE ─── -->
 <div id="envelope-screen">
   <div class="env-stars" id="envStars"></div>
   <div class="env-top-ornament">Rony Daniel & Kelly Gisselle</div>
@@ -518,20 +511,17 @@
     </div>
   </div>
 
-  <p class="env-hint" id="envHint">✦   Tu invitación te espera   ✦</p>
+  <p class="env-hint" id="envHint">✦   Tu invitation te espera   ✦</p>
   <button class="open-btn" id="openBtn">✦   Abrir Invitación   ✦</button>
 </div>
 
-<!-- ─── CONTROLES DE MÚSICA ─── -->
 <div class="music-container" id="musicContainer">
   <div class="music-track-banner" id="musicTrackBanner">Cargando melodía...</div>
   <button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button>
 </div>
 
-<!-- Player invisible de YouTube -->
 <div id="ytPlayerInvisible" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
 
-<!-- ─── PÁGINA PRINCIPAL ─── -->
 <div id="main-page">
   <div class="petals-bg" id="petals"></div>
 
@@ -551,7 +541,6 @@
     <h2 class="section-label">Detalles de la Celebración</h2>
     <div class="events-grid">
 
-      <!-- CEREMONIA -->
       <div class="event-card">
         <div class="event-icon">⛪</div>
         <h3 class="event-title">Ceremonia</h3>
@@ -559,13 +548,11 @@
         <p class="event-detail" style="font-weight:600;">4:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Iglesia Católica<br>Santo Tomás de Aquino</p>
-        <!-- FIX: botón mapa con detección iOS/Android -->
-        <button class="map-btn" onclick="openMap('https://maps.app.goo.gl/Jx4qPVKGyfvEW6Bb7')">
+        <button class="map-btn" onclick="openMap('iglesia')">
           📍 Ver Ubicación
         </button>
       </div>
 
-      <!-- RECEPCIÓN -->
       <div class="event-card">
         <div class="event-icon">🥂</div>
         <h3 class="event-title">Recepción</h3>
@@ -573,8 +560,7 @@
         <p class="event-detail" style="font-weight:600;">06:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Chochys Bakery<br>Entre 21-20 calle, 4ta. Avenida</p>
-        <!-- FIX: botón mapa con detección iOS/Android -->
-        <button class="map-btn" onclick="openMap('https://maps.app.goo.gl/paLwMBAyw6QSwCXAA')">
+        <button class="map-btn" onclick="openMap('recepcion')">
           📍 Ver Ubicación
         </button>
       </div>
@@ -684,7 +670,7 @@ let currentSongIndex = -1;
 let musicOn          = false;
 let ytPlayerReady    = false;
 let ytPlayerInstance = null;
-let pendingPlay      = false; // FIX: guarda intención de reproducir si el player aún no está listo
+let pendingPlay      = false;
 
 /* ══════════════════════════════════════════
    ESTRELLAS DEL SOBRE
@@ -776,14 +762,14 @@ function openInvitation() {
 
   btn.style.pointerEvents = 'none';
   btn.style.opacity       = '0';
-  if (hint)   hint.style.opacity   = '0';
+  if (hint)    hint.style.opacity   = '0';
   if (gBlock) gBlock.style.opacity = '0.3';
 
   flap.style.transformOrigin = 'center top';
   flap.style.transform       = 'rotateX(180deg)';
 
   setTimeout(() => {
-    if (seal)    seal.style.opacity    = '0';
+    if (seal) seal.style.opacity = '0';
     if (sealTxt) sealTxt.style.opacity = '0';
   }, 200);
 
@@ -800,16 +786,10 @@ function openInvitation() {
     btn.innerHTML         = '✦   Entrar a la Invitación   ✦';
     btn.style.opacity     = '1';
     btn.style.pointerEvents = 'auto';
-    // FIX: cambiamos el handler al de transición, que es donde se dispara la música
     btn.onclick = transitionToMainPage;
   }, 1300);
 }
 
-/* ══════════════════════════════════════════
-   TRANSICIÓN A PÁGINA PRINCIPAL
-   FIX YOUTUBE iOS: el play se llama AQUÍ,
-   dentro del handler del clic del usuario.
-══════════════════════════════════════════ */
 function transitionToMainPage() {
   const screen = document.getElementById('envelope-screen');
   const postal = document.getElementById('postal-container');
@@ -820,13 +800,11 @@ function transitionToMainPage() {
   screen.style.transition = 'opacity 1s ease';
   screen.style.opacity    = '0';
 
-  // FIX iOS: dispara la música AQUÍ, en el mismo call stack del clic
   musicOn = true;
   const song = getRandomSong();
   if (ytPlayerReady) {
     playTrack(song);
   } else {
-    // El player no cargó todavía — guardamos la intención
     pendingPlay = true;
   }
 
@@ -855,9 +833,7 @@ function onYouTubeIframeAPIReady() {
       rel:        0,
       showinfo:   0,
       enablejsapi:1,
-      // FIX iOS: playsinline evita que el video salte a pantalla completa
-      playsinline: 1,
-      origin: window.location.origin
+      playsinline: 1
     },
     events: {
       onReady:       onPlayerReady,
@@ -869,7 +845,6 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady() {
   ytPlayerReady = true;
-  // FIX: si el usuario ya hizo clic antes de que el player estuviera listo
   if (pendingPlay && musicOn) {
     pendingPlay = false;
     playTrack(getRandomSong());
@@ -877,14 +852,12 @@ function onPlayerReady() {
 }
 
 function onPlayerStateChange(event) {
-  // Cuando la canción termina (Estado 0), pasa a la siguiente
   if (event.data === YT.PlayerState.ENDED && musicOn) {
     playTrack(getRandomSong());
   }
 }
 
 function onPlayerError() {
-  // Si hay error en la canción actual, intenta con la siguiente
   if (musicOn) {
     setTimeout(() => playTrack(getRandomSong()), 1500);
   }
@@ -923,65 +896,7 @@ function toggleMusic() {
 }
 
 /* ══════════════════════════════════════════
-   BOTONES DEL MAPA
-   FIX iOS / Android: detecta plataforma
-   y abre la app de mapas nativa.
-══════════════════════════════════════════ */
-function openMap(googleMapsUrl) {
-  const ua        = navigator.userAgent || navigator.vendor || window.opera;
-  const isIOS     = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
-  const isAndroid = /android/i.test(ua);
-
-  if (isIOS) {
-    // En iOS: intenta abrir Google Maps app, si falla usa Apple Maps
-    // El scheme comgooglemaps:// abre Google Maps si está instalado
-    const googleScheme = googleMapsUrl.replace('https://', 'comgooglemaps://');
-    // Creamos un iframe oculto para intentar el deep link sin navegar
-    const iframe = document.createElement('iframe');
-    iframe.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;';
-    iframe.src = googleScheme;
-    document.body.appendChild(iframe);
-    setTimeout(() => {
-      document.body.removeChild(iframe);
-      // Fallback: abre en Safari (que redirigirá a Apple Maps o Google Maps web)
-      window.open(googleMapsUrl, '_blank');
-    }, 500);
-  } else if (isAndroid) {
-    // En Android abre Google Maps directamente en nueva pestaña
-    window.open(googleMapsUrl, '_blank');
-  } else {
-    // Desktop: nueva pestaña normal
-    window.open(googleMapsUrl, '_blank');
-  }
-}
-
-/* ══════════════════════════════════════════
-   COUNTDOWN
-══════════════════════════════════════════ */
-function startCountdown() {
-  const target = new Date('2026-07-18T16:00:00');
-  function update() {
-    const diff = target - new Date();
-    if (diff <= 0) {
-      const sec = document.querySelector('.countdown-section');
-      if (sec) sec.innerHTML = '<p style="font-family:\'Playfair Display\',serif;font-size:3rem;color:var(--gold-light)">¡Hoy es nuestro gran día! 🎊</p>';
-      return;
-    }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
-    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
-    document.getElementById('cd-min').textContent   = String(m).padStart(2,'0');
-    document.getElementById('cd-sec').textContent   = String(s).padStart(2,'0');
-  }
-  update();
-  setInterval(update, 1000);
-}
-
-/* ══════════════════════════════════════════
-   RSVP
+   RSVP (ACTUALIZADO - NO TRABAS)
 ══════════════════════════════════════════ */
 async function sendRSVP(resp) {
   const btns  = document.getElementById('rsvpButtons');
@@ -991,7 +906,7 @@ async function sendRSVP(resp) {
   errEl.classList.remove('show');
 
   try {
-    await fetch(APPS_SCRIPT_URL, {
+    fetch(APPS_SCRIPT_URL, {
       method:  'POST',
       mode:    'no-cors',
       headers: { 'Content-Type': 'application/json' },
@@ -1003,10 +918,13 @@ async function sendRSVP(resp) {
         respuesta: resp
       })
     });
-    btns.style.display = 'none';
-    mostrarRespuesta(resp);
+    
+    setTimeout(() => {
+      btns.style.display = 'none';
+      mostrarRespuesta(resp);
+    }, 400);
+
   } catch(e) {
-    // FIX: feedback de error visible para el usuario
     btns.style.opacity = '1';
     btns.style.pointerEvents = 'auto';
     errEl.classList.add('show');
@@ -1039,8 +957,66 @@ function mostrarRespuesta(resp) {
 }
 
 /* ══════════════════════════════════════════
-   PÉTALOS
+   SISTEMA DE MAPAS CON ENLACES REALES (ACTUALIZADO)
 ══════════════════════════════════════════ */
+function openMap(tipo) {
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  
+  // ENLACES CONFIGURADOS CON TUS DIRECCIONES PRECISAS
+  const datosMapas = {
+    iglesia: {
+      nombre: "Parroquia Santo Tomas de Aquino, Puerto Barrios",
+      webUrl: "https://maps.app.goo.gl/bRKCeKtyLaMSgiyf9"
+    },
+    recepcion: {
+      nombre: "Chochy Bakery, 20 Calle, Puerto Barrios",
+      webUrl: "https://maps.app.goo.gl/wiR3uB8y5dgAMarY7"
+    }
+  };
+
+  const destino = datosMapas[tipo];
+  if (!destino) return;
+
+  if (isIOS) {
+    // Para iPhones: Abre directo la aplicación nativa de Apple Maps buscando el lugar
+    const appleMapsScheme = `maps://?q=${encodeURIComponent(destino.nombre)}`;
+    window.location.href = appleMapsScheme;
+    
+    // Fallback por si acaso
+    setTimeout(() => {
+      window.open(destino.webUrl, '_blank');
+    }, 600);
+  } else {
+    // Para Android y PC: Redirige directamente a tus rutas exactas de Google Maps
+    window.open(destino.webUrl, '_blank');
+  }
+}
+
+/* ══════════════════════════════════════════
+   COUNTDOWN & PÉTALOS
+══════════════════════════════════════════ */
+function startCountdown() {
+  const target = new Date('2026-07-18T16:00:00');
+  function update() {
+    const diff = target - new Date();
+    if (diff <= 0) {
+      const sec = document.querySelector('.countdown-section');
+      if (sec) sec.innerHTML = '<p style="font-family:\'Playfair Display\',serif;font-size:3rem;color:var(--gold-light)">¡Hoy es nuestro gran día! 🎊</p>';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-min').textContent   = String(m).padStart(2,'0');
+    document.getElementById('cd-sec').textContent   = String(s).padStart(2,'0');
+  }
+  update();
+  setInterval(update, 1000);
+}
+
 function initPetals() {
   const container = document.getElementById('petals');
   for (let i = 0; i < 18; i++) {
@@ -1058,9 +1034,6 @@ function initPetals() {
   }
 }
 
-/* ══════════════════════════════════════════
-   INIT
-══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function() {
   const btn = document.getElementById('openBtn');
   if (btn) btn.addEventListener('click', openInvitation);
