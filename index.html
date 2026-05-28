@@ -347,7 +347,6 @@
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
   .event-place { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
 
-  /* BOTÓN DE MAPA DIRECTO SIN RETRASOS NI ANIMACIONES DE CARGA */
   .map-btn {
     display: inline-flex;
     background: var(--gold);
@@ -471,8 +470,7 @@
           <stop offset="0%" style="stop-color:#8b5e1a"/><stop offset="100%" style="stop-color:#5c3a0a"/>
         </linearGradient>
         <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(0,0,0,0.5)"/></filter>
-        <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-      </defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></defs>
       <g id="envBodyStructure">
         <rect id="envBody" x="20" y="110" width="360" height="180" rx="6" fill="url(#bodyGrad)" filter="url(#shadow)"/>
         <path id="envFrontBody" d="M20,110 L200,220 L380,110 L380,290 L20,290 Z" fill="url(#bodyGrad)"/>
@@ -505,7 +503,7 @@
     </div>
   </div>
 
-  <p class="env-hint" id="envHint">✦   Tu invitacion te espera   ✦</p>
+  <p class="env-hint" id="envHint">✦   Tu invitation te espera   ✦</p>
   <button class="open-btn" id="openBtn">✦   Abrir Invitación   ✦</button>
 </div>
 
@@ -812,27 +810,31 @@ function transitionToMainPage() {
    YOUTUBE API SECURE ORIGIN
 ══════════════════════════════════════════ */
 function onYouTubeIframeAPIReady() {
-  ytPlayerInstance = new YT.Player('ytPlayerInvisible', {
-    height: '1',
-    width:  '1',
-    videoId: PLAYLIST[0].id,
-    playerVars: {
-      'autoplay': 0,
-      'controls': 0,
-      'disablekb': 1,
-      'fs': 0,
-      'rel': 0,
-      'showinfo': 0,
-      'enablejsapi': 1,
-      'playsinline': 1,
-      'origin': window.location.origin
-    },
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange,
-      'onError': onPlayerError
-    }
-  });
+  try {
+    ytPlayerInstance = new YT.Player('ytPlayerInvisible', {
+      height: '1',
+      width:  '1',
+      videoId: PLAYLIST[0].id,
+      playerVars: {
+        'autoplay': 0,
+        'controls': 0,
+        'disablekb': 1,
+        'fs': 0,
+        'rel': 0,
+        'showinfo': 0,
+        'enablejsapi': 1,
+        'playsinline': 1,
+        'origin': window.location.origin
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange,
+        'onError': onPlayerError
+      }
+    });
+  } catch(e) {
+    console.log("Error inicializando YouTube API:", e);
+  }
 }
 
 function onPlayerReady() {
@@ -873,13 +875,15 @@ function playTrack(song) {
     ytPlayerInstance.playVideo();
     updateMusicUI(song.title);
   } catch (err) {
-    playTrack(getRandomSong());
+    console.log("Fallo al reproducir track:", err);
   }
 }
 
 function updateMusicUI(title) {
-  document.getElementById('musicTrackBanner').textContent = title;
-  document.getElementById('musicBtn').textContent = '♪';
+  const banner = document.getElementById('musicTrackBanner');
+  if (banner) banner.textContent = title;
+  const btn = document.getElementById('musicBtn');
+  if (btn) btn.textContent = '♪';
 }
 
 function toggleMusic() {
@@ -895,38 +899,39 @@ function toggleMusic() {
 }
 
 /* ══════════════════════════════════════════
-   RSVP ASÍNCRO CIRCUITO SEGURO (CORREGIDO)
+   RSVP
 ══════════════════════════════════════════ */
 async function sendRSVP(resp) {
   const btns  = document.getElementById('rsvpButtons');
   const errEl = document.getElementById('rsvpError');
   
-  // Bloqueamos clics repetidos bajando la opacidad
   btns.style.opacity = '0.5';
   btns.style.pointerEvents = 'none';
   errEl.classList.remove('show');
 
+  // Pasamos los datos a formato URLSearchParams para compatibilidad nativa absoluta con Apps Script x-www-form-urlencoded
+  const formData = new URLSearchParams();
+  formData.append('action', 'rsvp');
+  formData.append('id', guestId);
+  formData.append('nombre', guestName);
+  formData.append('personas', guestCount);
+  formData.append('respuesta', resp);
+
   try {
-    // Abre el canal de red de fondo correctamente
-    await fetch(APPS_SCRIPT_URL, {
+    // Se ejecuta la petición HTTP de fondo de forma limpia
+    fetch(APPS_SCRIPT_URL, {
       method:  'POST',
       mode:    'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action:   'rsvp',
-        id:       guestId,
-        nombre:   guestName,
-        personas: guestCount,
-        respuesta: resp
-      })
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: formData.toString()
     });
     
-    // Oculta el panel táctil al instante sin congelaciones
+    // Transición visual INMEDIATA garantizada para evitar bloqueos del navegador
     btns.style.display = 'none';
     mostrarRespuesta(resp);
 
   } catch(e) {
-    // Si falla la señal, libera la acción
+    console.log("Error en RSVP:", e);
     btns.style.opacity = '1';
     btns.style.pointerEvents = 'auto';
     errEl.classList.add('show');
@@ -964,7 +969,6 @@ function mostrarRespuesta(resp) {
 function openMap(tipo) {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   
-  // Ubicaciones independientes y exactas en Puerto Barrios
   const datosMapas = {
     iglesia: {
       nombre: "Parroquia Santo Tomas de Aquino, Puerto Barrios",
@@ -979,7 +983,6 @@ function openMap(tipo) {
   const destino = datosMapas[tipo];
   if (!destino) return;
 
-  // Redirección inmediata y limpia sin retrasos artificiales
   if (isIOS) {
     window.location.href = "maps://?q=" + encodeURIComponent(destino.nombre);
     setTimeout(function() {
