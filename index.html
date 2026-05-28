@@ -296,11 +296,6 @@
   @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
   @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
   /* ─── PÁGINA PRINCIPAL ─── */
   #main-page { display: none; }
   #main-page.visible { display: block; }
@@ -345,14 +340,14 @@
   .events-section { padding: 80px 40px; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
   .section-label { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 40px; text-align: center; }
   .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-  .event-card { background: var(--white); border: 1px solid var(--gold-light); padding: 44px 40px; position: relative; text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
-  .event-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(201,169,110,0.12); }
+  .event-card { background: var(--white); border: 1px solid var(--gold-light); padding: 44px 40px; position: relative; text-align: center; }
   .event-card::before { content: ''; position: absolute; top: 8px; left: 8px; right: -8px; bottom: -8px; border: 1px solid var(--gold-light); z-index: -1; opacity: 0.5; }
   .event-icon { font-size: 2rem; margin-bottom: 16px; }
   .event-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 400; color: var(--gold-dark); margin-bottom: 20px; }
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
   .event-place { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
 
+  /* BOTÓN DE MAPA DIRECTO SIN RETRASOS NI ANIMACIONES DE CARGA */
   .map-btn {
     display: inline-flex;
     background: var(--gold);
@@ -364,7 +359,6 @@
     text-transform: uppercase;
     padding: 14px 32px;
     text-decoration: none;
-    transition: background 0.3s;
     border: none;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -511,7 +505,7 @@
     </div>
   </div>
 
-  <p class="env-hint" id="envHint">✦   Tu invitation te espera   ✦</p>
+  <p class="env-hint" id="envHint">✦   Tu invitacion te espera   ✦</p>
   <button class="open-btn" id="openBtn">✦   Abrir Invitación   ✦</button>
 </div>
 
@@ -548,9 +542,7 @@
         <p class="event-detail" style="font-weight:600;">4:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Iglesia Católica<br>Santo Tomás de Aquino</p>
-        <button class="map-btn" onclick="openMap('iglesia')">
-          📍 Ver Ubicación
-        </button>
+        <button class="map-btn" onclick="openMap('iglesia')">📍 Ver Ubicación</button>
       </div>
 
       <div class="event-card">
@@ -560,9 +552,7 @@
         <p class="event-detail" style="font-weight:600;">06:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Chochys Bakery<br>Entre 21-20 calle, 4ta. Avenida</p>
-        <button class="map-btn" onclick="openMap('recepcion')">
-          📍 Ver Ubicación
-        </button>
+        <button class="map-btn" onclick="openMap('recepcion')">📍 Ver Ubicación</button>
       </div>
 
     </div>
@@ -647,9 +637,9 @@
 
 <script>
 /* ══════════════════════════════════════════
-   CONFIGURACIÓN
+   CONFIGURACIÓN COMPLETA Y VALIDADA
 ══════════════════════════════════════════ */
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzot-oP3ZlxnjS_xyBokD1fc6a3Dv-_CIf5fINSY-xDspGVBBy5Lr77Gueh4WA9yusy/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxg4XPZKK6ug9FFL8rS5zZatzxaxbp5IEJpS890GGDc_0dZLHn6uqLnJpy9iyXmFf5E/exec';
 
 const PLAYLIST = [
   { id: "M6_OAnv7n90", title: "Sonando: Mi Vida - Divino" },
@@ -819,7 +809,7 @@ function transitionToMainPage() {
 }
 
 /* ══════════════════════════════════════════
-   YOUTUBE API (CON ORIGIN REFORZADO)
+   YOUTUBE API SECURE ORIGIN
 ══════════════════════════════════════════ */
 function onYouTubeIframeAPIReady() {
   ytPlayerInstance = new YT.Player('ytPlayerInvisible', {
@@ -835,7 +825,6 @@ function onYouTubeIframeAPIReady() {
       'showinfo': 0,
       'enablejsapi': 1,
       'playsinline': 1,
-      // FIX DEFINITIVO CONSOLE ERROR: Asigna la firma del dominio en vivo de tu web
       'origin': window.location.origin
     },
     events: {
@@ -906,20 +895,20 @@ function toggleMusic() {
 }
 
 /* ══════════════════════════════════════════
-   RSVP (ARREGLADO CON CALLBACK ASÍNCRONO SEGURO)
+   RSVP ASÍNCRO CIRCUITO SEGURO (CORREGIDO)
 ══════════════════════════════════════════ */
-function sendRSVP(resp) {
+async function sendRSVP(resp) {
   const btns  = document.getElementById('rsvpButtons');
   const errEl = document.getElementById('rsvpError');
   
-  // Bloqueamos clics repetidos
+  // Bloqueamos clics repetidos bajando la opacidad
   btns.style.opacity = '0.5';
   btns.style.pointerEvents = 'none';
   errEl.classList.remove('show');
 
-  // FIX BOTONES CONGELADOS: Ejecutamos el envío de fondo sin detener el renderizado del celular
   try {
-    fetch(APPS_SCRIPT_URL, {
+    // Abre el canal de red de fondo correctamente
+    await fetch(APPS_SCRIPT_URL, {
       method:  'POST',
       mode:    'no-cors',
       headers: { 'Content-Type': 'application/json' },
@@ -932,12 +921,12 @@ function sendRSVP(resp) {
       })
     });
     
-    // Mostramos la animación de agradecimiento al instante sin congelar la pantalla
+    // Oculta el panel táctil al instante sin congelaciones
     btns.style.display = 'none';
     mostrarRespuesta(resp);
 
   } catch(e) {
-    // Si hay un bloqueo físico o de red pesado, reestablecemos la interfaz
+    // Si falla la señal, libera la acción
     btns.style.opacity = '1';
     btns.style.pointerEvents = 'auto';
     errEl.classList.add('show');
@@ -961,7 +950,7 @@ function mostrarRespuesta(resp) {
   const respEl = document.getElementById('rsvpResponse');
   respEl.classList.add('show');
   if (resp === 'si') {
-    document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
+    document.getElementById('rsvpResponseTitle').textContent = '¡Qué alegría! 🎉';
     document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
@@ -970,32 +959,32 @@ function mostrarRespuesta(resp) {
 }
 
 /* ══════════════════════════════════════════
-   SISTEMA DE MAPAS CON ENLACES REALES 
+   SISTEMA DE MAPAS INSTANTÁNEO INDEPENDIENTE
 ══════════════════════════════════════════ */
 function openMap(tipo) {
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   
+  // Ubicaciones independientes y exactas en Puerto Barrios
   const datosMapas = {
     iglesia: {
       nombre: "Parroquia Santo Tomas de Aquino, Puerto Barrios",
-      webUrl: "https://maps.app.goo.gl/bRKCeKtyLaMSgiyf9"
+      webUrl: "https://maps.app.goo.gl/4fpWTD5QrJMKbmhJ6"
     },
     recepcion: {
-      nombre: "Chochy Bakery, Puerto Barrios",
-      webUrl: "https://maps.app.goo.gl/wiR3uB8y5dgAMarY7"
+      nombre: "Chochys Bakery, Puerto Barrios",
+      webUrl: "https://maps.app.goo.gl/d5UAcTjsgxRQ8wgVAs"
     }
   };
 
   const destino = datosMapas[tipo];
   if (!destino) return;
 
+  // Redirección inmediata y limpia sin retrasos artificiales
   if (isIOS) {
-    const appleMapsScheme = "maps://?q=" + encodeURIComponent(destino.nombre);
-    window.location.href = appleMapsScheme;
-    
+    window.location.href = "maps://?q=" + encodeURIComponent(destino.nombre);
     setTimeout(function() {
       window.open(destino.webUrl, '_blank');
-    }, 600);
+    }, 250);
   } else {
     window.open(destino.webUrl, '_blank');
   }
