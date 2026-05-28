@@ -347,6 +347,7 @@
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
   .event-place { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
 
+  /* ESTILOS DE BOTÓN DE MAPA NATIVO */
   .map-btn {
     display: inline-flex;
     background: var(--gold);
@@ -470,7 +471,8 @@
           <stop offset="0%" style="stop-color:#8b5e1a"/><stop offset="100%" style="stop-color:#5c3a0a"/>
         </linearGradient>
         <filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="rgba(0,0,0,0.5)"/></filter>
-        <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></defs>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
       <g id="envBodyStructure">
         <rect id="envBody" x="20" y="110" width="360" height="180" rx="6" fill="url(#bodyGrad)" filter="url(#shadow)"/>
         <path id="envFrontBody" d="M20,110 L200,220 L380,110 L380,290 L20,290 Z" fill="url(#bodyGrad)"/>
@@ -540,7 +542,12 @@
         <p class="event-detail" style="font-weight:600;">4:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Iglesia Católica<br>Santo Tomás de Aquino</p>
-        <button class="map-btn" onclick="openMap('iglesia')">📍 Ver Ubicación</button>
+        <a href="https://maps.app.goo.gl/paLwMBAyw6QSwCXAA8" 
+           target="_blank" 
+           class="map-btn" 
+           onclick="if(/iPad|iPhone|iPod/.test(navigator.userAgent)){ window.location.href='maps://?q=Parroquia+Santo+Tomas+de+Aquino,+Puerto+Barrios'; return false; }">
+           📍 Ver Ubicación
+        </a>
       </div>
 
       <div class="event-card">
@@ -550,7 +557,12 @@
         <p class="event-detail" style="font-weight:600;">06:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Chochys Bakery<br>Entre 21-20 calle, 4ta. Avenida</p>
-        <button class="map-btn" onclick="openMap('recepcion')">📍 Ver Ubicación</button>
+        <a href="https://maps.app.goo.gl/paLwMBAyw6QSwCXAA9" 
+           target="_blank" 
+           class="map-btn" 
+           onclick="if(/iPad|iPhone|iPod/.test(navigator.userAgent)){ window.location.href='maps://?q=Chochys+Bakery,+Puerto+Barrios'; return false; }">
+           📍 Ver Ubicación
+        </a>
       </div>
 
     </div>
@@ -807,7 +819,7 @@ function transitionToMainPage() {
 }
 
 /* ══════════════════════════════════════════
-   YOUTUBE API SECURE ORIGIN
+   YOUTUBE API BLINDADA ANTI-ERRORES
 ══════════════════════════════════════════ */
 function onYouTubeIframeAPIReady() {
   try {
@@ -833,7 +845,7 @@ function onYouTubeIframeAPIReady() {
       }
     });
   } catch(e) {
-    console.log("Error inicializando YouTube API:", e);
+    console.log("Aislamiento preventivo de YouTube API activado.");
   }
 }
 
@@ -875,7 +887,7 @@ function playTrack(song) {
     ytPlayerInstance.playVideo();
     updateMusicUI(song.title);
   } catch (err) {
-    console.log("Fallo al reproducir track:", err);
+    console.log("Ignorando traba de buffer.");
   }
 }
 
@@ -899,7 +911,7 @@ function toggleMusic() {
 }
 
 /* ══════════════════════════════════════════
-   RSVP
+   RSVP ENLACE SEGURO FORM-URLENCODED
 ══════════════════════════════════════════ */
 async function sendRSVP(resp) {
   const btns  = document.getElementById('rsvpButtons');
@@ -909,7 +921,7 @@ async function sendRSVP(resp) {
   btns.style.pointerEvents = 'none';
   errEl.classList.remove('show');
 
-  // Pasamos los datos a formato URLSearchParams para compatibilidad nativa absoluta con Apps Script x-www-form-urlencoded
+  // Codificamos como URLSearchParams para empatar de forma nativa con el motor del Apps Script
   const formData = new URLSearchParams();
   formData.append('action', 'rsvp');
   formData.append('id', guestId);
@@ -918,7 +930,6 @@ async function sendRSVP(resp) {
   formData.append('respuesta', resp);
 
   try {
-    // Se ejecuta la petición HTTP de fondo de forma limpia
     fetch(APPS_SCRIPT_URL, {
       method:  'POST',
       mode:    'no-cors',
@@ -926,12 +937,12 @@ async function sendRSVP(resp) {
       body: formData.toString()
     });
     
-    // Transición visual INMEDIATA garantizada para evitar bloqueos del navegador
+    // Transición suave inmediata para liberar el hilo táctil del celular
     btns.style.display = 'none';
     mostrarRespuesta(resp);
 
   } catch(e) {
-    console.log("Error en RSVP:", e);
+    console.log("Captura de excepción en RSVP.");
     btns.style.opacity = '1';
     btns.style.pointerEvents = 'auto';
     errEl.classList.add('show');
@@ -960,36 +971,6 @@ function mostrarRespuesta(resp) {
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
     document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
-  }
-}
-
-/* ══════════════════════════════════════════
-   SISTEMA DE MAPAS INSTANTÁNEO INDEPENDIENTE
-══════════════════════════════════════════ */
-function openMap(tipo) {
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  
-  const datosMapas = {
-    iglesia: {
-      nombre: "Parroquia Santo Tomas de Aquino, Puerto Barrios",
-      webUrl: "https://maps.app.goo.gl/4fpWTD5QrJMKbmhJ6"
-    },
-    recepcion: {
-      nombre: "Chochys Bakery, Puerto Barrios",
-      webUrl: "https://maps.app.goo.gl/d5UAcTjsgxRQ8wgVAs"
-    }
-  };
-
-  const destino = datosMapas[tipo];
-  if (!destino) return;
-
-  if (isIOS) {
-    window.location.href = "maps://?q=" + encodeURIComponent(destino.nombre);
-    setTimeout(function() {
-      window.open(destino.webUrl, '_blank');
-    }, 250);
-  } else {
-    window.open(destino.webUrl, '_blank');
   }
 }
 
