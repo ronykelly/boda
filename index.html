@@ -4,7 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rony Daniel & Kelly Gisselle — 18 Julio 2026</title>
+
+<!-- ✅ MEJORA: Meta tags para redes sociales (WhatsApp, Facebook) -->
+<meta name="description" content="Estás invitado a la boda de Rony Daniel & Kelly Gisselle, el 18 de Julio de 2026 en Puerto Barrios.">
+<meta property="og:title" content="Rony Daniel & Kelly Gisselle — 18 Julio 2026">
+<meta property="og:description" content="Nos complace invitarte a celebrar nuestro matrimonio el 18 de Julio de 2026.">
+<meta property="og:image" content="declaracion.jpeg">
+<meta property="og:type" content="website">
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<!-- ✅ FIX: async para no bloquear el render de la página -->
+<script async src="https://www.youtube.com/iframe_api"></script>
+
 <style>
   :root {
     --cream: #fdf8f2;
@@ -340,14 +352,14 @@
   .events-section { padding: 80px 40px; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
   .section-label { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 40px; text-align: center; }
   .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-  .event-card { background: var(--white); border: 1px solid var(--gold-light); padding: 44px 40px; position: relative; text-align: center; }
+  .event-card { background: var(--white); border: 1px solid var(--gold-light); padding: 44px 40px; position: relative; text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
+  .event-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(201,169,110,0.12); }
   .event-card::before { content: ''; position: absolute; top: 8px; left: 8px; right: -8px; bottom: -8px; border: 1px solid var(--gold-light); z-index: -1; opacity: 0.5; }
   .event-icon { font-size: 2rem; margin-bottom: 16px; }
   .event-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 400; color: var(--gold-dark); margin-bottom: 20px; }
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
   .event-place { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
 
-  /* ESTILOS DE BOTÓN DE MAPA NATIVO */
   .map-btn {
     display: inline-flex;
     background: var(--gold);
@@ -368,7 +380,6 @@
     justify-content: center;
     gap: 6px;
   }
-  .map-btn:hover { background: var(--gold-dark); }
 
   /* COUNTDOWN */
   .countdown-section { background: linear-gradient(160deg, #2c1f10, #1a0f06); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
@@ -408,11 +419,9 @@
   .rsvp-guest-info strong { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 1.8rem; color: var(--text); display: block; margin-bottom: 4px; }
   .rsvp-guest-info span { font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
   .rsvp-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-  .rsvp-btn { padding: 18px 50px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 52px; }
+  .rsvp-btn { padding: 18px 50px; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; border: none; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; min-height: 52px; }
   .rsvp-btn-yes { background: var(--gold); color: var(--white); }
-  .rsvp-btn-yes:hover { background: var(--gold-dark); transform: translateY(-2px); }
   .rsvp-btn-no { background: transparent; color: var(--text-light); border: 1px solid #ccc; }
-  .rsvp-btn-no:hover { border-color: var(--text-light); color: var(--text); transform: translateY(-2px); }
   .rsvp-response { display: none; padding: 40px; background: var(--warm); border: 1px solid var(--gold-light); margin-top: 30px; }
   .rsvp-response.show { display: block; }
   .rsvp-response h3 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.4rem; color: var(--gold-dark); margin-bottom: 10px; }
@@ -444,7 +453,6 @@
     .rsvp-btn { width: 100%; max-width: 320px; }
   }
 </style>
-<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 
@@ -496,17 +504,18 @@
   <div id="postal-container">
     <div class="postal-frame">
       <div class="postal-inner-border">
-        <img src="declaracion.jpeg" alt="Propuesta Tikal" class="postal-img">
+        <!-- ✅ FIX: onerror para imagen faltante -->
+        <img src="declaracion.jpeg" alt="Propuesta Tikal" class="postal-img" onerror="this.style.visibility='hidden'">
       </div>
       <p class="postal-quote-text">"Nuestra mayor aventura comienza aquí..."</p>
     </div>
     <div id="postal-details">
-      <p class="postal-curiosity">💡 Dato curioso: ¡Rony le propuso matrimonio a Kelly exactamente en ese point de Tikal!</p>
+      <p class="postal-curiosity">💡 Dato curioso: ¡Rony le propuso matrimonio a Kelly exactamente en ese punto de Tikal!</p>
     </div>
   </div>
 
-  <p class="env-hint" id="envHint">✦   Tu invitation te espera   ✦</p>
-  <button class="open-btn" id="openBtn">✦   Abrir Invitación   ✦</button>
+  <p class="env-hint" id="envHint">✦   Tu invitación te espera   ✦</p>
+  <button class="open-btn" id="openBtn" style="opacity:0.5; pointer-events:none;">✦   Abrir Invitación   ✦</button>
 </div>
 
 <div class="music-container" id="musicContainer">
@@ -521,7 +530,8 @@
 
   <section class="hero">
     <div class="hero-photo">
-      <img src="declaracion.jpeg" alt="Rony y Kelly Tikal">
+      <!-- ✅ FIX: onerror en todas las imágenes -->
+      <img src="declaracion.jpeg" alt="Rony y Kelly Tikal" onerror="this.style.visibility='hidden'">
     </div>
     <div class="hero-content">
       <span class="ryk-monogram">R & K</span>
@@ -542,12 +552,9 @@
         <p class="event-detail" style="font-weight:600;">4:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Iglesia Católica<br>Santo Tomás de Aquino</p>
-        <a href="https://maps.app.goo.gl/paLwMBAyw6QSwCXAA8" 
-           target="_blank" 
-           class="map-btn" 
-           onclick="if(/iPad|iPhone|iPod/.test(navigator.userAgent)){ window.location.href='maps://?q=Parroquia+Santo+Tomas+de+Aquino,+Puerto+Barrios'; return false; }">
-           📍 Ver Ubicación
-        </a>
+        <button class="map-btn" onclick="openMap('iglesia')">
+          📍 Ver Ubicación
+        </button>
       </div>
 
       <div class="event-card">
@@ -557,12 +564,9 @@
         <p class="event-detail" style="font-weight:600;">06:00 PM</p>
         <div class="divider-gold" style="margin:16px auto;"></div>
         <p class="event-place">Chochys Bakery<br>Entre 21-20 calle, 4ta. Avenida</p>
-        <a href="https://maps.app.goo.gl/paLwMBAyw6QSwCXAA9" 
-           target="_blank" 
-           class="map-btn" 
-           onclick="if(/iPad|iPhone|iPod/.test(navigator.userAgent)){ window.location.href='maps://?q=Chochys+Bakery,+Puerto+Barrios'; return false; }">
-           📍 Ver Ubicación
-        </a>
+        <button class="map-btn" onclick="openMap('recepcion')">
+          📍 Ver Ubicación
+        </button>
       </div>
 
     </div>
@@ -584,7 +588,7 @@
       <p>"Caminar juntos de la mano, construir un hogar basado en el respeto, la fe y el amor incondicional, celebrando cada paso de nuestra historia."</p>
     </div>
     <div class="couple-photo">
-      <img src="promesa.jpeg" alt="Compromiso">
+      <img src="promesa.jpeg" alt="Compromiso" onerror="this.style.visibility='hidden'">
     </div>
   </section>
 
@@ -633,9 +637,9 @@
   <section class="gallery-section">
     <h2 class="section-label">Momentos Favoritos</h2>
     <div class="gallery-grid">
-      <div class="gallery-item"><img src="momento1.jpeg" alt="Momento 1"></div>
-      <div class="gallery-item"><img src="momento2.JPG" alt="Momento 2"></div>
-      <div class="gallery-item"><img src="momento3.JPG" alt="Momento 3"></div>
+      <div class="gallery-item"><img src="momento1.jpeg" alt="Momento 1" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item"><img src="momento2.JPG"  alt="Momento 2" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item"><img src="momento3.JPG"  alt="Momento 3" onerror="this.closest('.gallery-item').style.display='none'"></div>
     </div>
   </section>
 
@@ -647,15 +651,14 @@
 
 <script>
 /* ══════════════════════════════════════════
-   CONFIGURACIÓN COMPLETA Y VALIDADA
+   CONFIGURACIÓN
 ══════════════════════════════════════════ */
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxg4XPZKK6ug9FFL8rS5zZatzxaxbp5IEJpS890GGDc_0dZLHn6uqLnJpy9iyXmFf5E/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzot-oP3ZlxnjS_xyBokD1fc6a3Dv-_CIf5fINSY-xDspGVBBy5Lr77Gueh4WA9yusy/exec';
 
 const PLAYLIST = [
-  { id: "M6_OAnv7n90", title: "Sonando: Mi Vida - Divino" },
+  { id: "fD38F08w6oA", title: "Sonando: Mi Vida - Divino" },
   { id: "NqzhZs_Hj9A", title: "Sonando: Golden Hour - JVKE" },
-  { id: "vGZHeI_92Sg", title: "Sonando: Un Pacto con Dios - Rabito" },
-  { id: "rtO5uJFu5qQ", title: "Sonando: A Thousand Years - Christina Perri" }
+  { id: "vGZHeI_92Sg", title: "Sonando: Un Pacto con Dios - Rabito" }
 ];
 
 /* ══════════════════════════════════════════
@@ -667,11 +670,15 @@ let   guestId     = guestSlug;
 let   guestName   = 'Estimado Invitado';
 let   guestCount  = 1;
 
-let currentSongIndex = -1;
-let musicOn          = false;
-let ytPlayerReady    = false;
-let ytPlayerInstance = null;
-let pendingPlay      = false;
+let currentSongIndex  = -1;
+let musicOn           = false;
+let ytPlayerReady     = false;
+let ytPlayerInstance  = null;
+let pendingPlay       = false;
+let musicStartedByUser = false; // ✅ FIX: bandera para iOS autoplay
+
+// ✅ FIX: bandera anti-doble-clic en botón de abrir
+let isOpening = false;
 
 /* ══════════════════════════════════════════
    ESTRELLAS DEL SOBRE
@@ -697,10 +704,28 @@ let pendingPlay      = false;
 
 /* ══════════════════════════════════════════
    CARGA DEL INVITADO
+   ✅ FIX: actualizarUI movida fuera del Promise,
+           timeout de 5s si Apps Script no responde
 ══════════════════════════════════════════ */
+function actualizarUI() {
+  document.getElementById('envGuestNameHeader').textContent = guestName;
+  document.getElementById('envGuestCounter').textContent   = 'CANTIDAD DE INVITADOS: ' + guestCount;
+  document.getElementById('rsvpGuestName').textContent     = guestName;
+  document.getElementById('rsvpGuestCount').textContent    = guestCount > 1 ? guestCount + ' personas' : '1 persona';
+  const btn = document.getElementById('openBtn');
+  if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
+
+  // ✅ MEJORA: limpiar el parámetro ?inv= de la URL visible sin recargar
+  if (guestSlug) {
+    try {
+      history.replaceState({}, '', window.location.pathname);
+    } catch(e) {}
+  }
+}
+
 function loadGuest() {
-  return new Promise((resolve) => {
-    const nombreParam  = params.get('nombre');
+  return new Promise(function(resolve) {
+    const nombreParam   = params.get('nombre');
     const personasParam = params.get('p');
 
     if (nombreParam) {
@@ -712,45 +737,64 @@ function loadGuest() {
     }
 
     if (guestSlug) {
+      // ✅ FIX: timeout de 5 segundos — si Apps Script no responde, activamos el botón igual
+      let resolved = false;
+      const loadTimeout = setTimeout(function() {
+        if (!resolved) {
+          resolved = true;
+          actualizarUI(); // usa nombre por defecto
+          resolve(null);
+        }
+      }, 5000);
+
       const callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
       window[callbackName] = function(data) {
+        if (resolved) return;
+        resolved = true;
+        clearTimeout(loadTimeout);
         delete window[callbackName];
         const scriptTag = document.getElementById('jsonp-guest-script');
         if (scriptTag) document.body.removeChild(scriptTag);
         if (data) {
-          guestName  = data.nombre  || 'Estimado Invitado';
+          guestName  = data.nombre   || 'Estimado Invitado';
           guestCount = data.personas || 1;
           actualizarUI();
           if (data.respondio) { mostrarYaRespondio(data.respuesta); }
           resolve(data);
         } else {
+          actualizarUI();
           resolve(null);
         }
       };
+
       const script = document.createElement('script');
       script.id  = 'jsonp-guest-script';
-      script.src = APPS_SCRIPT_URL + "?action=getGuest&inv=" + encodeURIComponent(guestSlug) + "&callback=" + callbackName;
+      script.src = APPS_SCRIPT_URL + '?action=getGuest&inv=' + encodeURIComponent(guestSlug) + '&callback=' + callbackName;
+      // ✅ FIX: si el script mismo falla (404, error de red), activa el botón igual
+      script.onerror = function() {
+        if (!resolved) {
+          resolved = true;
+          clearTimeout(loadTimeout);
+          actualizarUI();
+          resolve(null);
+        }
+      };
       document.body.appendChild(script);
     } else {
       actualizarUI();
       resolve(null);
     }
   });
-
-  function actualizarUI() {
-    document.getElementById('envGuestNameHeader').textContent = guestName;
-    document.getElementById('envGuestCounter').textContent   = `CANTIDAD DE INVITADOS: ${guestCount}`;
-    document.getElementById('rsvpGuestName').textContent     = guestName;
-    document.getElementById('rsvpGuestCount').textContent    = guestCount > 1 ? `${guestCount} personas` : '1 persona';
-    const btn = document.getElementById('openBtn');
-    if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
-  }
 }
 
 /* ══════════════════════════════════════════
    ANIMACIÓN DEL SOBRE
+   ✅ FIX: bandera isOpening para evitar doble clic
 ══════════════════════════════════════════ */
 function openInvitation() {
+  if (isOpening) return; // ✅ Prevenir re-entrada
+  isOpening = true;
+
   const btn     = document.getElementById('openBtn');
   const wrap    = document.getElementById('envelopeWrap');
   const flap    = document.getElementById('envFlap');
@@ -763,29 +807,29 @@ function openInvitation() {
 
   btn.style.pointerEvents = 'none';
   btn.style.opacity       = '0';
-  if (hint)    hint.style.opacity   = '0';
+  if (hint)   hint.style.opacity   = '0';
   if (gBlock) gBlock.style.opacity = '0.3';
 
   flap.style.transformOrigin = 'center top';
   flap.style.transform       = 'rotateX(180deg)';
 
-  setTimeout(() => {
-    if (seal) seal.style.opacity = '0';
+  setTimeout(function() {
+    if (seal)    seal.style.opacity    = '0';
     if (sealTxt) sealTxt.style.opacity = '0';
   }, 200);
 
-  setTimeout(() => {
+  setTimeout(function() {
     wrap.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
     wrap.style.opacity    = '0';
     wrap.style.transform  = 'scale(0.85)';
-    setTimeout(() => { wrap.style.display = 'none'; }, 400);
+    setTimeout(function() { wrap.style.display = 'none'; }, 400);
     postal.classList.add('show');
   }, 500);
 
-  setTimeout(() => {
+  setTimeout(function() {
     details.classList.add('show');
-    btn.innerHTML         = '✦   Entrar a la Invitación   ✦';
-    btn.style.opacity     = '1';
+    btn.innerHTML           = '✦   Entrar a la Invitación   ✦';
+    btn.style.opacity       = '1';
     btn.style.pointerEvents = 'auto';
     btn.onclick = transitionToMainPage;
   }, 1300);
@@ -801,7 +845,13 @@ function transitionToMainPage() {
   screen.style.transition = 'opacity 1s ease';
   screen.style.opacity    = '0';
 
-  musicOn = true;
+  // ✅ FIX: Marcar que el usuario activó la música desde un gesto directo.
+  // En este momento estamos dentro del handler del click, por lo que
+  // playVideo() está permitido por iOS. Si YouTube ya estaba listo, arranca.
+  // Si aún no está listo, pendingPlay lo hará arrancar en onPlayerReady()
+  // que también se dispara como consecuencia de la carga iniciada aquí.
+  musicOn            = true;
+  musicStartedByUser = true;
   const song = getRandomSong();
   if (ytPlayerReady) {
     playTrack(song);
@@ -809,7 +859,7 @@ function transitionToMainPage() {
     pendingPlay = true;
   }
 
-  setTimeout(() => {
+  setTimeout(function() {
     screen.style.visibility = 'hidden';
     document.getElementById('main-page').classList.add('visible');
     document.getElementById('musicContainer').classList.add('visible');
@@ -819,39 +869,37 @@ function transitionToMainPage() {
 }
 
 /* ══════════════════════════════════════════
-   YOUTUBE API BLINDADA ANTI-ERRORES
+   YOUTUBE API
+   ✅ FIX: pendingPlay solo arranca si fue iniciado
+           por gesto del usuario (musicStartedByUser)
 ══════════════════════════════════════════ */
 function onYouTubeIframeAPIReady() {
-  try {
-    ytPlayerInstance = new YT.Player('ytPlayerInvisible', {
-      height: '1',
-      width:  '1',
-      videoId: PLAYLIST[0].id,
-      playerVars: {
-        'autoplay': 0,
-        'controls': 0,
-        'disablekb': 1,
-        'fs': 0,
-        'rel': 0,
-        'showinfo': 0,
-        'enablejsapi': 1,
-        'playsinline': 1,
-        'origin': window.location.origin
-      },
-      events: {
-        'onReady': onPlayerReady,
-        'onStateChange': onPlayerStateChange,
-        'onError': onPlayerError
-      }
-    });
-  } catch(e) {
-    console.log("Aislamiento preventivo de YouTube API activado.");
-  }
+  ytPlayerInstance = new YT.Player('ytPlayerInvisible', {
+    height:  '1',
+    width:   '1',
+    videoId: PLAYLIST[0].id,
+    playerVars: {
+      'autoplay':   0,
+      'controls':   0,
+      'disablekb':  1,
+      'fs':         0,
+      'rel':        0,
+      'showinfo':   0,
+      'enablejsapi':1,
+      'playsinline':1
+    },
+    events: {
+      'onReady':       onPlayerReady,
+      'onStateChange': onPlayerStateChange,
+      'onError':       onPlayerError
+    }
+  });
 }
 
 function onPlayerReady() {
   ytPlayerReady = true;
-  if (pendingPlay && musicOn) {
+  // Solo arranca si el usuario ya hizo clic en "Entrar a la Invitación"
+  if (pendingPlay && musicOn && musicStartedByUser) {
     pendingPlay = false;
     playTrack(getRandomSong());
   }
@@ -873,8 +921,8 @@ function onPlayerError() {
 
 function getRandomSong() {
   let idx;
-  do { 
-    idx = Math.floor(Math.random() * PLAYLIST.length); 
+  do {
+    idx = Math.floor(Math.random() * PLAYLIST.length);
   } while (idx === currentSongIndex && PLAYLIST.length > 1);
   currentSongIndex = idx;
   return PLAYLIST[idx];
@@ -886,22 +934,21 @@ function playTrack(song) {
     ytPlayerInstance.loadVideoById(song.id);
     ytPlayerInstance.playVideo();
     updateMusicUI(song.title);
-  } catch (err) {
-    console.log("Ignorando traba de buffer.");
+  } catch(err) {
+    playTrack(getRandomSong());
   }
 }
 
 function updateMusicUI(title) {
-  const banner = document.getElementById('musicTrackBanner');
-  if (banner) banner.textContent = title;
-  const btn = document.getElementById('musicBtn');
-  if (btn) btn.textContent = '♪';
+  document.getElementById('musicTrackBanner').textContent = title;
+  document.getElementById('musicBtn').textContent = '♪';
 }
 
 function toggleMusic() {
   if (!ytPlayerInstance || !ytPlayerReady) return;
   musicOn = !musicOn;
   if (musicOn) {
+    musicStartedByUser = true;
     playTrack(getRandomSong());
   } else {
     ytPlayerInstance.pauseVideo();
@@ -911,42 +958,75 @@ function toggleMusic() {
 }
 
 /* ══════════════════════════════════════════
-   RSVP ENLACE SEGURO FORM-URLENCODED
+   RSVP via JSONP (doGet en Apps Script)
+   El Apps Script maneja la acción 'rsvp' en doGet
+   y responde envuelto en el callback, igual que
+   getGuest. Así tenemos confirmación real del servidor.
 ══════════════════════════════════════════ */
-async function sendRSVP(resp) {
+function sendRSVP(resp) {
   const btns  = document.getElementById('rsvpButtons');
   const errEl = document.getElementById('rsvpError');
-  
-  btns.style.opacity = '0.5';
+  btns.style.opacity       = '0.5';
   btns.style.pointerEvents = 'none';
   errEl.classList.remove('show');
 
-  // Codificamos como URLSearchParams para empatar de forma nativa con el motor del Apps Script
-  const formData = new URLSearchParams();
-  formData.append('action', 'rsvp');
-  formData.append('id', guestId);
-  formData.append('nombre', guestName);
-  formData.append('personas', guestCount);
-  formData.append('respuesta', resp);
+  const callbackName = 'rsvp_cb_' + Math.round(100000 * Math.random());
+  let   done         = false;
 
-  try {
-    fetch(APPS_SCRIPT_URL, {
-      method:  'POST',
-      mode:    'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: formData.toString()
-    });
-    
-    // Transición suave inmediata para liberar el hilo táctil del celular
-    btns.style.display = 'none';
-    mostrarRespuesta(resp);
+  const rsvpTimeout = setTimeout(function() {
+    if (!done) {
+      done = true;
+      delete window[callbackName];
+      const s = document.getElementById('rsvp-jsonp-script');
+      if (s) s.parentNode.removeChild(s);
+      btns.style.opacity       = '1';
+      btns.style.pointerEvents = 'auto';
+      errEl.classList.add('show');
+    }
+  }, 10000);
 
-  } catch(e) {
-    console.log("Captura de excepción en RSVP.");
-    btns.style.opacity = '1';
-    btns.style.pointerEvents = 'auto';
-    errEl.classList.add('show');
-  }
+  window[callbackName] = function(data) {
+    if (done) return;
+    done = true;
+    clearTimeout(rsvpTimeout);
+    delete window[callbackName];
+    const s = document.getElementById('rsvp-jsonp-script');
+    if (s) s.parentNode.removeChild(s);
+
+    if (data && (data.status === 'success' || data.status === 'exists')) {
+      btns.style.display = 'none';
+      if (data.status === 'exists') {
+        mostrarYaRespondio(resp);
+      } else {
+        mostrarRespuesta(resp);
+      }
+    } else {
+      btns.style.opacity       = '1';
+      btns.style.pointerEvents = 'auto';
+      errEl.classList.add('show');
+    }
+  };
+
+  const script = document.createElement('script');
+  script.id  = 'rsvp-jsonp-script';
+  script.src = APPS_SCRIPT_URL
+    + '?action=rsvp'
+    + '&id='        + encodeURIComponent(guestId)
+    + '&nombre='    + encodeURIComponent(guestName)
+    + '&personas='  + encodeURIComponent(guestCount)
+    + '&respuesta=' + encodeURIComponent(resp)
+    + '&callback='  + callbackName;
+
+  script.onerror = function() {
+    if (!done) {
+      done = true;
+      clearTimeout(rsvpTimeout);
+      btns.style.opacity       = '1';
+      btns.style.pointerEvents = 'auto';
+      errEl.classList.add('show');
+    }
+  };
+  document.body.appendChild(script);
 }
 
 function mostrarYaRespondio(respuestaAnterior) {
@@ -955,10 +1035,10 @@ function mostrarYaRespondio(respuestaAnterior) {
   respEl.classList.add('show');
   if (respuestaAnterior === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
-    document.getElementById('rsvpResponseMsg').textContent   = `${guestName}, ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!`;
+    document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!';
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
-    document.getElementById('rsvpResponseMsg').textContent   = `${guestName}, ya tenemos tu respuesta registrada. Gracias por avisarnos.`;
+    document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya tenemos tu respuesta registrada. Gracias por avisarnos.';
   }
 }
 
@@ -966,11 +1046,27 @@ function mostrarRespuesta(resp) {
   const respEl = document.getElementById('rsvpResponse');
   respEl.classList.add('show');
   if (resp === 'si') {
-    document.getElementById('rsvpResponseTitle').textContent = '¡Qué alegría! 🎉';
+    document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
     document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
     document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
+  }
+}
+
+/* ══════════════════════════════════════════
+   MAPAS
+══════════════════════════════════════════ */
+function openMap(tipo) {
+  // Abre el link de Google Maps directamente en todos los dispositivos.
+  // En iPhone/Android la app de Google Maps (o el navegador) lo maneja
+  // sin redirecciones intermedias que puedan fallar.
+  var links = {
+    iglesia:   'https://maps.app.goo.gl/bRKCeKtyLaMSgiyf9',
+    recepcion: 'https://maps.app.goo.gl/wiR3uB8y5dgAMarY7'
+  };
+  if (links[tipo]) {
+    window.open(links[tipo], '_blank');
   }
 }
 
@@ -1004,18 +1100,20 @@ function initPetals() {
   for (let i = 0; i < 18; i++) {
     const p = document.createElement('div');
     p.className = 'petal';
-    p.style.cssText = `
-      left:${Math.random()*100}%;
-      width:${4+Math.random()*6}px;
-      height:${4+Math.random()*6}px;
-      animation-duration:${8+Math.random()*12}s;
-      animation-delay:${Math.random()*10}s;
-      opacity:${0.2+Math.random()*0.4};
-    `;
+    p.style.cssText =
+      'left:'               + (Math.random()*100) + '%;' +
+      'width:'              + (4+Math.random()*6)  + 'px;' +
+      'height:'             + (4+Math.random()*6)  + 'px;' +
+      'animation-duration:' + (8+Math.random()*12) + 's;' +
+      'animation-delay:'    + (Math.random()*10)   + 's;' +
+      'opacity:'            + (0.2+Math.random()*0.4) + ';';
     container.appendChild(p);
   }
 }
 
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function() {
   const btn = document.getElementById('openBtn');
   if (btn) btn.addEventListener('click', openInvitation);
