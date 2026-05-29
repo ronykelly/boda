@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rony Daniel & Kelly Gisselle — 18 Julio 2026</title>
 
-<!-- ✅ MEJORA: Meta tags para redes sociales (WhatsApp, Facebook) -->
 <meta name="description" content="Estás invitado a la boda de Rony Daniel & Kelly Gisselle, el 18 de Julio de 2026 en Puerto Barrios.">
 <meta property="og:title" content="Rony Daniel & Kelly Gisselle — 18 Julio 2026">
 <meta property="og:description" content="Nos complace invitarte a celebrar nuestro matrimonio el 18 de Julio de 2026.">
@@ -13,9 +12,6 @@
 <meta property="og:type" content="website">
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-
-<!-- ✅ FIX: async para no bloquear el render de la página -->
-<script async src="https://www.youtube.com/iframe_api"></script>
 
 <style>
   :root {
@@ -244,66 +240,6 @@
   .open-btn:hover::before { transform: scaleX(1); }
   .open-btn:active { opacity: 0.85; }
 
-  /* ─── CONTROLES DE MÚSICA ─── */
-  .music-container {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-    z-index: 2000;
-    pointer-events: none;
-  }
-  .music-track-banner {
-    background: rgba(26,15,6,0.85);
-    border: 1px solid var(--gold);
-    padding: 6px 14px;
-    border-radius: 20px;
-    color: var(--gold-light);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 9px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: opacity 0.5s, visibility 0.5s, transform 0.5s;
-    white-space: nowrap;
-    max-width: 220px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .music-container.visible .music-track-banner {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-  .music-btn {
-    width: 50px;
-    height: 50px;
-    background: var(--white);
-    border: 1px solid var(--gold-light);
-    border-radius: 50%;
-    color: var(--gold-dark);
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s, visibility 0.5s, transform 0.3s;
-    pointer-events: auto;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-  .music-container.visible .music-btn { opacity: 1; visibility: visible; }
-  .music-btn:hover { transform: scale(1.08); background: var(--warm); }
-  .music-btn:active { transform: scale(0.95); }
 
   @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
   @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
@@ -389,6 +325,142 @@
   .count-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 8vw, 5rem); font-weight: 300; color: var(--white); line-height: 1; display: block; }
   .count-unit { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin-top: 8px; }
 
+  /* ─── REGALO ─── */
+  .gift-section {
+    padding: 90px 40px;
+    background: var(--cream);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .gift-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 600px 350px at 10% 50%, rgba(201,169,110,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 500px 300px at 90% 50%, rgba(201,169,110,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .gift-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+  }
+  .gift-ornament-top {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 14px;
+    margin-bottom: 38px;
+    opacity: 0.6;
+  }
+  .gift-icon-wrap {
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 30px;
+    border: 1px solid var(--gold-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: var(--white);
+    box-shadow: 0 8px 30px rgba(201,169,110,0.14);
+  }
+  .gift-icon-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -7px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,110,0.22);
+  }
+  .gift-icon-wrap span { font-size: 2.1rem; line-height: 1; }
+  .gift-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .gift-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 44px;
+  }
+  .gift-card {
+    background: var(--white);
+    border: 1px solid var(--gold-light);
+    padding: 56px 70px;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .gift-card::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 8px; right: -8px; bottom: -8px;
+    border: 1px solid var(--gold-light);
+    z-index: -1;
+    opacity: 0.5;
+  }
+  .gift-card::after {
+    content: '\2726';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--cream);
+    padding: 0 18px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+  }
+  .gift-main-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+    font-style: italic;
+    color: var(--text-light);
+    line-height: 1.95;
+    margin-bottom: 36px;
+  }
+  .gift-highlight-wrap {
+    margin: 0 0 36px;
+  }
+  .gift-highlight {
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+    font-style: normal;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 600;
+    color: var(--gold-dark);
+    letter-spacing: 4px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--gold-light);
+  }
+  .gift-divider-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--gold-light), transparent);
+    margin: 0 auto 32px;
+  }
+  .gift-footnote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    color: var(--text-light);
+    font-style: italic;
+    line-height: 1.85;
+  }
+  @media (max-width: 600px) {
+    .gift-card { padding: 38px 28px; }
+  }
+
   /* PROMESA */
   .couple-photo-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
   .couple-text { background: var(--warm); padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
@@ -426,7 +498,6 @@
   .rsvp-response.show { display: block; }
   .rsvp-response h3 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 2.4rem; color: var(--gold-dark); margin-bottom: 10px; }
   .rsvp-response p { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text-light); font-style: italic; }
-
   .rsvp-error { display: none; margin-top: 16px; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: #b94a48; }
   .rsvp-error.show { display: block; }
 
@@ -504,7 +575,6 @@
   <div id="postal-container">
     <div class="postal-frame">
       <div class="postal-inner-border">
-        <!-- ✅ FIX: onerror para imagen faltante -->
         <img src="declaracion.jpeg" alt="Propuesta Tikal" class="postal-img" onerror="this.style.visibility='hidden'">
       </div>
       <p class="postal-quote-text">"Nuestra mayor aventura comienza aquí..."</p>
@@ -518,19 +588,14 @@
   <button class="open-btn" id="openBtn" style="opacity:0.5; pointer-events:none;">✦   Abrir Invitación   ✦</button>
 </div>
 
-<div class="music-container" id="musicContainer">
-  <div class="music-track-banner" id="musicTrackBanner">Cargando melodía...</div>
-  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">♪</button>
 </div>
 
-<div id="ytPlayerInvisible" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
 
 <div id="main-page">
   <div class="petals-bg" id="petals"></div>
 
   <section class="hero">
     <div class="hero-photo">
-      <!-- ✅ FIX: onerror en todas las imágenes -->
       <img src="declaracion.jpeg" alt="Rony y Kelly Tikal" onerror="this.style.visibility='hidden'">
     </div>
     <div class="hero-content">
@@ -579,6 +644,33 @@
       <div class="count-item"><span class="count-num" id="cd-hours">00</span><span class="count-unit">Horas</span></div>
       <div class="count-item"><span class="count-num" id="cd-min">00</span><span class="count-unit">Minutos</span></div>
       <div class="count-item"><span class="count-num" id="cd-sec">00</span><span class="count-unit">Segundos</span></div>
+    </div>
+  </section>
+
+  <!-- ─── SECCIÓN DE REGALO ─── -->
+  <section class="gift-section">
+    <div class="gift-inner">
+      <p class="gift-ornament-top">✦ &nbsp;&nbsp; ✦ &nbsp;&nbsp; ✦</p>
+      <div class="gift-icon-wrap"><span>💌</span></div>
+      <h2 class="gift-title">Una Nota con Amor</h2>
+      <p class="gift-subtitle">Para quienes deseen celebrarnos</p>
+
+      <div class="gift-card">
+        <p class="gift-main-text">
+          Su presencia y cariño son el regalo más grande que podemos recibir.<br>
+          Para quienes además deseen hacernos un obsequio,<br>
+          nos gustaría compartirles que preferimos recibirlo en:
+        </p>
+        <div class="gift-highlight-wrap">
+          <span class="gift-highlight">Efectivo</span>
+        </div>
+        <div class="gift-divider-line"></div>
+        <p class="gift-footnote">
+          Cada contribución irá directo a los sueños<br>
+          que estamos construyendo juntos.<br>
+          Gracias por ser parte de esta nueva historia.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -655,11 +747,6 @@
 ══════════════════════════════════════════ */
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJ_-KX9AGyAPK84KkIhnaZ7DGOcSngdlX5hZuUlQtJ_QnHbp12w5ifeb666KCRP-r-/exec';
 
-const PLAYLIST = [
-  { id: "fD38F08w6oA", title: "Sonando: Mi Vida - Divino" },
-  { id: "NqzhZs_Hj9A", title: "Sonando: Golden Hour - JVKE" },
-  { id: "vGZHeI_92Sg", title: "Sonando: Un Pacto con Dios - Rabito" }
-];
 
 /* ══════════════════════════════════════════
    ESTADO GLOBAL
@@ -670,14 +757,6 @@ let   guestId     = guestSlug;
 let   guestName   = 'Estimado Invitado';
 let   guestCount  = 1;
 
-let currentSongIndex  = -1;
-let musicOn           = false;
-let ytPlayerReady     = false;
-let ytPlayerInstance  = null;
-let pendingPlay       = false;
-let musicStartedByUser = false; // ✅ FIX: bandera para iOS autoplay
-
-// ✅ FIX: bandera anti-doble-clic en botón de abrir
 let isOpening = false;
 
 /* ══════════════════════════════════════════
@@ -704,8 +783,6 @@ let isOpening = false;
 
 /* ══════════════════════════════════════════
    CARGA DEL INVITADO
-   ✅ FIX: actualizarUI movida fuera del Promise,
-           timeout de 5s si Apps Script no responde
 ══════════════════════════════════════════ */
 function actualizarUI() {
   document.getElementById('envGuestNameHeader').textContent = guestName;
@@ -714,12 +791,8 @@ function actualizarUI() {
   document.getElementById('rsvpGuestCount').textContent    = guestCount > 1 ? guestCount + ' personas' : '1 persona';
   const btn = document.getElementById('openBtn');
   if (btn) { btn.style.opacity = '1'; btn.style.pointerEvents = 'auto'; }
-
-  // ✅ MEJORA: limpiar el parámetro ?inv= de la URL visible sin recargar
   if (guestSlug) {
-    try {
-      history.replaceState({}, '', window.location.pathname);
-    } catch(e) {}
+    try { history.replaceState({}, '', window.location.pathname); } catch(e) {}
   }
 }
 
@@ -737,14 +810,9 @@ function loadGuest() {
     }
 
     if (guestSlug) {
-      // ✅ FIX: timeout de 5 segundos — si Apps Script no responde, activamos el botón igual
       let resolved = false;
       const loadTimeout = setTimeout(function() {
-        if (!resolved) {
-          resolved = true;
-          actualizarUI(); // usa nombre por defecto
-          resolve(null);
-        }
+        if (!resolved) { resolved = true; actualizarUI(); resolve(null); }
       }, 5000);
 
       const callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
@@ -770,14 +838,8 @@ function loadGuest() {
       const script = document.createElement('script');
       script.id  = 'jsonp-guest-script';
       script.src = APPS_SCRIPT_URL + '?action=getGuest&inv=' + encodeURIComponent(guestSlug) + '&callback=' + callbackName;
-      // ✅ FIX: si el script mismo falla (404, error de red), activa el botón igual
       script.onerror = function() {
-        if (!resolved) {
-          resolved = true;
-          clearTimeout(loadTimeout);
-          actualizarUI();
-          resolve(null);
-        }
+        if (!resolved) { resolved = true; clearTimeout(loadTimeout); actualizarUI(); resolve(null); }
       };
       document.body.appendChild(script);
     } else {
@@ -789,10 +851,9 @@ function loadGuest() {
 
 /* ══════════════════════════════════════════
    ANIMACIÓN DEL SOBRE
-   ✅ FIX: bandera isOpening para evitar doble clic
 ══════════════════════════════════════════ */
 function openInvitation() {
-  if (isOpening) return; // ✅ Prevenir re-entrada
+  if (isOpening) return;
   isOpening = true;
 
   const btn     = document.getElementById('openBtn');
@@ -845,123 +906,17 @@ function transitionToMainPage() {
   screen.style.transition = 'opacity 1s ease';
   screen.style.opacity    = '0';
 
-  // ✅ FIX: Marcar que el usuario activó la música desde un gesto directo.
-  // En este momento estamos dentro del handler del click, por lo que
-  // playVideo() está permitido por iOS. Si YouTube ya estaba listo, arranca.
-  // Si aún no está listo, pendingPlay lo hará arrancar en onPlayerReady()
-  // que también se dispara como consecuencia de la carga iniciada aquí.
-  musicOn            = true;
-  musicStartedByUser = true;
-  const song = getRandomSong();
-  if (ytPlayerReady) {
-    playTrack(song);
-  } else {
-    pendingPlay = true;
-  }
 
   setTimeout(function() {
     screen.style.visibility = 'hidden';
     document.getElementById('main-page').classList.add('visible');
-    document.getElementById('musicContainer').classList.add('visible');
     initPetals();
     startCountdown();
   }, 1000);
 }
 
 /* ══════════════════════════════════════════
-   YOUTUBE API
-   ✅ FIX: pendingPlay solo arranca si fue iniciado
-           por gesto del usuario (musicStartedByUser)
-══════════════════════════════════════════ */
-function onYouTubeIframeAPIReady() {
-  ytPlayerInstance = new YT.Player('ytPlayerInvisible', {
-    height:  '1',
-    width:   '1',
-    videoId: PLAYLIST[0].id,
-    playerVars: {
-      'autoplay':   0,
-      'controls':   0,
-      'disablekb':  1,
-      'fs':         0,
-      'rel':        0,
-      'showinfo':   0,
-      'enablejsapi':1,
-      'playsinline':1
-    },
-    events: {
-      'onReady':       onPlayerReady,
-      'onStateChange': onPlayerStateChange,
-      'onError':       onPlayerError
-    }
-  });
-}
-
-function onPlayerReady() {
-  ytPlayerReady = true;
-  // Solo arranca si el usuario ya hizo clic en "Entrar a la Invitación"
-  if (pendingPlay && musicOn && musicStartedByUser) {
-    pendingPlay = false;
-    playTrack(getRandomSong());
-  }
-}
-
-function onPlayerStateChange(event) {
-  if (event.data === 0 && musicOn) {
-    playTrack(getRandomSong());
-  }
-}
-
-function onPlayerError() {
-  if (musicOn) {
-    setTimeout(function() {
-      playTrack(getRandomSong());
-    }, 1000);
-  }
-}
-
-function getRandomSong() {
-  let idx;
-  do {
-    idx = Math.floor(Math.random() * PLAYLIST.length);
-  } while (idx === currentSongIndex && PLAYLIST.length > 1);
-  currentSongIndex = idx;
-  return PLAYLIST[idx];
-}
-
-function playTrack(song) {
-  if (!ytPlayerInstance || !ytPlayerInstance.loadVideoById) return;
-  try {
-    ytPlayerInstance.loadVideoById(song.id);
-    ytPlayerInstance.playVideo();
-    updateMusicUI(song.title);
-  } catch(err) {
-    playTrack(getRandomSong());
-  }
-}
-
-function updateMusicUI(title) {
-  document.getElementById('musicTrackBanner').textContent = title;
-  document.getElementById('musicBtn').textContent = '♪';
-}
-
-function toggleMusic() {
-  if (!ytPlayerInstance || !ytPlayerReady) return;
-  musicOn = !musicOn;
-  if (musicOn) {
-    musicStartedByUser = true;
-    playTrack(getRandomSong());
-  } else {
-    ytPlayerInstance.pauseVideo();
-    document.getElementById('musicTrackBanner').textContent = 'Música Pausada';
-    document.getElementById('musicBtn').textContent = '♩';
-  }
-}
-
-/* ══════════════════════════════════════════
-   RSVP — fetch POST + éxito optimista
-   El Apps Script guarda en doPost.
-   no-cors siempre resuelve, mostramos
-   confirmación inmediata al invitado.
+   RSVP
 ══════════════════════════════════════════ */
 async function sendRSVP(resp) {
   const btns = document.getElementById('rsvpButtons');
@@ -1016,16 +971,11 @@ function mostrarRespuesta(resp) {
    MAPAS
 ══════════════════════════════════════════ */
 function openMap(tipo) {
-  // Abre el link de Google Maps directamente en todos los dispositivos.
-  // En iPhone/Android la app de Google Maps (o el navegador) lo maneja
-  // sin redirecciones intermedias que puedan fallar.
   var links = {
     iglesia:   'https://maps.app.goo.gl/bRKCeKtyLaMSgiyf9',
     recepcion: 'https://maps.app.goo.gl/wiR3uB8y5dgAMarY7'
   };
-  if (links[tipo]) {
-    window.open(links[tipo], '_blank');
-  }
+  if (links[tipo]) { window.open(links[tipo], '_blank'); }
 }
 
 /* ══════════════════════════════════════════
