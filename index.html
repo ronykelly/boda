@@ -958,75 +958,33 @@ function toggleMusic() {
 }
 
 /* ══════════════════════════════════════════
-   RSVP via JSONP (doGet en Apps Script)
-   El Apps Script maneja la acción 'rsvp' en doGet
-   y responde envuelto en el callback, igual que
-   getGuest. Así tenemos confirmación real del servidor.
+   RSVP — fetch POST + éxito optimista
+   El Apps Script guarda en doPost.
+   no-cors siempre resuelve, mostramos
+   confirmación inmediata al invitado.
 ══════════════════════════════════════════ */
-function sendRSVP(resp) {
-  const btns  = document.getElementById('rsvpButtons');
-  const errEl = document.getElementById('rsvpError');
-  btns.style.opacity       = '0.5';
+async function sendRSVP(resp) {
+  const btns = document.getElementById('rsvpButtons');
+  btns.style.opacity = '0.5';
   btns.style.pointerEvents = 'none';
-  errEl.classList.remove('show');
 
-  const callbackName = 'rsvp_cb_' + Math.round(100000 * Math.random());
-  let   done         = false;
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action:    'rsvp',
+        id:        guestId,
+        nombre:    guestName,
+        personas:  guestCount,
+        respuesta: resp
+      })
+    });
+  } catch(e) {}
 
-  const rsvpTimeout = setTimeout(function() {
-    if (!done) {
-      done = true;
-      delete window[callbackName];
-      const s = document.getElementById('rsvp-jsonp-script');
-      if (s) s.parentNode.removeChild(s);
-      btns.style.opacity       = '1';
-      btns.style.pointerEvents = 'auto';
-      errEl.classList.add('show');
-    }
-  }, 10000);
-
-  window[callbackName] = function(data) {
-    if (done) return;
-    done = true;
-    clearTimeout(rsvpTimeout);
-    delete window[callbackName];
-    const s = document.getElementById('rsvp-jsonp-script');
-    if (s) s.parentNode.removeChild(s);
-
-    if (data && (data.status === 'success' || data.status === 'exists')) {
-      btns.style.display = 'none';
-      if (data.status === 'exists') {
-        mostrarYaRespondio(resp);
-      } else {
-        mostrarRespuesta(resp);
-      }
-    } else {
-      btns.style.opacity       = '1';
-      btns.style.pointerEvents = 'auto';
-      errEl.classList.add('show');
-    }
-  };
-
-  const script = document.createElement('script');
-  script.id  = 'rsvp-jsonp-script';
-  script.src = APPS_SCRIPT_URL
-    + '?action=rsvp'
-    + '&id='        + encodeURIComponent(guestId)
-    + '&nombre='    + encodeURIComponent(guestName)
-    + '&personas='  + encodeURIComponent(guestCount)
-    + '&respuesta=' + encodeURIComponent(resp)
-    + '&callback='  + callbackName;
-
-  script.onerror = function() {
-    if (!done) {
-      done = true;
-      clearTimeout(rsvpTimeout);
-      btns.style.opacity       = '1';
-      btns.style.pointerEvents = 'auto';
-      errEl.classList.add('show');
-    }
-  };
-  document.body.appendChild(script);
+  btns.style.display = 'none';
+  mostrarRespuesta(resp);
 }
 
 function mostrarYaRespondio(respuestaAnterior) {
