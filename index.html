@@ -296,6 +296,7 @@
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
   .event-place { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
 
+/*------btn maps------*/
   .map-btn {
     display: inline-flex;
     background: var(--gold);
@@ -972,12 +973,19 @@ function mostrarRespuesta(resp) {
 ══════════════════════════════════════════ */
 function openMap(tipo) {
   var links = {
-    iglesia:   'https://maps.app.goo.gl/bRKCeKtyLaMSgiyf9',
-    recepcion: 'https://maps.app.goo.gl/wiR3uB8y5dgAMarY7'
+    iglesia:   'https://maps.app.goo.gl/7rWwn3c7dH9ANy7X6',
+    recepcion: 'https://maps.app.goo.gl/viiowMVSA9vc9U8p9'
   };
-  if (links[tipo]) { window.open(links[tipo], '_blank'); }
+  if (links[tipo]) {
+    var a = document.createElement('a');
+    a.href = links[tipo];
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 }
-
 /* ══════════════════════════════════════════
    COUNTDOWN & PÉTALOS
 ══════════════════════════════════════════ */
