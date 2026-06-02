@@ -782,7 +782,8 @@ let isOpening = false;
   }
 })();
 
-/* ══════════════════════════════════════════
+
+  /* ══════════════════════════════════════════
    CARGA DEL INVITADO
 ══════════════════════════════════════════ */
 function actualizarUI() {
@@ -814,42 +815,61 @@ function loadGuest() {
       let resolved = false;
       const loadTimeout = setTimeout(function() {
         if (!resolved) { resolved = true; actualizarUI(); resolve(null); }
-      }, 5000);
+      }, 6000);
 
-      const callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
-      window[callbackName] = function(data) {
-        if (resolved) return;
-        resolved = true;
-        clearTimeout(loadTimeout);
-        delete window[callbackName];
-        const scriptTag = document.getElementById('jsonp-guest-script');
-        if (scriptTag) document.body.removeChild(scriptTag);
-        if (data) {
-          guestName  = data.nombre   || 'Estimado Invitado';
-          guestCount = data.personas || 1;
-          actualizarUI();
-          if (data.respondio) { mostrarYaRespondio(data.respuesta); }
-          resolve(data);
-        } else {
-          actualizarUI();
-          resolve(null);
-        }
-      };
+      fetch(APPS_SCRIPT_URL + '?action=getGuest&inv=' + encodeURIComponent(guestSlug))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (resolved) return;
+          resolved = true;
+          clearTimeout(loadTimeout);
+          if (data) {
+            guestName  = data.nombre   || 'Estimado Invitado';
+            guestCount = data.personas || 1;
+            actualizarUI();
+            if (data.respondio) { mostrarYaRespondio(data.respuesta); }
+            resolve(data);
+          } else {
+            actualizarUI();
+            resolve(null);
+          }
+        })
+        .catch(function() {
+          if (resolved) return;
+          const callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
+          window[callbackName] = function(data) {
+            if (resolved) return;
+            resolved = true;
+            clearTimeout(loadTimeout);
+            delete window[callbackName];
+            const scriptTag = document.getElementById('jsonp-guest-script');
+            if (scriptTag) document.body.removeChild(scriptTag);
+            if (data) {
+              guestName  = data.nombre   || 'Estimado Invitado';
+              guestCount = data.personas || 1;
+              actualizarUI();
+              if (data.respondio) { mostrarYaRespondio(data.respuesta); }
+              resolve(data);
+            } else {
+              actualizarUI();
+              resolve(null);
+            }
+          };
+          const script = document.createElement('script');
+          script.id  = 'jsonp-guest-script';
+          script.src = APPS_SCRIPT_URL + '?action=getGuest&inv=' + encodeURIComponent(guestSlug) + '&callback=' + callbackName;
+          script.onerror = function() {
+            if (!resolved) { resolved = true; clearTimeout(loadTimeout); actualizarUI(); resolve(null); }
+          };
+          document.body.appendChild(script);
+        });
 
-      const script = document.createElement('script');
-      script.id  = 'jsonp-guest-script';
-      script.src = APPS_SCRIPT_URL + '?action=getGuest&inv=' + encodeURIComponent(guestSlug) + '&callback=' + callbackName;
-      script.onerror = function() {
-        if (!resolved) { resolved = true; clearTimeout(loadTimeout); actualizarUI(); resolve(null); }
-      };
-      document.body.appendChild(script);
     } else {
       actualizarUI();
       resolve(null);
     }
   });
 }
-
 /* ══════════════════════════════════════════
    ANIMACIÓN DEL SOBRE
 ══════════════════════════════════════════ */
