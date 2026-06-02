@@ -939,28 +939,38 @@ function transitionToMainPage() {
 /* ══════════════════════════════════════════
    RSVP
 ══════════════════════════════════════════ */
-async function sendRSVP(resp) {
+function sendRSVP(resp) {
   const btns = document.getElementById('rsvpButtons');
   btns.style.opacity = '0.5';
   btns.style.pointerEvents = 'none';
 
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action:    'rsvp',
-        id:        guestId,
-        nombre:    guestName,
-        personas:  guestCount,
-        respuesta: resp
-      })
-    });
-  } catch(e) {}
+  const callbackName = 'jsonp_rsvp_' + Math.round(100000 * Math.random());
+  window[callbackName] = function(data) {
+    delete window[callbackName];
+    const scriptTag = document.getElementById('jsonp-rsvp-script');
+    if (scriptTag) document.body.removeChild(scriptTag);
+    btns.style.display = 'none';
+    mostrarRespuesta(resp);
+  };
 
-  btns.style.display = 'none';
-  mostrarRespuesta(resp);
+  const script = document.createElement('script');
+  script.id  = 'jsonp-rsvp-script';
+  script.src = APPS_SCRIPT_URL
+    + '?action=rsvp'
+    + '&id='        + encodeURIComponent(guestId)
+    + '&nombre='    + encodeURIComponent(guestName)
+    + '&personas='  + encodeURIComponent(guestCount)
+    + '&respuesta=' + encodeURIComponent(resp)
+    + '&callback='  + callbackName;
+
+  script.onerror = function() {
+    const scriptTag = document.getElementById('jsonp-rsvp-script');
+    if (scriptTag) document.body.removeChild(scriptTag);
+    btns.style.display = 'none';
+    mostrarRespuesta(resp);
+  };
+
+  document.body.appendChild(script);
 }
 
 function mostrarYaRespondio(respuestaAnterior) {
@@ -987,7 +997,6 @@ function mostrarRespuesta(resp) {
     document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
   }
 }
-
 /* ══════════════════════════════════════════
    MAPAS
 ══════════════════════════════════════════ */
