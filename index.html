@@ -716,10 +716,10 @@
       <strong id="rsvpGuestName">Cargando...</strong>
       <span id="rsvpGuestCount">-- personas</span>
     </div>
-    <div class="rsvp-buttons" id="rsvpButtons">
-      <button class="rsvp-btn rsvp-btn-yes" onclick="sendRSVP('si')">Confirmar Asistencia</button>
-      <button class="rsvp-btn rsvp-btn-no" onclick="sendRSVP('no')">No Podré Asistir</button>
-    </div>
+      <div class="rsvp-buttons" id="rsvpButtons">
+        <button class="rsvp-btn rsvp-btn-yes" id="btnSi">Confirmar Asistencia</button>
+        <button class="rsvp-btn rsvp-btn-no" id="btnNo">No Podré Asistir</button>
+      </div>
     <p class="rsvp-error" id="rsvpError">Hubo un problema al enviar tu respuesta. Por favor intenta de nuevo.</p>
     <div class="rsvp-response" id="rsvpResponse">
       <h3 id="rsvpResponseTitle">¡Gracias!</h3>
@@ -1062,6 +1062,12 @@ function initPetals() {
 document.addEventListener('DOMContentLoaded', function() {
   const btn = document.getElementById('openBtn');
   if (btn) btn.addEventListener('click', openInvitation);
+
+  const btnSi = document.getElementById('btnSi');
+  const btnNo = document.getElementById('btnNo');
+  if (btnSi) btnSi.addEventListener('click', function() { sendRSVP('si'); });
+  if (btnNo) btnNo.addEventListener('click', function() { sendRSVP('no'); });
+
   loadGuest();
 });
 </script>
