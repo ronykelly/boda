@@ -944,33 +944,21 @@ function sendRSVP(resp) {
   btns.style.opacity = '0.5';
   btns.style.pointerEvents = 'none';
 
-  const callbackName = 'jsonp_rsvp_' + Math.round(100000 * Math.random());
-  window[callbackName] = function(data) {
-    delete window[callbackName];
-    const scriptTag = document.getElementById('jsonp-rsvp-script');
-    if (scriptTag) document.body.removeChild(scriptTag);
-    btns.style.display = 'none';
-    mostrarRespuesta(resp);
-  };
-
-  const script = document.createElement('script');
-  script.id  = 'jsonp-rsvp-script';
-  script.src = APPS_SCRIPT_URL
+  fetch(APPS_SCRIPT_URL
     + '?action=rsvp'
     + '&id='        + encodeURIComponent(guestId)
     + '&nombre='    + encodeURIComponent(guestName)
     + '&personas='  + encodeURIComponent(guestCount)
-    + '&respuesta=' + encodeURIComponent(resp)
-    + '&callback='  + callbackName;
-
-  script.onerror = function() {
-    const scriptTag = document.getElementById('jsonp-rsvp-script');
-    if (scriptTag) document.body.removeChild(scriptTag);
-    btns.style.display = 'none';
-    mostrarRespuesta(resp);
-  };
-
-  document.body.appendChild(script);
+    + '&respuesta=' + encodeURIComponent(resp))
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      btns.style.display = 'none';
+      mostrarRespuesta(resp);
+    })
+    .catch(function() {
+      btns.style.display = 'none';
+      mostrarRespuesta(resp);
+    });
 }
 
 function mostrarYaRespondio(respuestaAnterior) {
