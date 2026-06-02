@@ -1055,21 +1055,23 @@ function initPetals() {
     container.appendChild(p);
   }
 }
-
+  
 /* ══════════════════════════════════════════
    INIT
 ══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function() {
-  const btn = document.getElementById('openBtn');
-  if (btn) btn.addEventListener('click', openInvitation);
+  const openBtn = document.getElementById('openBtn');
+  if (openBtn) openBtn.addEventListener('click', openInvitation);
 
   const btnSi = document.getElementById('btnSi');
   const btnNo = document.getElementById('btnNo');
-  if (btnSi) btnSi.addEventListener('click', function() { sendRSVP('si'); });
-  if (btnNo) btnNo.addEventListener('click', function() { sendRSVP('no'); });
+  if (btnSi) btnSi.addEventListener('click', function(e) { e.preventDefault(); sendRSVP('si'); });
+  if (btnNo) btnNo.addEventListener('click', function(e) { e.preventDefault(); sendRSVP('no'); });
 
   loadGuest();
+  
 });
+  
 </script>
 </body>
 </html>
