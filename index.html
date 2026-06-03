@@ -751,7 +751,6 @@
 ══════════════════════════════════════════ */
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJ_-KX9AGyAPK84KkIhnaZ7DGOcSngdlX5hZuUlQtJ_QnHbp12w5ifeb666KCRP-r-/exec';
 
-
 /* ══════════════════════════════════════════
    ESTADO GLOBAL
 ══════════════════════════════════════════ */
@@ -760,8 +759,7 @@ const guestSlug   = params.get('inv') || '';
 let   guestId     = guestSlug;
 let   guestName   = 'Estimado Invitado';
 let   guestCount  = 1;
-
-let isOpening = false;
+let   isOpening   = false;
 
 /* ══════════════════════════════════════════
    ESTRELLAS DEL SOBRE
@@ -785,8 +783,7 @@ let isOpening = false;
   }
 })();
 
-
-  /* ══════════════════════════════════════════
+/* ══════════════════════════════════════════
    CARGA DEL INVITADO
 ══════════════════════════════════════════ */
 function actualizarUI() {
@@ -830,7 +827,7 @@ function loadGuest() {
             guestName  = data.nombre   || 'Estimado Invitado';
             guestCount = data.personas || 1;
             actualizarUI();
-            if (data.respondio) { mostrarYaRespondio(data.respuesta); }
+            if (data.respondio) { window.mostrarYaRespondio(data.respuesta); }
             resolve(data);
           } else {
             actualizarUI();
@@ -851,7 +848,7 @@ function loadGuest() {
               guestName  = data.nombre   || 'Estimado Invitado';
               guestCount = data.personas || 1;
               actualizarUI();
-              if (data.respondio) { mostrarYaRespondio(data.respuesta); }
+              if (data.respondio) { window.mostrarYaRespondio(data.respuesta); }
               resolve(data);
             } else {
               actualizarUI();
@@ -873,6 +870,7 @@ function loadGuest() {
     }
   });
 }
+
 /* ══════════════════════════════════════════
    ANIMACIÓN DEL SOBRE
 ══════════════════════════════════════════ */
@@ -930,7 +928,6 @@ function transitionToMainPage() {
   screen.style.transition = 'opacity 1s ease';
   screen.style.opacity    = '0';
 
-
   setTimeout(function() {
     screen.style.visibility = 'hidden';
     document.getElementById('main-page').classList.add('visible');
@@ -956,7 +953,7 @@ function sendRSVP(resp) {
     .then(function(r) { return r.json(); })
     .then(function(data) {
       btns.style.display = 'none';
-      mostrarRespuesta(resp);
+      window.mostrarRespuesta(resp);
     })
     .catch(function() {
       const callbackName = 'jsonp_rsvp_' + Math.round(100000 * Math.random());
@@ -965,7 +962,7 @@ function sendRSVP(resp) {
         const s = document.getElementById('jsonp-rsvp-script');
         if (s) document.body.removeChild(s);
         btns.style.display = 'none';
-        mostrarRespuesta(resp);
+        window.mostrarRespuesta(resp);
       };
       const script = document.createElement('script');
       script.id  = 'jsonp-rsvp-script';
@@ -980,13 +977,13 @@ function sendRSVP(resp) {
         const s = document.getElementById('jsonp-rsvp-script');
         if (s) document.body.removeChild(s);
         btns.style.display = 'none';
-        mostrarRespuesta(resp);
+        window.mostrarRespuesta(resp);
       };
       document.body.appendChild(script);
     });
 }
 
-function mostrarYaRespondio(respuestaAnterior) {
+window.mostrarYaRespondio = function(respuestaAnterior) {
   document.getElementById('rsvpButtons').style.display = 'none';
   const respEl = document.getElementById('rsvpResponse');
   respEl.classList.add('show');
@@ -998,9 +995,9 @@ function mostrarYaRespondio(respuestaAnterior) {
     document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
     document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya tenemos tu respuesta registrada. Gracias por avisarnos.';
   }
-}
+};
 
-function mostrarRespuesta(resp) {
+window.mostrarRespuesta = function(resp) {
   const respEl = document.getElementById('rsvpResponse');
   respEl.classList.add('show');
   if (resp === 'si') {
@@ -1011,7 +1008,8 @@ function mostrarRespuesta(resp) {
     document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
     document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
   }
-}
+};
+
 /* ══════════════════════════════════════════
    MAPAS
 ══════════════════════════════════════════ */
@@ -1030,6 +1028,7 @@ function openMap(tipo) {
     document.body.removeChild(a);
   }
 }
+
 /* ══════════════════════════════════════════
    CALENDARIO
 ══════════════════════════════════════════ */
@@ -1064,6 +1063,7 @@ function guardarFecha() {
     window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Rony+%26+Kelly&dates=20260718T160000/20260718T230000&details=Ceremonia+a+las+4:00PM+en+Iglesia+Santo+Tom%C3%A1s+de+Aquino.+Recepci%C3%B3n+a+las+6:00PM+en+Chochys+Bakery.&location=Puerto+Barrios,+Guatemala', '_blank');
   }
 }
+
 /* ══════════════════════════════════════════
    COUNTDOWN & PÉTALOS
 ══════════════════════════════════════════ */
@@ -1104,7 +1104,7 @@ function initPetals() {
     container.appendChild(p);
   }
 }
-  
+
 /* ══════════════════════════════════════════
    INIT
 ══════════════════════════════════════════ */
@@ -1118,9 +1118,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (btnNo) btnNo.addEventListener('click', function(e) { e.preventDefault(); sendRSVP('no'); });
 
   loadGuest();
-  
 });
-  
 </script>
 </body>
 </html>
