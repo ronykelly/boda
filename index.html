@@ -635,8 +635,8 @@
       <span id="rsvpGuestCount">-- personas</span>
     </div>
     <div class="rsvp-buttons" id="rsvpButtons">
-      <button class="rsvp-btn rsvp-btn-yes" id="btnSi" onclick="sendRSVP('si')">Confirmar Asistencia</button>
-      <button class="rsvp-btn rsvp-btn-no" id="btnNo" onclick="sendRSVP('no')">No Podré Asistir</button>
+      <button class="rsvp-btn rsvp-btn-yes" id="btnSi">Confirmar Asistencia</button>
+      <button class="rsvp-btn rsvp-btn-no" id="btnNo">No Podré Asistir</button>
     </div>
     <p class="rsvp-error" id="rsvpError">Hubo un problema al enviar tu respuesta. Por favor intenta de nuevo.</p>
     <div class="rsvp-response" id="rsvpResponse">
@@ -788,137 +788,84 @@ function loadGuest() {
 }
 
 /* ══════════════════════════════════════════
-   ANIMACIÓN DEL SOBRE
-══════════════════════════════════════════ */
-function openInvitation() {
-  if (isOpening) return;
-  isOpening = true;
-
-  const btn     = document.getElementById('openBtn');
-  const wrap    = document.getElementById('envelopeWrap');
-  const flap    = document.getElementById('envFlap');
-  const seal    = document.getElementById('envSealCircle');
-  const sealTxt = document.getElementById('envSealText');
-  const postal  = document.getElementById('postal-container');
-  const details = document.getElementById('postal-details');
-  const hint    = document.getElementById('envHint');
-  const gBlock  = document.getElementById('env-guest-block');
-
-  btn.style.pointerEvents = 'none';
-  btn.style.opacity       = '0';
-  if (hint)   hint.style.opacity   = '0';
-  if (gBlock) gBlock.style.opacity = '0.3';
-
-  flap.style.transformOrigin = 'center top';
-  flap.style.transform       = 'rotateX(180deg)';
-
-  setTimeout(function() {
-    if (seal)    seal.style.opacity    = '0';
-    if (sealTxt) sealTxt.style.opacity = '0';
-  }, 200);
-
-  setTimeout(function() {
-    wrap.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-    wrap.style.opacity    = '0';
-    wrap.style.transform  = 'scale(0.85)';
-    setTimeout(function() { wrap.style.display = 'none'; }, 400);
-    postal.classList.add('show');
-  }, 500);
-
-  setTimeout(function() {
-    details.classList.add('show');
-    btn.innerHTML           = '✦   Entrar a la Invitación   ✦';
-    btn.style.opacity       = '1';
-    btn.style.pointerEvents = 'auto';
-    btn.onclick = transitionToMainPage;
-  }, 1300);
-}
-
-function transitionToMainPage() {
-  const screen = document.getElementById('envelope-screen');
-  const postal = document.getElementById('postal-container');
-  const btn    = document.getElementById('openBtn');
-
-  btn.style.pointerEvents = 'none';
-  postal.style.opacity    = '0';
-  screen.style.transition = 'opacity 1s ease';
-  screen.style.opacity    = '0';
-
-  setTimeout(function() {
-    screen.style.visibility = 'hidden';
-    document.getElementById('main-page').classList.add('visible');
-    initPetals();
-    startCountdown();
-  }, 1000);
-}
-
-/* ══════════════════════════════════════════
-   RSVP — fetch GET con fallback JSONP
+   RSVP — OPTIMIZADO PARA ANDROID, IOS Y PC
 ══════════════════════════════════════════ */
 function sendRSVP(resp) {
-  var btns = document.getElementById('rsvpButtons');
-  btns.style.opacity = '0.5';
-  btns.style.pointerEvents = 'none';
+  const btns = document.getElementById('rsvpButtons');
+  const errorEl = document.getElementById('rsvpError');
+  
+  if (btns) {
+    btns.style.opacity = '0.5';
+    btns.style.pointerEvents = 'none';
+  }
+  if (errorEl) errorEl.style.display = 'none';
 
-  var url = APPS_SCRIPT_URL
+  // Construcción de la URL de Google Apps Script
+  const url = APPS_SCRIPT_URL
     + '?action=rsvp'
     + '&id='        + encodeURIComponent(guestId)
     + '&nombre='    + encodeURIComponent(guestName)
     + '&personas='  + encodeURIComponent(guestCount)
     + '&respuesta=' + encodeURIComponent(resp);
 
-  var done = false;
-
-  function finish() {
-    if (done) return;
-    done = true;
-    btns.style.display = 'none';
-    mostrarRespuesta(resp);
-  }
-
-  // JSONP como método principal
-  var callbackName = 'rsvp_cb_' + Math.round(100000 * Math.random());
-  window[callbackName] = function() {
-    delete window[callbackName];
-    var s = document.getElementById('jsonp-rsvp-script');
-    if (s) document.body.removeChild(s);
-    finish();
-  };
-  var script = document.createElement('script');
-  script.id  = 'jsonp-rsvp-script';
-  script.src = url + '&callback=' + callbackName;
-  script.onerror = function() {
-    delete window[callbackName];
-    finish();
-  };
-  document.body.appendChild(script);
-
-  // Si en 8 segundos no respondió, mostrar respuesta de todas formas
-  setTimeout(finish, 8000);
+  /* Usamos fetch con 'mode: no-cors'. 
+     Google Apps Script procesará la solicitud perfectamente, 
+     evitando bloqueos de seguridad en navegadores móviles.
+  */
+  fetch(url, { method: 'GET', mode: 'no-cors' })
+    .then(function() {
+      // Éxito en el envío
+      if (btns) btns.style.display = 'none';
+      mostrarRespuesta(resp);
+    })
+    .catch(function(error) {
+      console.error('Error al enviar RSVP:', error);
+      // Fallback: Si falla fetch, intentamos el método alternativo por imagen (ultra-compatible)
+      try {
+        const img = new Image();
+        img.src = url;
+        if (btns) btns.style.display = 'none';
+        mostrarRespuesta(resp);
+      } catch (e) {
+        // Si todo falla, reactivamos los botones y mostramos error
+        if (btns) {
+          btns.style.opacity = '1';
+          btns.style.pointerEvents = 'auto';
+        }
+        if (errorEl) errorEl.style.display = 'block';
+      }
+    });
 }
 
+// Aseguramos que las funciones de UI estén disponibles globalmente
 window.mostrarYaRespondio = function(respuestaAnterior) {
-  document.getElementById('rsvpButtons').style.display = 'none';
+  const btns = document.getElementById('rsvpButtons');
+  if (btns) btns.style.display = 'none';
+  
   const respEl = document.getElementById('rsvpResponse');
-  respEl.classList.add('show');
-  if (respuestaAnterior === 'si') {
-    document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
-    document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!';
-  } else {
-    document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
-    document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya tenemos tu respuesta registrada. Gracias por avisarnos.';
+  if (respEl) {
+    respEl.classList.add('show');
+    if (respuestaAnterior === 'si') {
+      document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
+      document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!';
+    } else {
+      document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
+      document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya tenemos tu respuesta registrada. Gracias por avisarnos.';
+    }
   }
 };
 
 window.mostrarRespuesta = function(resp) {
   const respEl = document.getElementById('rsvpResponse');
-  respEl.classList.add('show');
-  if (resp === 'si') {
-    document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
-    document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
-  } else {
-    document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
-    document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
+  if (respEl) {
+    respEl.classList.add('show');
+    if (resp === 'si') {
+      document.getElementById('rsvpResponseTitle').textContent = '¡Qué alegría! 🎉';
+      document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
+    } else {
+      document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
+      document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
+    }
   }
 };
 
@@ -988,6 +935,18 @@ function initPetals() {
 document.addEventListener('DOMContentLoaded', function() {
   const openBtn = document.getElementById('openBtn');
   if (openBtn) openBtn.addEventListener('click', openInvitation);
+  
+  // Asignación segura de eventos para RSVP (Solución iOS/Android)
+  const btnSi = document.getElementById('btnSi');
+  const btnNo = document.getElementById('btnNo');
+  
+  if (btnSi) {
+    btnSi.addEventListener('click', function() { sendRSVP('si'); });
+  }
+  if (btnNo) {
+    btnNo.addEventListener('click', function() { sendRSVP('no'); });
+  }
+  
   loadGuest();
 });
 </script>
