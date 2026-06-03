@@ -876,6 +876,7 @@ function transitionToMainPage() {
 /* ══════════════════════════════════════════
    RSVP — ENVIOS HÍBRIDOS SEGUROS
 ══════════════════════════════════════════ */
+
 function sendRSVP(resp) {
   const btns = document.getElementById('rsvpButtons');
   const errorEl = document.getElementById('rsvpError');
@@ -919,24 +920,7 @@ function sendRSVP(resp) {
         if (errorEl) errorEl.style.display = 'block';
       }
     });
-}
-
-window.mostrarYaRespondio = function(respuestaAnterior) {
-  const btns = document.getElementById('rsvpButtons');
-  if (btns) btns.style.display = 'none';
-  
-  const respEl = document.getElementById('rsvpResponse');
-  if (respEl) {
-    respEl.classList.add('show');
-    if (respuestaAnterior === 'si') {
-      document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
-      document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!';
-    } else {
-      document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
-      document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya tenemos tu respuesta registrada. Gracias por avisarnos.';
-    }
-  }
-};
+} // <--- HASTA AQUÍ BORRAS
 
 window.mostrarRespuesta = function(resp) {
   const respEl = document.getElementById('rsvpResponse');
