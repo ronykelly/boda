@@ -56,7 +56,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: 
+    background:
       radial-gradient(ellipse 600px 400px at 20% 80%, rgba(201,169,110,0.06) 0%, transparent 70%),
       radial-gradient(ellipse 400px 300px at 80% 20%, rgba(201,169,110,0.05) 0%, transparent 70%);
     pointer-events: none;
@@ -240,7 +240,6 @@
   .open-btn:hover::before { transform: scaleX(1); }
   .open-btn:active { opacity: 0.85; }
 
-
   @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
   @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
@@ -296,7 +295,6 @@
   .event-detail { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text-light); line-height: 1.8; margin-bottom: 6px; }
   .event-place { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--text); font-weight: 400; margin: 12px 0 24px; line-height: 1.6; }
 
-/*------btn maps------*/
   .map-btn {
     display: inline-flex;
     background: var(--gold);
@@ -343,124 +341,47 @@
       radial-gradient(ellipse 500px 300px at 90% 50%, rgba(201,169,110,0.06) 0%, transparent 70%);
     pointer-events: none;
   }
-  .gift-inner {
-    max-width: 720px;
-    margin: 0 auto;
-    text-align: center;
-    position: relative;
-  }
-  .gift-ornament-top {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    color: var(--gold);
-    letter-spacing: 14px;
-    margin-bottom: 38px;
-    opacity: 0.6;
-  }
+  .gift-inner { max-width: 720px; margin: 0 auto; text-align: center; position: relative; }
+  .gift-ornament-top { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold); letter-spacing: 14px; margin-bottom: 38px; opacity: 0.6; }
   .gift-icon-wrap {
-    width: 84px;
-    height: 84px;
-    margin: 0 auto 30px;
-    border: 1px solid var(--gold-light);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    background: var(--white);
+    width: 84px; height: 84px; margin: 0 auto 30px;
+    border: 1px solid var(--gold-light); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; background: var(--white);
     box-shadow: 0 8px 30px rgba(201,169,110,0.14);
   }
   .gift-icon-wrap::before {
-    content: '';
-    position: absolute;
-    inset: -7px;
-    border-radius: 50%;
+    content: ''; position: absolute; inset: -7px; border-radius: 50%;
     border: 1px solid rgba(201,169,110,0.22);
   }
   .gift-icon-wrap span { font-size: 2.1rem; line-height: 1; }
-  .gift-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4.5vw, 3.4rem);
-    font-weight: 400;
-    color: var(--text);
-    margin-bottom: 14px;
-    line-height: 1.2;
-  }
-  .gift-subtitle {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 600;
-    font-size: 10px;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 44px;
-  }
+  .gift-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4.5vw, 3.4rem); font-weight: 400; color: var(--text); margin-bottom: 14px; line-height: 1.2; }
+  .gift-subtitle { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 44px; }
   .gift-card {
-    background: var(--white);
-    border: 1px solid var(--gold-light);
-    padding: 56px 70px;
-    position: relative;
-    margin: 0 auto;
-    text-align: center;
+    background: var(--white); border: 1px solid var(--gold-light);
+    padding: 56px 70px; position: relative; margin: 0 auto; text-align: center;
   }
   .gift-card::before {
-    content: '';
-    position: absolute;
+    content: ''; position: absolute;
     top: 8px; left: 8px; right: -8px; bottom: -8px;
-    border: 1px solid var(--gold-light);
-    z-index: -1;
-    opacity: 0.5;
+    border: 1px solid var(--gold-light); z-index: -1; opacity: 0.5;
   }
   .gift-card::after {
-    content: '\2726';
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--cream);
-    padding: 0 18px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem;
-    color: var(--gold);
+    content: '\2726'; position: absolute; top: -15px; left: 50%;
+    transform: translateX(-50%); background: var(--cream); padding: 0 18px;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--gold);
   }
-  .gift-main-text {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.25rem, 2.4vw, 1.6rem);
-    font-style: italic;
-    color: var(--text-light);
-    line-height: 1.95;
-    margin-bottom: 36px;
-  }
-  .gift-highlight-wrap {
-    margin: 0 0 36px;
-  }
+  .gift-main-text { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-style: italic; color: var(--text-light); line-height: 1.95; margin-bottom: 36px; }
+  .gift-highlight-wrap { margin: 0 0 36px; }
   .gift-highlight {
-    display: inline-block;
-    font-family: 'Playfair Display', serif;
-    font-style: normal;
-    font-size: clamp(2.2rem, 5vw, 3.4rem);
-    font-weight: 600;
-    color: var(--gold-dark);
-    letter-spacing: 4px;
-    padding-bottom: 12px;
+    display: inline-block; font-family: 'Playfair Display', serif;
+    font-style: normal; font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 600;
+    color: var(--gold-dark); letter-spacing: 4px; padding-bottom: 12px;
     border-bottom: 2px solid var(--gold-light);
   }
-  .gift-divider-line {
-    width: 1px;
-    height: 48px;
-    background: linear-gradient(to bottom, transparent, var(--gold-light), transparent);
-    margin: 0 auto 32px;
-  }
-  .gift-footnote {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
-    color: var(--text-light);
-    font-style: italic;
-    line-height: 1.85;
-  }
-  @media (max-width: 600px) {
-    .gift-card { padding: 38px 28px; }
-  }
+  .gift-divider-line { width: 1px; height: 48px; background: linear-gradient(to bottom, transparent, var(--gold-light), transparent); margin: 0 auto 32px; }
+  .gift-footnote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2vw, 1.25rem); color: var(--text-light); font-style: italic; line-height: 1.85; }
+  @media (max-width: 600px) { .gift-card { padding: 38px 28px; } }
 
   /* PROMESA */
   .couple-photo-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
@@ -589,8 +510,6 @@
   <button class="open-btn" id="openBtn" style="opacity:0.5; pointer-events:none;">✦   Abrir Invitación   ✦</button>
 </div>
 
-</div>
-
 
 <div id="main-page">
   <div class="petals-bg" id="petals"></div>
@@ -648,7 +567,6 @@
     </div>
   </section>
 
-  <!-- ─── SECCIÓN DE REGALO ─── -->
   <section class="gift-section">
     <div class="gift-inner">
       <p class="gift-ornament-top">✦ &nbsp;&nbsp; ✦ &nbsp;&nbsp; ✦</p>
@@ -716,20 +634,15 @@
       <strong id="rsvpGuestName">Cargando...</strong>
       <span id="rsvpGuestCount">-- personas</span>
     </div>
-      <div class="rsvp-buttons" id="rsvpButtons">
+    <div class="rsvp-buttons" id="rsvpButtons">
       <button class="rsvp-btn rsvp-btn-yes" id="btnSi" onclick="sendRSVP('si')">Confirmar Asistencia</button>
       <button class="rsvp-btn rsvp-btn-no" id="btnNo" onclick="sendRSVP('no')">No Podré Asistir</button>
-      </div>
+    </div>
     <p class="rsvp-error" id="rsvpError">Hubo un problema al enviar tu respuesta. Por favor intenta de nuevo.</p>
-   <div class="rsvp-response" id="rsvpResponse">
-  <h3 id="rsvpResponseTitle">¡Gracias!</h3>
-  <p id="rsvpResponseMsg">Tu respuesta ha sido registrada exitosamente.</p>
-  <div style="text-align:center; margin-top:20px;">
-    <button id="calendarBtn" onclick="guardarFecha()" style="display:none; background:var(--gold); color:var(--white); font-family:'Montserrat',sans-serif; font-weight:600; font-size:10px; letter-spacing:3px; text-transform:uppercase; padding:14px 32px; border:none; cursor:pointer; min-height:48px;">
-      📅 Guardar en mi Calendario
-    </button>
-  </div>
-</div>
+    <div class="rsvp-response" id="rsvpResponse">
+      <h3 id="rsvpResponseTitle">¡Gracias!</h3>
+      <p id="rsvpResponseMsg">Tu respuesta ha sido registrada exitosamente.</p>
+    </div>
   </section>
 
   <section class="gallery-section">
@@ -756,12 +669,13 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJ_-KX9AGyAPK8
 /* ══════════════════════════════════════════
    ESTADO GLOBAL
 ══════════════════════════════════════════ */
-const params      = new URLSearchParams(window.location.search);
-const guestSlug   = params.get('inv') || '';
-let   guestId     = guestSlug;
-let   guestName   = 'Estimado Invitado';
-let   guestCount  = 1;
-let   isOpening   = false;
+const params     = new URLSearchParams(window.location.search);
+const guestSlug  = params.get('inv') || '';
+let   guestId    = guestSlug;
+let   guestName  = 'Estimado Invitado';
+let   guestCount = 1;
+
+let isOpening = false;
 
 /* ══════════════════════════════════════════
    ESTRELLAS DEL SOBRE
@@ -829,7 +743,7 @@ function loadGuest() {
             guestName  = data.nombre   || 'Estimado Invitado';
             guestCount = data.personas || 1;
             actualizarUI();
-            if (data.respondio) { window.mostrarYaRespondio(data.respuesta); }
+            if (data.respondio) { mostrarYaRespondio(data.respuesta); }
             resolve(data);
           } else {
             actualizarUI();
@@ -850,7 +764,7 @@ function loadGuest() {
               guestName  = data.nombre   || 'Estimado Invitado';
               guestCount = data.personas || 1;
               actualizarUI();
-              if (data.respondio) { window.mostrarYaRespondio(data.respuesta); }
+              if (data.respondio) { mostrarYaRespondio(data.respuesta); }
               resolve(data);
             } else {
               actualizarUI();
@@ -939,47 +853,42 @@ function transitionToMainPage() {
 }
 
 /* ══════════════════════════════════════════
-   RSVP
+   RSVP — fetch GET con fallback JSONP
 ══════════════════════════════════════════ */
 function sendRSVP(resp) {
-  const btns = document.getElementById('rsvpButtons');
+  var btns = document.getElementById('rsvpButtons');
   btns.style.opacity = '0.5';
   btns.style.pointerEvents = 'none';
 
-  fetch(APPS_SCRIPT_URL
+  var url = APPS_SCRIPT_URL
     + '?action=rsvp'
     + '&id='        + encodeURIComponent(guestId)
     + '&nombre='    + encodeURIComponent(guestName)
     + '&personas='  + encodeURIComponent(guestCount)
-    + '&respuesta=' + encodeURIComponent(resp))
+    + '&respuesta=' + encodeURIComponent(resp);
+
+  fetch(url)
     .then(function(r) { return r.json(); })
-    .then(function(data) {
+    .then(function() {
       btns.style.display = 'none';
-      window.mostrarRespuesta(resp);
+      mostrarRespuesta(resp);
     })
     .catch(function() {
-      const callbackName = 'jsonp_rsvp_' + Math.round(100000 * Math.random());
+      var callbackName = 'rsvp_cb_' + Math.round(100000 * Math.random());
       window[callbackName] = function() {
         delete window[callbackName];
-        const s = document.getElementById('jsonp-rsvp-script');
+        var s = document.getElementById('jsonp-rsvp-script');
         if (s) document.body.removeChild(s);
         btns.style.display = 'none';
-        window.mostrarRespuesta(resp);
+        mostrarRespuesta(resp);
       };
-      const script = document.createElement('script');
+      var script = document.createElement('script');
       script.id  = 'jsonp-rsvp-script';
-      script.src = APPS_SCRIPT_URL
-        + '?action=rsvp'
-        + '&id='        + encodeURIComponent(guestId)
-        + '&nombre='    + encodeURIComponent(guestName)
-        + '&personas='  + encodeURIComponent(guestCount)
-        + '&respuesta=' + encodeURIComponent(resp)
-        + '&callback='  + callbackName;
+      script.src = url + '&callback=' + callbackName;
       script.onerror = function() {
-        const s = document.getElementById('jsonp-rsvp-script');
-        if (s) document.body.removeChild(s);
+        delete window[callbackName];
         btns.style.display = 'none';
-        window.mostrarRespuesta(resp);
+        mostrarRespuesta(resp);
       };
       document.body.appendChild(script);
     });
@@ -992,7 +901,6 @@ window.mostrarYaRespondio = function(respuestaAnterior) {
   if (respuestaAnterior === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
     document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!';
-    document.getElementById('calendarBtn').style.display = 'block';
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
     document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya tenemos tu respuesta registrada. Gracias por avisarnos.';
@@ -1005,7 +913,6 @@ window.mostrarRespuesta = function(resp) {
   if (resp === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
     document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
-    document.getElementById('calendarBtn').style.display = 'block';
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
     document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
@@ -1028,41 +935,6 @@ function openMap(tipo) {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-  }
-}
-
-/* ══════════════════════════════════════════
-   CALENDARIO
-══════════════════════════════════════════ */
-function guardarFecha() {
-  const ua = navigator.userAgent.toLowerCase();
-  const esIOS = /iphone|ipad|ipod/.test(ua);
-  const esAndroid = /android/.test(ua);
-
-  if (esAndroid) {
-    window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Rony+%26+Kelly&dates=20260718T160000/20260718T230000&details=Ceremonia+a+las+4:00PM+en+Iglesia+Santo+Tom%C3%A1s+de+Aquino.+Recepci%C3%B3n+a+las+6:00PM+en+Chochys+Bakery.&location=Puerto+Barrios,+Guatemala', '_blank');
-  } else if (esIOS) {
-    const ics = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'BEGIN:VEVENT',
-      'DTSTART:20260718T160000',
-      'DTEND:20260718T230000',
-      'SUMMARY:Boda Rony & Kelly',
-      'DESCRIPTION:Ceremonia a las 4:00PM en Iglesia Santo Tomás de Aquino. Recepción a las 6:00PM en Chochys Bakery.',
-      'LOCATION:Puerto Barrios, Guatemala',
-      'END:VEVENT',
-      'END:VCALENDAR'
-    ].join('\n');
-    const blob = new Blob([ics], { type: 'text/calendar' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href     = url;
-    a.download = 'boda-rony-kelly.ics';
-    a.click();
-    URL.revokeObjectURL(url);
-  } else {
-    window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Rony+%26+Kelly&dates=20260718T160000/20260718T230000&details=Ceremonia+a+las+4:00PM+en+Iglesia+Santo+Tom%C3%A1s+de+Aquino.+Recepci%C3%B3n+a+las+6:00PM+en+Chochys+Bakery.&location=Puerto+Barrios,+Guatemala', '_blank');
   }
 }
 
