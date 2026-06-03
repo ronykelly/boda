@@ -947,6 +947,7 @@ function sendRSVP(resp) {
   btns.style.opacity = '0.5';
   btns.style.pointerEvents = 'none';
 
+  // Intento 1: fetch GET
   fetch(APPS_SCRIPT_URL
     + '?action=rsvp'
     + '&id='        + encodeURIComponent(guestId)
@@ -959,35 +960,32 @@ function sendRSVP(resp) {
       mostrarRespuesta(resp);
     })
     .catch(function() {
-      btns.style.display = 'none';
-      mostrarRespuesta(resp);
+      // Intento 2: JSONP como respaldo
+      const callbackName = 'jsonp_rsvp_' + Math.round(100000 * Math.random());
+      window[callbackName] = function() {
+        delete window[callbackName];
+        const s = document.getElementById('jsonp-rsvp-script');
+        if (s) document.body.removeChild(s);
+        btns.style.display = 'none';
+        mostrarRespuesta(resp);
+      };
+      const script = document.createElement('script');
+      script.id  = 'jsonp-rsvp-script';
+      script.src = APPS_SCRIPT_URL
+        + '?action=rsvp'
+        + '&id='        + encodeURIComponent(guestId)
+        + '&nombre='    + encodeURIComponent(guestName)
+        + '&personas='  + encodeURIComponent(guestCount)
+        + '&respuesta=' + encodeURIComponent(resp)
+        + '&callback='  + callbackName;
+      script.onerror = function() {
+        const s = document.getElementById('jsonp-rsvp-script');
+        if (s) document.body.removeChild(s);
+        btns.style.display = 'none';
+        mostrarRespuesta(resp);
+      };
+      document.body.appendChild(script);
     });
-}
-
-function mostrarYaRespondio(respuestaAnterior) {
-  document.getElementById('rsvpButtons').style.display = 'none';
-  const respEl = document.getElementById('rsvpResponse');
-  respEl.classList.add('show');
-  if (respuestaAnterior === 'si') {
-    document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
-    document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!';
-  } else {
-    document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
-    document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya tenemos tu respuesta registrada. Gracias por avisarnos.';
-  }
-}
-
-function mostrarRespuesta(resp) {
-  const respEl = document.getElementById('rsvpResponse');
-  respEl.classList.add('show');
-  if (resp === 'si') {
-    document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
-    document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
-    document.getElementById('calendarBtn').style.display = 'block';
-  } else {
-    document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
-    document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
-  }
 }
 /* ══════════════════════════════════════════
    MAPAS
