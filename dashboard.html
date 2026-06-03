@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard de Invitados — Rony & Kelly</title>
+<title>Dashboard — Rony & Kelly</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -13,34 +13,50 @@
     --gold-light: #f3e9dc;
     --gold-dark: #a07840;
     --bg-card: #ffffff;
+    --bg-body: #faf5ef;
     --text: #3a2e24;
     --text-muted: #7a6a58;
     --success: #5a8f64;
     --danger: #b35c5c;
     --pending: #cf9b42;
+    --border: rgba(201,169,110,0.2);
+    --row-bg: #fdfcf9;
+    --row-hover: #f7f1e8;
+  }
+
+  [data-theme="dark"] {
+    --cream: #121212;
+    --dark-brown: #f3e9dc;
+    --gold: #c9a96e;
+    --gold-light: #2a1f12;
+    --gold-dark: #e8c87a;
+    --bg-card: #1e1e1e;
+    --bg-body: #121212;
+    --text: #f0e6d8;
+    --text-muted: #a89880;
+    --border: rgba(201,169,110,0.15);
+    --row-bg: #252525;
+    --row-hover: #2e2e2e;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
-    background-color: var(--cream);
+    background-color: var(--bg-body);
     font-family: 'Montserrat', sans-serif;
     color: var(--text);
     min-height: 100vh;
     padding: 20px;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s, color 0.3s;
   }
-
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+  .container { max-width: 1200px; margin: 0 auto; }
 
   header {
     text-align: center;
     padding: 30px 0 40px;
-    border-bottom: 1px solid rgba(201,169,110,0.3);
+    border-bottom: 1px solid var(--border);
     margin-bottom: 40px;
+    position: relative;
   }
   header h1 {
     font-family: 'Playfair Display', serif;
@@ -58,30 +74,197 @@
     font-weight: 500;
   }
 
-  .sync-bar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 25px;
-  }
-  .btn-refresh {
-    background: var(--dark-brown);
-    color: #fff;
-    border: 1px solid var(--gold);
-    padding: 10px 20px;
+  /* MODO NOCHE */
+  .theme-toggle {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 6px 14px;
+    cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 2px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--gold); color: var(--gold-dark); }
+
+  /* SYNC BAR */
+  .sync-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .sync-status {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sync-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse-dot 2s infinite;
+  }
+  .sync-dot.loading { background: var(--pending); animation: none; }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .auto-sync-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .toggle-switch {
+    width: 32px;
+    height: 18px;
+    background: var(--gold);
+    border-radius: 9px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 16px;
+    transition: left 0.2s;
+  }
+  .toggle-switch.off { background: #ccc; }
+  .toggle-switch.off::after { left: 2px; }
+
+  /* TOP BAR */
+  .top-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    max-width: 340px;
+    position: relative;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 10px 16px 10px 38px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    background: var(--bg-card);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-box input:focus { border-color: var(--gold); }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .search-box::before {
+    content: '🔍';
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    pointer-events: none;
+  }
+
+  .filter-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 9px 16px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-card);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--gold); color: var(--gold-dark); }
+  .filter-btn.active { background: var(--dark-brown); color: #fff; border-color: var(--dark-brown); }
+  .filter-btn.active.confirmed { background: var(--success); border-color: var(--success); }
+  .filter-btn.active.pending { background: var(--pending); border-color: var(--pending); }
+  .filter-btn.active.declined { background: var(--danger); border-color: var(--danger); }
+
+  .right-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-action {
+    padding: 10px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     cursor: pointer;
     border-radius: 4px;
-    transition: all 0.3s ease;
+    transition: all 0.2s;
+    border: none;
   }
-  .btn-refresh:hover {
-    background: var(--gold-dark);
-    color: var(--dark-brown);
-  }
+  .btn-refresh { background: var(--dark-brown); color: #fff; border: 1px solid var(--gold); }
+  [data-theme="dark"] .btn-refresh { background: var(--gold-light); color: var(--text); }
+  .btn-refresh:hover { opacity: 0.85; }
+  .btn-export { background: var(--success); color: #fff; }
+  .btn-export:hover { opacity: 0.85; }
 
+  /* SORT */
+  .sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .sort-btn {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-card);
+    color: var(--text-muted);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .sort-btn.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+  .sort-btn:hover { border-color: var(--gold); }
+
+  /* MÉTRICAS */
   .metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -93,9 +276,10 @@
     border-radius: 8px;
     padding: 24px;
     box-shadow: 0 10px 30px rgba(44,31,16,0.04);
-    border: 1px solid rgba(201,169,110,0.15);
+    border: 1px solid var(--border);
     position: relative;
     overflow: hidden;
+    transition: background 0.3s;
   }
   .metric-card::before {
     content: '';
@@ -106,7 +290,6 @@
   .metric-card.confirmed::before { background: var(--success); }
   .metric-card.pending::before { background: var(--pending); }
   .metric-card.declined::before { background: var(--danger); }
-
   .metric-val {
     font-family: 'Playfair Display', serif;
     font-size: 2.5rem;
@@ -123,22 +306,22 @@
     font-weight: 600;
   }
 
+  /* VISUALS */
   .visuals-layout {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
     gap: 30px;
     margin-bottom: 40px;
   }
-  @media (max-width: 850px) {
-    .visuals-layout { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 850px) { .visuals-layout { grid-template-columns: 1fr; } }
 
   .dashboard-box {
     background: var(--bg-card);
     border-radius: 8px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(44,31,16,0.04);
-    border: 1px solid rgba(201,169,110,0.15);
+    border: 1px solid var(--border);
+    transition: background 0.3s;
   }
   .box-title {
     font-family: 'Playfair Display', serif;
@@ -146,7 +329,7 @@
     color: var(--dark-brown);
     margin-bottom: 24px;
     font-weight: 600;
-    border-bottom: 1px solid #f3e9dc;
+    border-bottom: 1px solid var(--gold-light);
     padding-bottom: 10px;
   }
 
@@ -159,27 +342,37 @@
     min-height: 240px;
   }
   .donut-chart { transform: rotate(-90deg); }
-  .donut-bg { fill: none; stroke: #f3e9dc; stroke-width: 22; }
-  
+  .donut-bg { fill: none; stroke: var(--gold-light); stroke-width: 22; }
   .donut-segment-confirmed { fill: none; stroke: var(--success); stroke-width: 22; stroke-dasharray: 0 100; transition: stroke-dasharray 0.8s ease; }
   .donut-segment-pending { fill: none; stroke: var(--pending); stroke-width: 22; stroke-dasharray: 0 100; transition: stroke-dasharray 0.8s ease; }
   .donut-segment-declined { fill: none; stroke: var(--danger); stroke-width: 22; stroke-dasharray: 0 100; transition: stroke-dasharray 0.8s ease; }
-
   .chart-center-text { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; fill: var(--dark-brown); text-anchor: middle; }
   .chart-center-sub { font-family: 'Montserrat', sans-serif; font-size: 8px; font-weight: 600; fill: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; text-anchor: middle; }
-
   .chart-legend { display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; color: var(--text); }
   .legend-color { width: 12px; height: 12px; border-radius: 3px; }
 
-  /* ESTRUCTURA DE 3 COLUMNAS MODIFICADA */
+  /* TABLAS */
   .tables-layout-three {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
-  @media (max-width: 950px) {
-    .tables-layout-three { grid-template-columns: 1fr; }
+  @media (max-width: 950px) { .tables-layout-three { grid-template-columns: 1fr; } }
+
+  .col-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+  .col-count-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 10px;
+    background: var(--gold-light);
+    color: var(--gold-dark);
   }
 
   .guest-list-scroll {
@@ -188,7 +381,6 @@
     padding-right: 5px;
     margin-top: 15px;
   }
-  
   .guest-list-scroll::-webkit-scrollbar { width: 5px; }
   .guest-list-scroll::-webkit-scrollbar-track { background: transparent; }
   .guest-list-scroll::-webkit-scrollbar-thumb { background: rgba(201,169,110,0.3); border-radius: 10px; }
@@ -198,17 +390,16 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px 14px;
-    background: #fdfcf9;
-    border: 1px solid #f3e9dc;
+    background: var(--row-bg);
+    border: 1px solid var(--border);
     border-radius: 6px;
     margin-bottom: 8px;
     transition: background 0.2s;
   }
-  .guest-row:hover { background: #f7f1e8; }
-  
+  .guest-row:hover { background: var(--row-hover); }
+
   .g-name { font-weight: 500; font-size: 13px; color: var(--dark-brown); display: block; }
   .g-slug { font-size: 10px; color: var(--text-muted); display: block; margin-top: 2px; }
-  
   .g-count {
     font-size: 11px;
     font-weight: 700;
@@ -235,18 +426,72 @@
   .status-badge.no { background: #fbeaea; color: var(--danger); }
 
   .loading-overlay { text-align: center; padding: 40px 0; color: var(--text-muted); font-style: italic; font-size: 13px; }
+
+  .results-count {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    margin-top: 8px;
+    text-align: right;
+    padding-right: 4px;
+    min-height: 16px;
+  }
+
+  /* SPINNER */
+  .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
-
 <div class="container">
   <header>
     <h1>Rony & Kelly</h1>
     <p>Panel de Control de Asistencia y RSVP</p>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙 Modo Noche</button>
   </header>
 
-  <div class="sync-bar">
-    <button class="btn-refresh" onclick="fetchRealtimeData()">⚙ Actualizar Datos</button>
+  <div class="sync-info">
+    <div class="sync-status">
+      <div class="sync-dot" id="syncDot"></div>
+      <span id="syncLabel">Listo</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+      <label class="auto-sync-toggle" onclick="toggleAutoSync()">
+        <div class="toggle-switch" id="autoSyncToggle"></div>
+        Auto-actualizar cada 2 min
+      </label>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Buscar invitado por nombre o ID..." oninput="applyFilters()">
+    </div>
+    <div class="filter-btns">
+      <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">Todos</button>
+      <button class="filter-btn" data-filter="si" onclick="setFilter('si', this)">✓ Confirmados</button>
+      <button class="filter-btn" data-filter="pendiente" onclick="setFilter('pendiente', this)">⏳ Pendientes</button>
+      <button class="filter-btn" data-filter="no" onclick="setFilter('no', this)">✕ No irán</button>
+    </div>
+    <div class="right-btns">
+      <button class="btn-action btn-export" onclick="exportCSV()">⬇ Exportar CSV</button>
+      <button class="btn-action btn-refresh" onclick="fetchRealtimeData()">⚙ Actualizar</button>
+    </div>
+  </div>
+
+  <div class="sort-bar">
+    Ordenar por:
+    <button class="sort-btn active" id="sort-nombre" onclick="setSort('nombre', this)">A → Z Nombre</button>
+    <button class="sort-btn" id="sort-personas" onclick="setSort('personas', this)">Mayor Pases</button>
   </div>
 
   <div class="metrics-grid">
@@ -282,7 +527,6 @@
             <text x="21" y="29" class="chart-center-sub">Confirmado</text>
           </g>
         </svg>
-        
         <div class="chart-legend">
           <div class="legend-item"><div class="legend-color" style="background:var(--success)"></div>Asistirán</div>
           <div class="legend-item"><div class="legend-color" style="background:var(--pending)"></div>Pendientes</div>
@@ -299,7 +543,7 @@
             <span>Familias/Pases que ya respondieron</span>
             <span id="txt-pases-respondieron">0 / 0</span>
           </p>
-          <div style="width:100%; height:8px; background:#f3e9dc; border-radius:4px; overflow:hidden">
+          <div style="width:100%; height:8px; background:var(--gold-light); border-radius:4px; overflow:hidden">
             <div id="bar-pases" style="width:0%; height:100%; background:var(--gold); transition:width 0.5s"></div>
           </div>
         </div>
@@ -308,7 +552,7 @@
             <span>Volumen total de asistencia confirmada</span>
             <span id="txt-volumen-asistencia">0 personas</span>
           </p>
-          <div style="width:100%; height:8px; background:#f3e9dc; border-radius:4px; overflow:hidden">
+          <div style="width:100%; height:8px; background:var(--gold-light); border-radius:4px; overflow:hidden">
             <div id="bar-asistencia" style="width:0%; height:100%; background:var(--success); transition:width 0.5s"></div>
           </div>
         </div>
@@ -318,24 +562,34 @@
 
   <div class="tables-layout-three">
     <div class="dashboard-box">
-      <h2 class="box-title" style="color:var(--success)">✓ Confirmados</h2>
+      <div class="col-header">
+        <h2 class="box-title" style="color:var(--success); margin-bottom:0; border:none; padding:0">✓ Confirmados</h2>
+        <span class="col-count-badge" id="badge-confirmados">0</span>
+      </div>
       <div class="guest-list-scroll" id="lista-confirmados">
         <div class="loading-overlay">Sincronizando...</div>
       </div>
+      <div class="results-count" id="count-confirmados"></div>
     </div>
-
     <div class="dashboard-box">
-      <h2 class="box-title" style="color:var(--pending)">⏳ No han confirmado</h2>
+      <div class="col-header">
+        <h2 class="box-title" style="color:var(--pending); margin-bottom:0; border:none; padding:0">⏳ Pendientes</h2>
+        <span class="col-count-badge" id="badge-pendientes">0</span>
+      </div>
       <div class="guest-list-scroll" id="lista-pendientes">
         <div class="loading-overlay">Sincronizando...</div>
       </div>
+      <div class="results-count" id="count-pendientes"></div>
     </div>
-
     <div class="dashboard-box">
-      <h2 class="box-title" style="color:var(--danger)">✕ No irán</h2>
+      <div class="col-header">
+        <h2 class="box-title" style="color:var(--danger); margin-bottom:0; border:none; padding:0">✕ No irán</h2>
+        <span class="col-count-badge" id="badge-cancelados">0</span>
+      </div>
       <div class="guest-list-scroll" id="lista-cancelados">
         <div class="loading-overlay">Sincronizando...</div>
       </div>
+      <div class="results-count" id="count-cancelados"></div>
     </div>
   </div>
 </div>
@@ -343,20 +597,58 @@
 <script>
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJ_-KX9AGyAPK84KkIhnaZ7DGOcSngdlX5hZuUlQtJ_QnHbp12w5ifeb666KCRP-r-/exec';
 
-function fetchRealtimeData() {
-  const callbackName = 'dashboard_callback_' + Math.round(100000 * Math.random());
-  
-  document.getElementById('lista-confirmados').innerHTML = '<div class="loading-overlay">Sincronizando con Google...</div>';
-  document.getElementById('lista-pendientes').innerHTML = '<div class="loading-overlay">Sincronizando con Google...</div>';
-  document.getElementById('lista-cancelados').innerHTML = '<div class="loading-overlay">Sincronizando con Google...</div>';
+let allGuests = [];
+let currentFilter = 'all';
+let currentSort = 'nombre';
+let autoSyncOn = true;
+let autoSyncInterval = null;
+let isDark = false;
 
+/* ── TEMA ── */
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('themeBtn').textContent = isDark ? '☀️ Modo Día' : '🌙 Modo Noche';
+}
+
+/* ── AUTO SYNC ── */
+function toggleAutoSync() {
+  autoSyncOn = !autoSyncOn;
+  const toggle = document.getElementById('autoSyncToggle');
+  if (autoSyncOn) {
+    toggle.classList.remove('off');
+    startAutoSync();
+  } else {
+    toggle.classList.add('off');
+    clearInterval(autoSyncInterval);
+  }
+}
+
+function startAutoSync() {
+  clearInterval(autoSyncInterval);
+  autoSyncInterval = setInterval(fetchRealtimeData, 120000);
+}
+
+/* ── FETCH ── */
+function fetchRealtimeData() {
+  const dot = document.getElementById('syncDot');
+  const label = document.getElementById('syncLabel');
+  dot.classList.add('loading');
+  label.innerHTML = '<span class="spinner"></span> Actualizando...';
+
+  const callbackName = 'dashboard_cb_' + Math.round(100000 * Math.random());
   window[callbackName] = function(response) {
     delete window[callbackName];
-    const scriptTag = document.getElementById('jsonp-dashboard-script');
-    if (scriptTag) document.body.removeChild(scriptTag);
-    
+    const s = document.getElementById('jsonp-dashboard-script');
+    if (s) document.body.removeChild(s);
+    dot.classList.remove('loading');
+    const now = new Date();
+    const hora = now.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit' });
+    label.textContent = `Última actualización: ${hora}`;
     if (response && response.invitados) {
-      processAndRender(response.invitados);
+      allGuests = response.invitados;
+      updateMetrics();
+      applyFilters();
     } else {
       showError();
     }
@@ -364,121 +656,158 @@ function fetchRealtimeData() {
 
   const script = document.createElement('script');
   script.id = 'jsonp-dashboard-script';
-  script.src = APPS_SCRIPT_URL + "?action=getAllGuests&callback=" + callbackName;
+  script.src = APPS_SCRIPT_URL + '?action=getAllGuests&callback=' + callbackName;
   document.body.appendChild(script);
 }
 
-function processAndRender(invitados) {
-  let totalPersonasEnLista = 0;
-  let totalAsistiran = 0;
-  let totalPendientes = 0;
-  let totalCancelados = 0;
-  
-  let pasesTotales = invitados.length;
-  let pasesRespondidos = 0;
+/* ── MÉTRICAS ── */
+function updateMetrics() {
+  let totalPersonas = 0, totalSi = 0, totalNo = 0, totalPend = 0;
+  let pasesTotales = allGuests.length, pasesRespondidos = 0;
 
-  const htmlConfirmados = [];
-  const htmlPendientes = [];
-  const htmlCancelados = [];
-
-  invitados.forEach(g => {
-    const numPersonas = parseInt(g.personas) || 1;
-    totalPersonasEnLista += numPersonas;
-    
-    let statusClass = 'pending';
-    let statusLabel = 'Pendiente';
-    let badgeClass = 'f';
-    let asignadoA = 'pendiente';
-
-    if (g.respondio === true || String(g.respondio).toLowerCase() === 'true') {
+  allGuests.forEach(g => {
+    const n = parseInt(g.personas) || 1;
+    totalPersonas += n;
+    const respondio = g.respondio === true || String(g.respondio).toLowerCase() === 'true';
+    if (respondio) {
       pasesRespondidos++;
-      if (g.respuesta === 'si') {
-        totalAsistiran += numPersonas;
-        statusClass = 'confirmed';
-        statusLabel = 'Asistirá ✓';
-        badgeClass = 'si';
-        asignadoA = 'si';
-      } else {
-        totalCancelados += numPersonas;
-        statusClass = 'declined';
-        statusLabel = 'No Asistirá ✕';
-        badgeClass = 'no';
-        asignadoA = 'no';
-      }
+      if (g.respuesta === 'si') totalSi += n;
+      else totalNo += n;
     } else {
-      totalPendientes += numPersonas;
+      totalPend += n;
     }
+  });
 
-    const rowHtml = `
+  document.getElementById('total-invitados').textContent = totalPersonas;
+  document.getElementById('total-asistiran').textContent = totalSi;
+  document.getElementById('total-pendientes').textContent = totalPend;
+  document.getElementById('total-cancelados').textContent = totalNo;
+
+  const total = totalSi + totalPend + totalNo;
+  if (total > 0) {
+    const pctSi = (totalSi / total) * 100;
+    const pctPend = (totalPend / total) * 100;
+    const pctNo = (totalNo / total) * 100;
+    document.getElementById('chart-percentage').textContent = Math.round(pctSi) + '%';
+    document.getElementById('seg-confirmed').style.strokeDasharray = `${pctSi} 100`;
+    document.getElementById('seg-pending').style.strokeDasharray = `${pctPend} 100`;
+    document.getElementById('seg-pending').setAttribute('transform', `rotate(${pctSi} 21 21)`);
+    document.getElementById('seg-declined').style.strokeDasharray = `${pctNo} 100`;
+    document.getElementById('seg-declined').setAttribute('transform', `rotate(${pctSi + pctPend} 21 21)`);
+  }
+
+  document.getElementById('txt-pases-respondieron').textContent = `${pasesRespondidos} de ${pasesTotales} Familias`;
+  document.getElementById('bar-pases').style.width = pasesTotales > 0 ? `${(pasesRespondidos/pasesTotales)*100}%` : '0%';
+  document.getElementById('txt-volumen-asistencia').textContent = `${totalSi} personas confirmadas`;
+  document.getElementById('bar-asistencia').style.width = totalPersonas > 0 ? `${(totalSi/totalPersonas)*100}%` : '0%';
+}
+
+/* ── FILTRO ── */
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active','confirmed','pending','declined'));
+  btn.classList.add('active');
+  if (filter === 'si') btn.classList.add('confirmed');
+  if (filter === 'pendiente') btn.classList.add('pending');
+  if (filter === 'no') btn.classList.add('declined');
+  applyFilters();
+}
+
+/* ── ORDEN ── */
+function setSort(sort, btn) {
+  currentSort = sort;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function sortGuests(list) {
+  return list.slice().sort((a, b) => {
+    if (currentSort === 'nombre') return a.nombre.localeCompare(b.nombre, 'es');
+    if (currentSort === 'personas') return (parseInt(b.personas)||1) - (parseInt(a.personas)||1);
+    return 0;
+  });
+}
+
+/* ── APLICAR FILTROS Y RENDER ── */
+function applyFilters() {
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  const confirmados = [], pendientes = [], cancelados = [];
+
+  sortGuests(allGuests).forEach(g => {
+    const nombreMatch = g.nombre.toLowerCase().includes(search) || (g.id || '').toLowerCase().includes(search);
+    if (!nombreMatch) return;
+
+    const respondio = g.respondio === true || String(g.respondio).toLowerCase() === 'true';
+    const estado = respondio ? (g.respuesta === 'si' ? 'si' : 'no') : 'pendiente';
+
+    if (currentFilter !== 'all' && currentFilter !== estado) return;
+
+    const n = parseInt(g.personas) || 1;
+    const statusClass = estado === 'si' ? 'confirmed' : estado === 'no' ? 'declined' : 'pending';
+    const badgeClass = estado === 'si' ? 'si' : estado === 'no' ? 'no' : 'f';
+    const statusLabel = estado === 'si' ? 'Asistirá ✓' : estado === 'no' ? 'No Asistirá ✕' : 'Pendiente';
+
+    const row = `
       <div class="guest-row">
         <div>
           <span class="g-name">${g.nombre}</span>
           <span class="g-slug">ID: ${g.id || 'N/A'}</span>
           <span class="status-badge ${badgeClass}">${statusLabel}</span>
         </div>
-        <div class="g-count ${statusClass}">${numPersonas} ${numPersonas > 1 ? 'Pases' : 'Pase'}</div>
-      </div>
-    `;
+        <div class="g-count ${statusClass}">${n} ${n > 1 ? 'Pases' : 'Pase'}</div>
+      </div>`;
 
-    // Distribución en las 3 nuevas columnas
-    if (asignadoA === 'si') {
-      htmlConfirmados.push(rowHtml);
-    } else if (asignadoA === 'no') {
-      htmlCancelados.push(rowHtml);
-    } else {
-      htmlPendientes.push(rowHtml);
-    }
+    if (estado === 'si') confirmados.push(row);
+    else if (estado === 'no') cancelados.push(row);
+    else pendientes.push(row);
   });
 
-  document.getElementById('total-invitados').textContent = totalPersonasEnLista;
-  document.getElementById('total-asistiran').textContent = totalAsistiran;
-  document.getElementById('total-pendientes').textContent = totalPendientes;
-  document.getElementById('total-cancelados').textContent = totalCancelados;
+  const totalVisible = confirmados.length + pendientes.length + cancelados.length;
+  const totalGuests = allGuests.length;
 
-  // Renderizado en los contenedores correspondientes
-  document.getElementById('lista-confirmados').innerHTML = htmlConfirmados.length ? htmlConfirmados.join('') : '<div class="loading-overlay">Nadie ha confirmado aún.</div>';
-  document.getElementById('lista-pendientes').innerHTML = htmlPendientes.length ? htmlPendientes.join('') : '<div class="loading-overlay">¡Todos han respondido! 🙌</div>';
-  document.getElementById('lista-cancelados').innerHTML = htmlCancelados.length ? htmlCancelados.join('') : '<div class="loading-overlay">Nadie ha rechazado aún.</div>';
+  document.getElementById('lista-confirmados').innerHTML = confirmados.length ? confirmados.join('') : '<div class="loading-overlay">Sin resultados.</div>';
+  document.getElementById('lista-pendientes').innerHTML = pendientes.length ? pendientes.join('') : '<div class="loading-overlay">Sin resultados.</div>';
+  document.getElementById('lista-cancelados').innerHTML = cancelados.length ? cancelados.join('') : '<div class="loading-overlay">Sin resultados.</div>';
 
-  const totalRespuestasCalculadas = totalAsistiran + totalPendientes + totalCancelados;
-  
-  if (totalRespuestasCalculadas > 0) {
-    const pctConfirmed = (totalAsistiran / totalRespuestasCalculadas) * 100;
-    const pctPending = (totalPendientes / totalRespuestasCalculadas) * 100;
-    const pctDeclined = (totalCancelados / totalRespuestasCalculadas) * 100;
+  document.getElementById('badge-confirmados').textContent = confirmados.length;
+  document.getElementById('badge-pendientes').textContent = pendientes.length;
+  document.getElementById('badge-cancelados').textContent = cancelados.length;
 
-    document.getElementById('chart-percentage').textContent = `${Math.round(pctConfirmed)}%`;
+  const searchActive = search.length > 0 || currentFilter !== 'all';
+  document.getElementById('count-confirmados').textContent = searchActive ? `Mostrando ${confirmados.length} de ${allGuests.filter(g => { const r = g.respondio === true || String(g.respondio).toLowerCase() === 'true'; return r && g.respuesta === 'si'; }).length}` : '';
+  document.getElementById('count-pendientes').textContent = searchActive ? `Mostrando ${pendientes.length} de ${allGuests.filter(g => !(g.respondio === true || String(g.respondio).toLowerCase() === 'true')).length}` : '';
+  document.getElementById('count-cancelados').textContent = searchActive ? `Mostrando ${cancelados.length} de ${allGuests.filter(g => { const r = g.respondio === true || String(g.respondio).toLowerCase() === 'true'; return r && g.respuesta !== 'si'; }).length}` : '';
+}
 
-    const segConfirmed = document.getElementById('seg-confirmed');
-    const segPending = document.getElementById('seg-pending');
-    const segDeclined = document.getElementById('seg-declined');
-
-    segConfirmed.style.strokeDasharray = `${pctConfirmed} 100`;
-    
-    segPending.style.strokeDasharray = `${pctPending} 100`;
-    segPending.setAttribute('transform', `rotate(${pctConfirmed} 21 21)`);
-
-    segDeclined.style.strokeDasharray = `${pctDeclined} 100`;
-    segDeclined.setAttribute('transform', `rotate(${pctConfirmed + pctPending} 21 21)`);
-  }
-
-  document.getElementById('txt-pases-respondieron').textContent = `${pasesRespondidos} de ${pasesTotales} Familias`;
-  const pctPases = pasesTotales > 0 ? (pasesRespondidos / pasesTotales) * 100 : 0;
-  document.getElementById('bar-pases').style.width = `${pctPases}%`;
-
-  document.getElementById('txt-volumen-asistencia').textContent = `${totalAsistiran} personas confirmadas`;
-  const pctVolumen = totalPersonasEnLista > 0 ? (totalAsistiran / totalPersonasEnLista) * 100 : 0;
-  document.getElementById('bar-asistencia').style.width = `${pctVolumen}%`;
+/* ── EXPORT CSV ── */
+function exportCSV() {
+  if (!allGuests.length) { alert('No hay datos. Actualiza primero.'); return; }
+  const headers = ['Nombre','ID','Personas','Estado','Respuesta'];
+  const rows = sortGuests(allGuests).map(g => {
+    const respondio = g.respondio === true || String(g.respondio).toLowerCase() === 'true';
+    const estado = respondio ? (g.respuesta === 'si' ? 'Confirmado' : 'No Asistirá') : 'Pendiente';
+    return [`"${g.nombre}"`, `"${g.id||''}"`, parseInt(g.personas)||1, estado, g.respuesta||'sin respuesta'].join(',');
+  });
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'invitados-rony-kelly.csv';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function showError() {
-  const errHtml = '<div class="loading-overlay" style="color:var(--danger)">⚠️ Error al conectar en tiempo real. Verifica la conexión o la URL de la API.</div>';
-  document.getElementById('lista-confirmados').innerHTML = errHtml;
-  document.getElementById('lista-pendientes').innerHTML = errHtml;
-  document.getElementById('lista-cancelados').innerHTML = errHtml;
+  const err = '<div class="loading-overlay" style="color:var(--danger)">⚠️ Error al conectar. Verifica la conexión.</div>';
+  ['lista-confirmados','lista-pendientes','lista-cancelados'].forEach(id => document.getElementById(id).innerHTML = err);
 }
 
-document.addEventListener('DOMContentLoaded', fetchRealtimeData);
+document.addEventListener('DOMContentLoaded', function() {
+  fetchRealtimeData();
+  startAutoSync();
+});
 </script>
 </body>
 </html>
