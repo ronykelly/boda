@@ -721,10 +721,13 @@
         <button class="rsvp-btn rsvp-btn-no" id="btnNo">No Podré Asistir</button>
       </div>
     <p class="rsvp-error" id="rsvpError">Hubo un problema al enviar tu respuesta. Por favor intenta de nuevo.</p>
-    <div class="rsvp-response" id="rsvpResponse">
-      <h3 id="rsvpResponseTitle">¡Gracias!</h3>
-      <p id="rsvpResponseMsg">Tu respuesta ha sido registrada exitosamente.</p>
-    </div>
+   <div class="rsvp-response" id="rsvpResponse">
+  <h3 id="rsvpResponseTitle">¡Gracias!</h3>
+  <p id="rsvpResponseMsg">Tu respuesta ha sido registrada exitosamente.</p>
+  <button id="calendarBtn" onclick="guardarFecha()" style="display:none; margin-top:20px; background:var(--gold); color:var(--white); font-family:'Montserrat',sans-serif; font-weight:600; font-size:10px; letter-spacing:3px; text-transform:uppercase; padding:14px 32px; border:none; cursor:pointer; min-height:48px;">
+    📅 Guardar en mi Calendario
+  </button>
+</div>
   </section>
 
   <section class="gallery-section">
@@ -980,6 +983,7 @@ function mostrarRespuesta(resp) {
   if (resp === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
     document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
+    document.getElementById('calendarBtn').style.display = 'block';
   } else {
     document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
     document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
@@ -1001,6 +1005,40 @@ function openMap(tipo) {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  }
+}
+/* ══════════════════════════════════════════
+   CALENDARIO
+══════════════════════════════════════════ */
+function guardarFecha() {
+  const ua = navigator.userAgent.toLowerCase();
+  const esIOS = /iphone|ipad|ipod/.test(ua);
+  const esAndroid = /android/.test(ua);
+
+  if (esAndroid) {
+    window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Rony+%26+Kelly&dates=20260718T160000/20260718T230000&details=Ceremonia+a+las+4:00PM+en+Iglesia+Santo+Tom%C3%A1s+de+Aquino.+Recepci%C3%B3n+a+las+6:00PM+en+Chochys+Bakery.&location=Puerto+Barrios,+Guatemala', '_blank');
+  } else if (esIOS) {
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'BEGIN:VEVENT',
+      'DTSTART:20260718T160000',
+      'DTEND:20260718T230000',
+      'SUMMARY:Boda Rony & Kelly',
+      'DESCRIPTION:Ceremonia a las 4:00PM en Iglesia Santo Tomás de Aquino. Recepción a las 6:00PM en Chochys Bakery.',
+      'LOCATION:Puerto Barrios, Guatemala',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\n');
+    const blob = new Blob([ics], { type: 'text/calendar' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'boda-rony-kelly.ics';
+    a.click();
+    URL.revokeObjectURL(url);
+  } else {
+    window.open('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Rony+%26+Kelly&dates=20260718T160000/20260718T230000&details=Ceremonia+a+las+4:00PM+en+Iglesia+Santo+Tom%C3%A1s+de+Aquino.+Recepci%C3%B3n+a+las+6:00PM+en+Chochys+Bakery.&location=Puerto+Barrios,+Guatemala', '_blank');
   }
 }
 /* ══════════════════════════════════════════
