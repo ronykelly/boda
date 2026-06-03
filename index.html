@@ -719,6 +719,7 @@ function loadGuest() {
     const nombreParam   = params.get('nombre');
     const personasParam = params.get('p');
 
+    // 1. Si los datos vienen directo por la URL (?nombre=Juan&p=2)
     if (nombreParam) {
       guestName  = decodeURIComponent(nombreParam);
       guestCount = personasParam ? parseInt(personasParam) : 1;
@@ -727,12 +728,20 @@ function loadGuest() {
       return;
     }
 
+    // 2. Si viene por identificador único (?inv=abc)
     if (guestSlug) {
       let resolved = false;
+      
+      // Temporizador de seguridad (5 segundos)
       const loadTimeout = setTimeout(function() {
-        if (!resolved) { resolved = true; actualizarUI(); resolve(null); }
-      }, 6000);
+        if (!resolved) { 
+          resolved = true; 
+          actualizarUI(); 
+          resolve(null); 
+        }
+      }, 5000);
 
+      // Intento 1: Fetch estándar
       fetch(APPS_SCRIPT_URL + '?action=getGuest&inv=' + encodeURIComponent(guestSlug))
         .then(function(r) { return r.json(); })
         .then(function(data) {
@@ -752,14 +761,18 @@ function loadGuest() {
         })
         .catch(function() {
           if (resolved) return;
+          
+          // Intento 2 (FALLBACK): JSONP nativo si Fetch falla por políticas CORS en móviles
           const callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
           window[callbackName] = function(data) {
             if (resolved) return;
             resolved = true;
             clearTimeout(loadTimeout);
             delete window[callbackName];
+            
             const scriptTag = document.getElementById('jsonp-guest-script');
             if (scriptTag) document.body.removeChild(scriptTag);
+            
             if (data) {
               guestName  = data.nombre   || 'Estimado Invitado';
               guestCount = data.personas || 1;
@@ -771,11 +784,17 @@ function loadGuest() {
               resolve(null);
             }
           };
+          
           const script = document.createElement('script');
           script.id  = 'jsonp-guest-script';
           script.src = APPS_SCRIPT_URL + '?action=getGuest&inv=' + encodeURIComponent(guestSlug) + '&callback=' + callbackName;
           script.onerror = function() {
-            if (!resolved) { resolved = true; clearTimeout(loadTimeout); actualizarUI(); resolve(null); }
+            if (!resolved) { 
+              resolved = true; 
+              clearTimeout(loadTimeout); 
+              actualizarUI(); 
+              resolve(null); 
+            }
           };
           document.body.appendChild(script);
         });
