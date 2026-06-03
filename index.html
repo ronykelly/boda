@@ -867,31 +867,34 @@ function sendRSVP(resp) {
     + '&personas='  + encodeURIComponent(guestCount)
     + '&respuesta=' + encodeURIComponent(resp);
 
-  fetch(url)
-    .then(function(r) { return r.json(); })
-    .then(function() {
-      btns.style.display = 'none';
-      mostrarRespuesta(resp);
-    })
-    .catch(function() {
-      var callbackName = 'rsvp_cb_' + Math.round(100000 * Math.random());
-      window[callbackName] = function() {
-        delete window[callbackName];
-        var s = document.getElementById('jsonp-rsvp-script');
-        if (s) document.body.removeChild(s);
-        btns.style.display = 'none';
-        mostrarRespuesta(resp);
-      };
-      var script = document.createElement('script');
-      script.id  = 'jsonp-rsvp-script';
-      script.src = url + '&callback=' + callbackName;
-      script.onerror = function() {
-        delete window[callbackName];
-        btns.style.display = 'none';
-        mostrarRespuesta(resp);
-      };
-      document.body.appendChild(script);
-    });
+  var done = false;
+
+  function finish() {
+    if (done) return;
+    done = true;
+    btns.style.display = 'none';
+    mostrarRespuesta(resp);
+  }
+
+  // JSONP como método principal
+  var callbackName = 'rsvp_cb_' + Math.round(100000 * Math.random());
+  window[callbackName] = function() {
+    delete window[callbackName];
+    var s = document.getElementById('jsonp-rsvp-script');
+    if (s) document.body.removeChild(s);
+    finish();
+  };
+  var script = document.createElement('script');
+  script.id  = 'jsonp-rsvp-script';
+  script.src = url + '&callback=' + callbackName;
+  script.onerror = function() {
+    delete window[callbackName];
+    finish();
+  };
+  document.body.appendChild(script);
+
+  // Si en 8 segundos no respondió, mostrar respuesta de todas formas
+  setTimeout(finish, 8000);
 }
 
 window.mostrarYaRespondio = function(respuestaAnterior) {
