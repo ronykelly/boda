@@ -874,87 +874,79 @@ function transitionToMainPage() {
 }
 
 /* ══════════════════════════════════════════
-   RSVP — ENVIOS HÍBRIDOS SEGUROS
+   RSVP
 ══════════════════════════════════════════ */
-
 function sendRSVP(resp) {
   const btns = document.getElementById('rsvpButtons');
-  const errorEl = document.getElementById('rsvpError');
-  
   if (btns) {
     btns.style.opacity = '0.5';
     btns.style.pointerEvents = 'none';
   }
-  if (errorEl) errorEl.style.display = 'none';
 
-  const url = APPS_SCRIPT_URL
+  fetch(APPS_SCRIPT_URL
     + '?action=rsvp'
     + '&id='        + encodeURIComponent(guestId)
     + '&nombre='    + encodeURIComponent(guestName)
     + '&personas='  + encodeURIComponent(guestCount)
-    + '&respuesta=' + encodeURIComponent(resp);
-
-  fetch(url, { method: 'GET', mode: 'no-cors', cache: 'no-cache' })
-    .then(function() {
+    + '&respuesta=' + encodeURIComponent(resp))
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
       if (btns) btns.style.display = 'none';
-      mostrarRespuesta(resp);
+      window.mostrarRespuesta(resp);
     })
-    .catch(function(error) {
-      console.warn('Fallo fetch, usando alternativa por imagen:', error);
-      try {
-        const pingImg = new Image();
-        pingImg.onload = function() {
-          if (btns) btns.style.display = 'none';
-          mostrarRespuesta(resp);
-        };
-        pingImg.onerror = function() {
-          if (btns) btns.style.display = 'none';
-          mostrarRespuesta(resp);
-        };
-        pingImg.src = url;
-      } catch (e) {
-        if (btns) {
-          btns.style.opacity = '1';
-          btns.style.pointerEvents = 'auto';
-        }
-        if (errorEl) errorEl.style.display = 'block';
-      }
+    .catch(function() {
+      const callbackName = 'jsonp_rsvp_' + Math.round(100000 * Math.random());
+      window[callbackName] = function() {
+        delete window[callbackName];
+        const s = document.getElementById('jsonp-rsvp-script');
+        if (s) document.body.removeChild(s);
+        if (btns) btns.style.display = 'none';
+        window.mostrarRespuesta(resp);
+      };
+      const script = document.createElement('script');
+      script.id  = 'jsonp-rsvp-script';
+      script.src = APPS_SCRIPT_URL
+        + '?action=rsvp'
+        + '&id='        + encodeURIComponent(guestId)
+        + '&nombre='    + encodeURIComponent(guestName)
+        + '&personas='  + encodeURIComponent(guestCount)
+        + '&respuesta=' + encodeURIComponent(resp)
+        + '&callback='  + callbackName;
+      script.onerror = function() {
+        const s = document.getElementById('jsonp-rsvp-script');
+        if (s) document.body.removeChild(s);
+        if (btns) btns.style.display = 'none';
+        window.mostrarRespuesta(resp);
+      };
+      document.body.appendChild(script);
     });
-} // <--- HASTA AQUÍ BORRAS
+}
 
-window.mostrarRespuesta = function(resp) {
+function mostrarYaRespondio(respuestaAnterior) {
+  const btns = document.getElementById('rsvpButtons');
+  if (btns) btns.style.display = 'none';
   const respEl = document.getElementById('rsvpResponse');
-  if (respEl) {
-    respEl.classList.add('show');
-    if (resp === 'si') {
-      document.getElementById('rsvpResponseTitle').textContent = '¡Qué alegría! 🎉';
-      document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
-    } else {
-      document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
-      document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
-    }
-  }
-};
-
-/* ══════════════════════════════════════════
-   MAPAS
-══════════════════════════════════════════ */
-function openMap(tipo) {
-  const links = {
-    iglesia:   'https://maps.app.goo.gl/7rWwn3c7dH9ANy7X6',
-    recepcion: 'https://maps.app.goo.gl/viiowMVSA9vc9U8p9'
-  };
-  if (links[tipo]) {
-    const a = document.createElement('a');
-    a.href = links[tipo];
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  if (respEl) respEl.classList.add('show');
+  if (respuestaAnterior === 'si') {
+    document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
+    document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya registramos tu asistencia. ¡Te esperamos con mucho cariño el 18 de Julio!';
+  } else {
+    document.getElementById('rsvpResponseTitle').textContent = 'Ya registramos tu respuesta';
+    document.getElementById('rsvpResponseMsg').textContent   = guestName + ', ya tenemos tu respuesta registrada. Gracias por avisarnos.';
   }
 }
 
+window.mostrarRespuesta = function(resp) {
+  const respEl = document.getElementById('rsvpResponse');
+  if (respEl) respEl.classList.add('show');
+  if (resp === 'si') {
+    document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
+    document.getElementById('rsvpResponseMsg').textContent   = '¡Nos emociona contar con tu presencia! Los esperamos con los brazos abiertos el 18 de Julio. ¡Será una noche inolvidable!';
+  } else {
+    document.getElementById('rsvpResponseTitle').textContent = 'Lo entendemos';
+    document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
+  }
+};
 /* ══════════════════════════════════════════
    COUNTDOWN & PÉTALOS
 ══════════════════════════════════════════ */
