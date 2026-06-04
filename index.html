@@ -38,7 +38,6 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* ─── PANTALLA DEL SOBRE ─── */
   #envelope-screen {
     position: fixed;
     inset: 0;
@@ -128,7 +127,6 @@
   }
   .env-svg { width: 100%; height: auto; overflow: visible; }
 
-  /* ─── CONTENEDOR POSTAL ─── */
   #postal-container {
     display: flex;
     flex-direction: column;
@@ -243,7 +241,6 @@
   @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.9; } }
   @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-  /* ─── PÁGINA PRINCIPAL ─── */
   #main-page { display: none; }
   #main-page.visible { display: block; }
 
@@ -264,7 +261,6 @@
     100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
   }
 
-  /* HERO */
   .hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
   .hero-photo { position: relative; overflow: hidden; width: 100%; height: 100%; background-color: var(--warm); }
   .hero-photo img { width: 100%; height: 100%; min-height: 100vh; object-fit: cover; display: block; }
@@ -283,7 +279,6 @@
   .hero-tagline { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-style: italic; color: var(--text-light); margin-bottom: 40px; line-height: 1.7; }
   .divider-gold { width: 60px; height: 1px; background: var(--gold); margin: 24px 0; }
 
-  /* TARJETAS DE EVENTO */
   .events-section { padding: 80px 40px; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
   .section-label { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 40px; text-align: center; }
   .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
@@ -316,7 +311,6 @@
     gap: 6px;
   }
 
-  /* COUNTDOWN */
   .countdown-section { background: linear-gradient(160deg, #2c1f10, #1a0f06); padding: 80px 40px; text-align: center; position: relative; overflow: hidden; }
   .countdown-label { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 40px; }
   .countdown-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
@@ -324,7 +318,6 @@
   .count-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 8vw, 5rem); font-weight: 300; color: var(--white); line-height: 1; display: block; }
   .count-unit { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin-top: 8px; }
 
-  /* ─── REGALO ─── */
   .gift-section {
     padding: 90px 40px;
     background: var(--cream);
@@ -383,7 +376,6 @@
   .gift-footnote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem, 2vw, 1.25rem); color: var(--text-light); font-style: italic; line-height: 1.85; }
   @media (max-width: 600px) { .gift-card { padding: 38px 28px; } }
 
-  /* PROMESA */
   .couple-photo-section { display: grid; grid-template-columns: 1fr 1fr; min-height: 60vh; }
   .couple-text { background: var(--warm); padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
   .couple-text h2 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: clamp(2.2rem, 4vw, 3.5rem); color: var(--gold-dark); margin-bottom: 20px; }
@@ -392,7 +384,6 @@
   .couple-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s; }
   .couple-photo:hover img { transform: scale(1.03); }
 
-  /* HISTORIA */
   .story-section { padding: 90px 40px; max-width: 760px; margin: 0 auto; }
   .story-timeline { position: relative; padding-left: 40px; margin-top: 40px; }
   .story-timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 1px; background: var(--gold-light); }
@@ -403,7 +394,6 @@
   .story-title-item { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 400; color: var(--text); margin-bottom: 8px; }
   .story-text { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--text-light); line-height: 1.9; }
 
-  /* RSVP */
   .rsvp-section { padding: 100px 40px; max-width: 680px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
   .rsvp-title { font-family: 'Playfair Display', serif; font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--text); margin-bottom: 12px; }
   .rsvp-sub { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
@@ -423,7 +413,6 @@
   .rsvp-error { display: none; margin-top: 16px; font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; color: #b94a48; }
   .rsvp-error.show { display: block; }
 
-  /* GALERÍA */
   .gallery-section { padding: 60px 40px 100px; max-width: 960px; margin: 0 auto; }
   .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
   .gallery-item { aspect-ratio: 1; overflow: hidden; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.05); background-color: var(--warm); }
@@ -507,7 +496,9 @@
   </div>
 
   <p class="env-hint" id="envHint">✦   Tu invitación te espera   ✦</p>
-  <button class="open-btn" id="openBtn" style="opacity:0.5; pointer-events:none;">✦   Abrir Invitación   ✦</button>
+
+  <!-- FIX 3: botón activo desde el inicio, sin opacity:0.5 ni pointer-events:none -->
+  <button class="open-btn" id="openBtn">✦   Abrir Invitación   ✦</button>
 </div>
 
 
@@ -674,47 +665,52 @@ let guestCount   = 1;
 let isOpening    = false;
 
 /* ══════════════════════════════════════════
+   FIX 1: FUNCIÓN openMap() — FALTABA COMPLETAMENTE
+══════════════════════════════════════════ */
+function openMap(lugar) {
+  var maps = {
+    iglesia:   'https://maps.app.goo.gl/PnRyJmk7pBko1Hb97',
+    recepcion: 'https://maps.app.goo.gl/qsavN15Ln9daJbWy7'
+  };
+  window.open(maps[lugar], '_blank');
+}
+
+/* ══════════════════════════════════════════
    ESTRELLAS DEL SOBRE
 ══════════════════════════════════════════ */
 (function createStars() {
-  const container = document.getElementById('envStars');
+  var container = document.getElementById('envStars');
   if (!container) return;
-  for (let i = 0; i < 60; i++) {
-    const s = document.createElement('div');
+  for (var i = 0; i < 60; i++) {
+    var s = document.createElement('div');
     s.className = 'env-star';
-    const size = Math.random() * 2.5 + 0.5;
-    s.style.cssText = `
-      left:${Math.random()*100}%;
-      top:${Math.random()*100}%;
-      width:${size}px;
-      height:${size}px;
-      animation-duration:${2+Math.random()*4}s;
-      animation-delay:${Math.random()*5}s;
-    `;
+    var size = Math.random() * 2.5 + 0.5;
+    s.style.cssText =
+      'left:'                + (Math.random()*100) + '%;' +
+      'top:'                 + (Math.random()*100) + '%;' +
+      'width:'               + size + 'px;' +
+      'height:'              + size + 'px;' +
+      'animation-duration:' + (2+Math.random()*4) + 's;' +
+      'animation-delay:'    + (Math.random()*5)   + 's;';
     container.appendChild(s);
   }
 })();
 
 /* ══════════════════════════════════════════
-   CARGA DEL INVITADO (MÉTODO HÍBRIDO CORS)
+   CARGA DEL INVITADO
 ══════════════════════════════════════════ */
 function actualizarUI() {
   document.getElementById('envGuestNameHeader').textContent = guestName;
   document.getElementById('envGuestCounter').textContent   = 'CANTIDAD DE INVITADOS: ' + guestCount;
   document.getElementById('rsvpGuestName').textContent      = guestName;
   document.getElementById('rsvpGuestCount').textContent     = guestCount > 1 ? guestCount + ' personas' : '1 persona';
-  
-  const btn = document.getElementById('openBtn');
-  if (btn) { 
-    btn.style.opacity = '1'; 
-    btn.style.pointerEvents = 'auto'; 
-  }
+  // FIX 3: ya no se activa el botón aquí porque arranca activo desde el HTML
 }
 
 function loadGuest() {
   return new Promise(function(resolve) {
-    const nombreParam   = params.get('nombre');
-    const personasParam = params.get('p');
+    var nombreParam   = params.get('nombre');
+    var personasParam = params.get('p');
 
     if (nombreParam) {
       guestName  = decodeURIComponent(nombreParam);
@@ -725,17 +721,17 @@ function loadGuest() {
     }
 
     if (guestSlug) {
-      let resolved = false;
-      
-      const loadTimeout = setTimeout(function() {
-        if (!resolved) { 
-          resolved = true; 
-          actualizarUI(); 
-          resolve(null); 
-        }
-      }, 5000);
+      var resolved = false;
 
-      // Intento 1: Fetch estándar
+      // FIX 2: timeout reducido de 5000ms a 2000ms
+      var loadTimeout = setTimeout(function() {
+        if (!resolved) {
+          resolved = true;
+          actualizarUI();
+          resolve(null);
+        }
+      }, 2000);
+
       fetch(APPS_SCRIPT_URL + '?action=getGuest&inv=' + encodeURIComponent(guestSlug))
         .then(function(r) { return r.json(); })
         .then(function(data) {
@@ -755,18 +751,15 @@ function loadGuest() {
         })
         .catch(function() {
           if (resolved) return;
-          
-          // Fallback: JSONP dinámico si Fetch es bloqueado por el celular
-          const callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
+
+          var callbackName = 'jsonp_cb_' + Math.round(100000 * Math.random());
           window[callbackName] = function(data) {
             if (resolved) return;
             resolved = true;
             clearTimeout(loadTimeout);
             delete window[callbackName];
-            
-            const scriptTag = document.getElementById('jsonp-guest-script');
+            var scriptTag = document.getElementById('jsonp-guest-script');
             if (scriptTag) document.body.removeChild(scriptTag);
-            
             if (data) {
               guestName  = data.nombre   || 'Estimado Invitado';
               guestCount = data.personas || 1;
@@ -778,16 +771,16 @@ function loadGuest() {
               resolve(null);
             }
           };
-          
-          const script = document.createElement('script');
+
+          var script = document.createElement('script');
           script.id  = 'jsonp-guest-script';
           script.src = APPS_SCRIPT_URL + '?action=getGuest&inv=' + encodeURIComponent(guestSlug) + '&callback=' + callbackName;
           script.onerror = function() {
-            if (!resolved) { 
-              resolved = true; 
-              clearTimeout(loadTimeout); 
-              actualizarUI(); 
-              resolve(null); 
+            if (!resolved) {
+              resolved = true;
+              clearTimeout(loadTimeout);
+              actualizarUI();
+              resolve(null);
             }
           };
           document.body.appendChild(script);
@@ -803,7 +796,7 @@ function loadGuest() {
    ANIMACIÓN DEL SOBRE Y TRANSICIONES
 ══════════════════════════════════════════ */
 function handleOpenBtnClick() {
-  const btn = document.getElementById('openBtn');
+  var btn = document.getElementById('openBtn');
   if (btn.getAttribute('data-step') === 'enter') {
     transitionToMainPage();
   } else {
@@ -815,15 +808,15 @@ function openInvitation() {
   if (isOpening) return;
   isOpening = true;
 
-  const btn     = document.getElementById('openBtn');
-  const wrap    = document.getElementById('envelopeWrap');
-  const flap    = document.getElementById('envFlap');
-  const seal    = document.getElementById('envSealCircle');
-  const sealTxt = document.getElementById('envSealText');
-  const postal  = document.getElementById('postal-container');
-  const details = document.getElementById('postal-details');
-  const hint    = document.getElementById('envHint');
-  const gBlock  = document.getElementById('env-guest-block');
+  var btn     = document.getElementById('openBtn');
+  var wrap    = document.getElementById('envelopeWrap');
+  var flap    = document.getElementById('envFlap');
+  var seal    = document.getElementById('envSealCircle');
+  var sealTxt = document.getElementById('envSealText');
+  var postal  = document.getElementById('postal-container');
+  var details = document.getElementById('postal-details');
+  var hint    = document.getElementById('envHint');
+  var gBlock  = document.getElementById('env-guest-block');
 
   btn.style.pointerEvents = 'none';
   btn.style.opacity       = '0';
@@ -856,9 +849,9 @@ function openInvitation() {
 }
 
 function transitionToMainPage() {
-  const screen = document.getElementById('envelope-screen');
-  const postal = document.getElementById('postal-container');
-  const btn    = document.getElementById('openBtn');
+  var screen = document.getElementById('envelope-screen');
+  var postal = document.getElementById('postal-container');
+  var btn    = document.getElementById('openBtn');
 
   btn.style.pointerEvents = 'none';
   if (postal) postal.style.opacity = '0';
@@ -877,7 +870,7 @@ function transitionToMainPage() {
    RSVP
 ══════════════════════════════════════════ */
 function sendRSVP(resp) {
-  const btns = document.getElementById('rsvpButtons');
+  var btns = document.getElementById('rsvpButtons');
   if (btns) {
     btns.style.opacity = '0.5';
     btns.style.pointerEvents = 'none';
@@ -890,20 +883,20 @@ function sendRSVP(resp) {
     + '&personas='  + encodeURIComponent(guestCount)
     + '&respuesta=' + encodeURIComponent(resp))
     .then(function(r) { return r.json(); })
-    .then(function(data) {
+    .then(function() {
       if (btns) btns.style.display = 'none';
       window.mostrarRespuesta(resp);
     })
     .catch(function() {
-      const callbackName = 'jsonp_rsvp_' + Math.round(100000 * Math.random());
+      var callbackName = 'jsonp_rsvp_' + Math.round(100000 * Math.random());
       window[callbackName] = function() {
         delete window[callbackName];
-        const s = document.getElementById('jsonp-rsvp-script');
+        var s = document.getElementById('jsonp-rsvp-script');
         if (s) document.body.removeChild(s);
         if (btns) btns.style.display = 'none';
         window.mostrarRespuesta(resp);
       };
-      const script = document.createElement('script');
+      var script = document.createElement('script');
       script.id  = 'jsonp-rsvp-script';
       script.src = APPS_SCRIPT_URL
         + '?action=rsvp'
@@ -913,7 +906,7 @@ function sendRSVP(resp) {
         + '&respuesta=' + encodeURIComponent(resp)
         + '&callback='  + callbackName;
       script.onerror = function() {
-        const s = document.getElementById('jsonp-rsvp-script');
+        var s = document.getElementById('jsonp-rsvp-script');
         if (s) document.body.removeChild(s);
         if (btns) btns.style.display = 'none';
         window.mostrarRespuesta(resp);
@@ -923,9 +916,9 @@ function sendRSVP(resp) {
 }
 
 function mostrarYaRespondio(respuestaAnterior) {
-  const btns = document.getElementById('rsvpButtons');
+  var btns = document.getElementById('rsvpButtons');
   if (btns) btns.style.display = 'none';
-  const respEl = document.getElementById('rsvpResponse');
+  var respEl = document.getElementById('rsvpResponse');
   if (respEl) respEl.classList.add('show');
   if (respuestaAnterior === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Ya confirmaste! ✓';
@@ -937,7 +930,7 @@ function mostrarYaRespondio(respuestaAnterior) {
 }
 
 window.mostrarRespuesta = function(resp) {
-  const respEl = document.getElementById('rsvpResponse');
+  var respEl = document.getElementById('rsvpResponse');
   if (respEl) respEl.classList.add('show');
   if (resp === 'si') {
     document.getElementById('rsvpResponseTitle').textContent = '¡Que alegría! 🎉';
@@ -947,22 +940,23 @@ window.mostrarRespuesta = function(resp) {
     document.getElementById('rsvpResponseMsg').textContent   = 'Lamentamos que no puedan acompañarnos, pero los llevaremos en nuestro corazón en este día tan especial.';
   }
 };
+
 /* ══════════════════════════════════════════
    COUNTDOWN & PÉTALOS
 ══════════════════════════════════════════ */
 function startCountdown() {
-  const target = new Date('2026-07-18T16:00:00');
+  var target = new Date('2026-07-18T16:00:00');
   function update() {
-    const diff = target - new Date();
+    var diff = target - new Date();
     if (diff <= 0) {
-      const sec = document.querySelector('.countdown-section');
+      var sec = document.querySelector('.countdown-section');
       if (sec) sec.innerHTML = '<p style="font-family:\'Playfair Display\',serif;font-size:3rem;color:var(--gold-light)">¡Hoy es nuestro gran día! 🎊</p>';
       return;
     }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
     document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
     document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
     document.getElementById('cd-min').textContent   = String(m).padStart(2,'0');
@@ -973,10 +967,10 @@ function startCountdown() {
 }
 
 function initPetals() {
-  const container = document.getElementById('petals');
+  var container = document.getElementById('petals');
   if (!container) return;
-  for (let i = 0; i < 18; i++) {
-    const p = document.createElement('div');
+  for (var i = 0; i < 18; i++) {
+    var p = document.createElement('div');
     p.className = 'petal';
     p.style.cssText =
       'left:'                + (Math.random()*100) + '%;' +
@@ -990,17 +984,17 @@ function initPetals() {
 }
 
 /* ══════════════════════════════════════════
-   INICIALIZACIÓN DE EVENTOS SEGUROS
+   INICIALIZACIÓN
 ══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function() {
-  const openBtn = document.getElementById('openBtn');
+  var openBtn = document.getElementById('openBtn');
   if (openBtn) {
     openBtn.addEventListener('click', handleOpenBtnClick);
   }
-  
-  const btnSi = document.getElementById('btnSi');
-  const btnNo = document.getElementById('btnNo');
-  
+
+  var btnSi = document.getElementById('btnSi');
+  var btnNo = document.getElementById('btnNo');
+
   if (btnSi) {
     btnSi.addEventListener('click', function(e) {
       e.preventDefault();
@@ -1013,7 +1007,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sendRSVP('no');
     });
   }
-  
+
   loadGuest();
 });
 </script>
