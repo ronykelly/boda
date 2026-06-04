@@ -957,15 +957,20 @@ function startCountdown() {
 }
 
 // ─── RSVP ────────────────────────────────────────────────────────
-document.getElementById('btnSi').addEventListener('click', function() { enviarRSVP('si'); });
-document.getElementById('btnNo').addEventListener('click', function() { enviarRSVP('no'); });
+// Los listeners se asignan aquí y también después de mostrar #main-page
+function asignarBotonesRSVP() {
+  var btnSi = document.getElementById('btnSi');
+  var btnNo = document.getElementById('btnNo');
+  if (btnSi) btnSi.onclick = function() { enviarRSVP('si'); };
+  if (btnNo) btnNo.onclick = function() { enviarRSVP('no'); };
+}
+asignarBotonesRSVP();
 
 function enviarRSVP(resp) {
-  // Bloquear botones y mostrar "enviando"
   var btns    = document.getElementById('rsvpButtons');
   var sending = document.getElementById('rsvpSending');
-  btns.style.display = 'none';
-  sending.classList.add('show');
+  if (btns)    btns.style.display = 'none';
+  if (sending) sending.classList.add('show');
 
   var url = SCRIPT_URL
     + '?action=rsvp'
@@ -974,11 +979,23 @@ function enviarRSVP(resp) {
     + '&personas='  + encodeURIComponent(guestCount)
     + '&respuesta=' + encodeURIComponent(resp);
 
-  // Usamos JSONP directo — funciona en todos los navegadores/plataformas
-  jsonp(url, function(data) {
-    sending.classList.remove('show');
-    mostrarRespuesta(resp);
-  });
+  // Mostrar respuesta inmediatamente — no esperamos al servidor
+  // para que el usuario nunca quede bloqueado
+  if (sending) sending.classList.remove('show');
+  mostrarRespuesta(resp);
+
+  // Enviar al Sheet en segundo plano (3 métodos, el que funcione)
+  // Método 1: fetch no-cors (no bloquea, no leemos respuesta)
+  fetch(url, { method: 'GET', mode: 'no-cors' }).catch(function() {});
+
+  // Método 2: Image beacon (respaldo silencioso)
+  try {
+    var img = new Image();
+    img.src = url + '&t=' + Date.now();
+  } catch(e) {}
+
+  // Método 3: JSONP (respaldo adicional)
+  try { jsonp(url, function() {}); } catch(e) {}
 }
 
 function mostrarRespuesta(resp) {
