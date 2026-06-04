@@ -979,23 +979,15 @@ function enviarRSVP(resp) {
     + '&personas='  + encodeURIComponent(guestCount)
     + '&respuesta=' + encodeURIComponent(resp);
 
-  // Mostrar respuesta inmediatamente — no esperamos al servidor
-  // para que el usuario nunca quede bloqueado
+  // Mostrar respuesta inmediatamente
   if (sending) sending.classList.remove('show');
   mostrarRespuesta(resp);
 
-  // Enviar al Sheet en segundo plano (3 métodos, el que funcione)
-  // Método 1: fetch no-cors (no bloquea, no leemos respuesta)
-  fetch(url, { method: 'GET', mode: 'no-cors' }).catch(function() {});
-
-  // Método 2: Image beacon (respaldo silencioso)
-  try {
+  // Enviar al Sheet — un solo método, con respaldo si falla
+  fetch(url, { method: 'GET', mode: 'no-cors' }).catch(function() {
     var img = new Image();
     img.src = url + '&t=' + Date.now();
-  } catch(e) {}
-
-  // Método 3: JSONP (respaldo adicional)
-  try { jsonp(url, function() {}); } catch(e) {}
+  });
 }
 
 function mostrarRespuesta(resp) {
@@ -1027,7 +1019,7 @@ function mostrarYaRespondio(respuestaAnterior) {
   }
 }
 
-// ─── INICIO ──────────────────────────────────────────────────────
+
 loadGuest();
 </script>
 </body>
